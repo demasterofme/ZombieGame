@@ -1,5 +1,10 @@
 package entity;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import launcher.GamePanel;
+
 public class Gun extends Entity {
 
 	private int rotation;
@@ -7,6 +12,8 @@ public class Gun extends Entity {
 	private int damage;
 	private int reloadSpeed;
 	private GunType type;
+	
+	public static BufferedImage texture;
 	
 	public Gun(int x, int y) {
 		super(x, y);
@@ -36,4 +43,22 @@ public class Gun extends Entity {
 		return type;
 	}
 	
+	public boolean update() {
+		
+		x = (int) Math.cos(Math.toRadians(rotation)) * 5;
+		y = (int) Math.sin(Math.toRadians(rotation)) * 7;
+		
+		return false;
+		
+	}
+	
+	public void draw(Graphics2D g) {
+		
+		double scale = 1;
+		
+		g.drawImage(GamePanel.transformImage(texture, scale, rotation + 90),
+				(int) (x - texture.getWidth() * scale / 2),
+				(int) (y - texture.getHeight() * scale / 2), null);
+		
+	}
 }

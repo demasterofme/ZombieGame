@@ -1,4 +1,6 @@
-package entity;
+package gfx;
+
+import entity.Entity;
 
 public class DeadZombie extends Entity {
 

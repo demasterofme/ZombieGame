@@ -1,12 +1,20 @@
 package launcher;
 
+import gfx.DeadZombie;
+import gfx.MuzzleFlash;
 import input.KeyListener;
 import input.MouseListener;
+import input.MouseMotionListener;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,15 +23,17 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import entity.Bullet;
-import entity.DeadZombie;
+import entity.Gun;
 import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
+import entity.livingEntity.ZombieType;
 
-@SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable {
 
-	public static int WINDOW_WIDTH = 800;
-	public static int WINDOW_HEIGHT = 600;
+	private static final long serialVersionUID = 1L;
+
+	public static int WINDOW_WIDTH;
+	public static int WINDOW_HEIGHT;
 
 	private Thread thread;
 	private boolean running;
@@ -32,40 +42,51 @@ public class GamePanel extends JPanel implements Runnable {
 	private Graphics2D g;
 
 	public Player player;
+	
+	public Zombie test_zombie;
 
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
 	public static ArrayList<Bullet> bullets;
+	public static ArrayList<MuzzleFlash> muzzleFlashes;
 
 	private int FPS = 60;
+
+	private boolean can_run = false;
 
 	public GamePanel() {
 
 		super();
 		setVisible(true);
-		setBounds(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
+				.getLocalGraphicsEnvironment();
+		Rectangle maximumWindowBounds = graphicsEnvironment
+				.getMaximumWindowBounds();
+		setBounds(maximumWindowBounds);
+		WINDOW_WIDTH = (int) maximumWindowBounds.getWidth();
+		WINDOW_HEIGHT = (int) maximumWindowBounds.getHeight();
+		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
 		requestFocus();
-
-		addKeyListener(new KeyListener(this));
-		addMouseListener(new MouseListener(this));
-
-		try {
-			Player.texture = ImageIO.read(GamePanel.class
-					.getResource("/Player.png"));
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
-		thread = new Thread();
-		thread.start();
+		if (loadSprites())
+			can_run = true;
 
 	}
 
-	@Override
+	public void addNotify() {
+		super.addNotify();
+		if (thread == null && can_run) {
+			thread = new Thread(this);
+			thread.start();
+		}
+		addKeyListener(new KeyListener(this));
+		addMouseListener(new MouseListener(this));
+		addMouseMotionListener(new MouseMotionListener(this));
+	}
+
 	public void run() {
+
+		running = true;
 
 		image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT,
 				BufferedImage.TYPE_INT_RGB);
@@ -76,9 +97,12 @@ public class GamePanel extends JPanel implements Runnable {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		player = new Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+		// for debugging
+		test_zombie = new Zombie(ZombieType.SWARMER, 300, 500);
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();
 		bullets = new ArrayList<>();
+		muzzleFlashes = new ArrayList<>();
 
 		long startTime;
 		long URDTimeMillis;
@@ -112,6 +136,29 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 
 		// Game ended
+
+	}
+
+	private boolean loadSprites() {
+
+		try {
+
+			Player.texture = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player.png"));
+			MuzzleFlash.texture = ImageIO.read(GamePanel.class
+					.getResource("/sprites/MuzzleFlash.png"));
+			Gun.texture = ImageIO.read(GamePanel.class.
+					getResource("/sprites/Gun.png"));
+			Zombie.texture = ImageIO.read(GamePanel.class.
+					getResource("/sprites/zombie-swarmer1.png"));
+			
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -180,13 +227,27 @@ public class GamePanel extends JPanel implements Runnable {
 			}
 		}
 
+		// update muzzleFlashes
+		for (int i = 0; i < muzzleFlashes.size(); i++) {
+			if (muzzleFlashes.get(i).update()) {
+				muzzleFlashes.remove(i);
+				i--;
+			}
+		}
 	}
 
 	private void gameRender() {
 
+		g.setColor(new Color(0, 100, 255));
+		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+		for(MuzzleFlash m : muzzleFlashes) {
+			m.draw(g);
+		}
+		test_zombie.draw(g);
+		player.getGun().draw(g);
 		player.draw(g);
-		
-		
+
 	}
 
 	private void gameDraw() {
@@ -195,4 +256,26 @@ public class GamePanel extends JPanel implements Runnable {
 		g2.dispose();
 	}
 
+	public static BufferedImage transformImage(BufferedImage image,
+			double scale, int rotation) {
+		int scaledWidth = (int) (scale * image.getWidth());
+		int scaledHeight = (int) (scale * image.getHeight());
+		AffineTransform transform;
+		if (rotation % 180 == 0) {
+			transform = AffineTransform
+					.getRotateInstance(Math.toRadians(rotation),
+							scaledWidth / 2, scaledHeight / 2);
+			transform.scale(scale, scale);
+		} else {
+			transform = AffineTransform.getTranslateInstance(
+					(scaledHeight - scaledWidth) / 2,
+					(scaledWidth - scaledHeight) / 2);
+			transform.rotate(Math.toRadians(rotation), scaledWidth / 2,
+					scaledHeight / 2);
+			transform.scale(scale, scale);
+		}
+		AffineTransformOp operation = new AffineTransformOp(transform,
+				AffineTransformOp.TYPE_BILINEAR);
+		return operation.filter(image, null);
+	}
 }

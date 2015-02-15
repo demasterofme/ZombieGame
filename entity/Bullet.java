@@ -1,5 +1,9 @@
 package entity;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
+import entity.livingEntity.Zombie;
 import launcher.GamePanel;
 
 public class Bullet extends Entity {
@@ -12,7 +16,7 @@ public class Bullet extends Entity {
 		super(x, y);
 		rad = Math.toRadians(angle);
 		
-		int speed = 100;
+		int speed = 10;
 		
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
