@@ -41,9 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private BufferedImage image;
 	private Graphics2D g;
 
-	public Player player;
-	
-	public Zombie test_zombie;
+	public static Player player;
 
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
@@ -97,12 +95,14 @@ public class GamePanel extends JPanel implements Runnable {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
 		player = new Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-		// for debugging
-		test_zombie = new Zombie(ZombieType.SWARMER, 300, 500);
+
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();
 		bullets = new ArrayList<>();
 		muzzleFlashes = new ArrayList<>();
+
+		// for debugging
+		zombies.add(new Zombie(ZombieType.SWARMER, 300, 500));
 
 		long startTime;
 		long URDTimeMillis;
@@ -143,15 +143,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 		try {
 
-			Player.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player.png"));
+			Player.texture_head = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player-head.png"));
+			Player.texture_bottom = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player-bottom.png"));
 			MuzzleFlash.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/MuzzleFlash.png"));
-			Gun.texture = ImageIO.read(GamePanel.class.
-					getResource("/sprites/Gun.png"));
-			Zombie.texture = ImageIO.read(GamePanel.class.
-					getResource("/sprites/zombie-swarmer1.png"));
-			
+					.getResource("/sprites/MuzzleFlash2.png"));
+			Gun.texture_ak47 = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Gun2.png"));
+			Zombie.texture = ImageIO.read(GamePanel.class
+					.getResource("/sprites/zombie-swarmer1.png"));
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -179,36 +181,6 @@ public class GamePanel extends JPanel implements Runnable {
 			zombies.get(i).update();
 		}
 
-		// bullet-Zombie collision
-		for (int i = 0; i < bullets.size(); i++) {
-
-			Bullet b = bullets.get(i);
-			double bx = b.getx();
-			double by = b.gety();
-			double br = b.getr();
-
-			for (int j = 0; j < zombies.size(); j++) {
-
-				Zombie e = zombies.get(j);
-				double ex = e.getx();
-				double ey = e.gety();
-				double er = e.getr();
-
-				double dx = bx - ex;
-				double dy = by - ey;
-				double dist = Math.sqrt(dx * dx + dy * dy);
-
-				if (dist < br + er) {
-					e.damage(b.getDamage());
-					bullets.remove(i);
-					i--;
-					break;
-				}
-
-			}
-
-		}
-
 		// check dead zombie
 		for (int i = 0; i < zombies.size(); i++) {
 			if (zombies.get(i).isDead()) {
@@ -234,6 +206,7 @@ public class GamePanel extends JPanel implements Runnable {
 				i--;
 			}
 		}
+
 	}
 
 	private void gameRender() {
@@ -241,11 +214,18 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setColor(new Color(0, 100, 255));
 		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-		for(MuzzleFlash m : muzzleFlashes) {
+		for (DeadZombie d : deadZombies) {
+			d.draw();
+		}
+		
+		for (Zombie z : zombies) {
+			z.draw(g);
+		}
+
+		for (MuzzleFlash m : muzzleFlashes) {
 			m.draw(g);
 		}
-		test_zombie.draw(g);
-		player.getGun().draw(g);
+
 		player.draw(g);
 
 	}
@@ -260,22 +240,23 @@ public class GamePanel extends JPanel implements Runnable {
 			double scale, int rotation) {
 		int scaledWidth = (int) (scale * image.getWidth());
 		int scaledHeight = (int) (scale * image.getHeight());
-		AffineTransform transform;
-		if (rotation % 180 == 0) {
-			transform = AffineTransform
-					.getRotateInstance(Math.toRadians(rotation),
-							scaledWidth / 2, scaledHeight / 2);
-			transform.scale(scale, scale);
-		} else {
-			transform = AffineTransform.getTranslateInstance(
-					(scaledHeight - scaledWidth) / 2,
-					(scaledWidth - scaledHeight) / 2);
-			transform.rotate(Math.toRadians(rotation), scaledWidth / 2,
-					scaledHeight / 2);
-			transform.scale(scale, scale);
-		}
+		AffineTransform transform = AffineTransform.getRotateInstance(
+				Math.toRadians(rotation), scaledWidth / 2, scaledHeight / 2);
+		transform.scale(scale, scale);
 		AffineTransformOp operation = new AffineTransformOp(transform,
 				AffineTransformOp.TYPE_BILINEAR);
 		return operation.filter(image, null);
+	}
+
+	public static BufferedImage mergeImages(BufferedImage image1, int xOffset1,
+			int yOffset1, BufferedImage image2, int xOffset2, int yOffset2) {
+		BufferedImage combined = new BufferedImage(1024, 1024,
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics g = combined.getGraphics();
+		g.drawImage(image1, xOffset1 + 512 - image1.getWidth() / 2, -yOffset1
+				+ 512 - image1.getHeight() / 2, null);
+		g.drawImage(image2, xOffset2 + 512 - image2.getWidth() / 2, -yOffset2
+				+ 512 - image2.getHeight() / 2, null);
+		return combined;
 	}
 }

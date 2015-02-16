@@ -1,10 +1,12 @@
 package entity.livingEntity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import entity.Bullet;
 import entity.Gun;
+import entity.GunType;
 import gfx.MuzzleFlash;
 import launcher.GamePanel;
 
@@ -21,12 +23,13 @@ public class Player extends LivingEntity {
 	private long recoveringTimer;
 
 	private Gun gun;
-	
-	public static BufferedImage texture;
+
+	public static BufferedImage texture_head;
+	public static BufferedImage texture_bottom;
 
 	public Player(int x, int y) {
 		super(x, y);
-		gun = new Gun(x + 20, y - 60);
+		gun = new Gun(GunType.AK47);
 		speed = 3;
 	}
 
@@ -60,11 +63,14 @@ public class Player extends LivingEntity {
 
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
-			if (elapsed >= gun.getReloadSpeed()) {
+			if (elapsed >= gun.getFireRate()) {
 				firingTimer = System.nanoTime();
-				GamePanel.bullets.add(new Bullet(gun.getx(), gun.gety(),
-						rotation, gun.getDamage()));
-				GamePanel.muzzleFlashes.add(new MuzzleFlash(gun.getx(), gun.gety(), rotation));
+				GamePanel.bullets.add(new Bullet(x, y, rotation, gun
+						.getDamage()));
+				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
+				int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
+				GamePanel.muzzleFlashes.add(new MuzzleFlash(x - x1, y - y1,
+						rotation));
 			}
 
 		}
@@ -116,18 +122,24 @@ public class Player extends LivingEntity {
 		this.rotation = rotation;
 		gun.setRotation(rotation);
 	}
-	
+
 	public Gun getGun() {
 		return gun;
 	}
 
 	public void draw(Graphics2D g) {
 
+		BufferedImage temp_image = GamePanel.mergeImages(Player.texture_bottom,
+				0, 0, this.getGun().getTexture(), 100, 300);
+		BufferedImage temp_player_image = GamePanel.mergeImages(temp_image, 0,
+				0, Player.texture_head, 0, 0);
+
 		double scale = 0.1;
 
-		g.drawImage(GamePanel.transformImage(texture, scale, rotation + 90),
-				(int) (x - texture.getWidth() * scale / 2),
-				(int) (y - texture.getHeight() * scale / 2), null);
+		g.drawImage(GamePanel.transformImage(temp_player_image, scale,
+				rotation + 90), (int) (x - temp_player_image.getWidth() * scale
+				/ 2), (int) (y - temp_player_image.getHeight() * scale / 2),
+				null);
 
 	}
 }

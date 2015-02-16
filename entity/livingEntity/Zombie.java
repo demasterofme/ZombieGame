@@ -18,6 +18,7 @@ public class Zombie extends LivingEntity {
 		super(x, y);
 		this.type = type;
 		r = 60;
+		health = 1000;
 	}
 	
 	public boolean update() {
@@ -27,15 +28,17 @@ public class Zombie extends LivingEntity {
 		this.x += dx;
 		this.y += dy;
 		
-		for (Bullet b : GamePanel.bullets) {
+		for (int i = 0; i < GamePanel.bullets.size(); i++) {
 			
-			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r)
-				health -= b.getDamage();
+			Bullet b = GamePanel.bullets.get(i);
+			
+			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r + b.getr()) {
+				damage(b.getDamage());
+				GamePanel.bullets.remove(b);
+				i--;
+			}
 			
 		}
-		
-		if (health <= 0)
-			return true;
 		
 		return false;
 	}

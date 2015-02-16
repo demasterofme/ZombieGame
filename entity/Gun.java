@@ -1,22 +1,26 @@
 package entity;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import launcher.GamePanel;
-
-public class Gun extends Entity {
+public class Gun {
 
 	private int rotation;
 	private int fireRate;
 	private int damage;
 	private int reloadSpeed;
 	private GunType type;
-	
-	public static BufferedImage texture;
-	
-	public Gun(int x, int y) {
-		super(x, y);
+
+	public static BufferedImage texture_ak47;
+
+	public Gun(GunType type) {
+		this.type = type;
+		switch(type) {
+		case AK47:
+			damage = 100;
+			fireRate = 100;
+			reloadSpeed = 0;
+			//enzovoort
+		}
 	}
 
 	public int getRotation() {
@@ -42,23 +46,34 @@ public class Gun extends Entity {
 	public GunType getType() {
 		return type;
 	}
-	
-	public boolean update() {
-		
-		x = (int) Math.cos(Math.toRadians(rotation)) * 5;
-		y = (int) Math.sin(Math.toRadians(rotation)) * 7;
-		
+
+	public BufferedImage getTexture() {
+		switch (type) {
+		case AK47:
+			return texture_ak47;
+		default:
+			return null;
+		}
+	}
+
+	/*public boolean update() {
+
+		x = (int) (GamePanel.player.getx() + 32.3 * Math.cos(Math
+				.toRadians(rotation)));
+		y = (int) (GamePanel.player.gety() + 32.3 * Math.sin(Math
+				.toRadians(rotation)));
+
 		return false;
-		
-	}
-	
-	public void draw(Graphics2D g) {
-		
-		double scale = 1;
-		
-		g.drawImage(GamePanel.transformImage(texture, scale, rotation + 90),
-				(int) (x - texture.getWidth() * scale / 2),
-				(int) (y - texture.getHeight() * scale / 2), null);
-		
-	}
+
+	}*/
+
+	/*public void draw(Graphics2D g) {
+
+		double scale = 0.1;
+
+		g.drawImage(GamePanel.transformImage(getTexture(), scale, rotation + 90),
+				(int) (x - getTexture().getWidth() * scale / 2),
+				(int) (y - getTexture().getHeight() * scale / 2), null);
+
+	}*/
 }

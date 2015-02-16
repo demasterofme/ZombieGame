@@ -3,7 +3,6 @@ package entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import entity.livingEntity.Zombie;
 import launcher.GamePanel;
 
 public class Bullet extends Entity {
@@ -22,6 +21,8 @@ public class Bullet extends Entity {
 		dy = Math.sin(rad) * speed;
 		
 		this.damage = damage;
+		
+		r = 2;
 	}
 	
 	public boolean update() {
