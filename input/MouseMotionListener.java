@@ -6,16 +6,13 @@ import launcher.GamePanel;
 
 public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 
-	GamePanel panel;
-
-	public MouseMotionListener(GamePanel panel) {
-		this.panel = panel;
+	public MouseMotionListener() {
 	}
 
 	@Override
 	public void mouseDragged(MouseEvent event) {
-		int x = panel.player.getx();
-		int y = panel.player.gety();
+		int x = GamePanel.WINDOW_WIDTH / 2;
+		int y = GamePanel.WINDOW_HEIGHT / 2;
 		int mouseX = event.getX();
 		int mouseY = event.getY();
 		int angle = (int) Math
@@ -24,13 +21,13 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 								+ Math.pow(mouseY - y, 2)))));
 		if (mouseY < y)
 			angle = 360 - angle;
-		panel.player.setRotation(angle);
+		GamePanel.player.setRotation(angle);
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent event) {
-		int x = panel.player.getx();
-		int y = panel.player.gety();
+		int x = GamePanel.WINDOW_WIDTH / 2;
+		int y = GamePanel.WINDOW_HEIGHT / 2;
 		int mouseX = event.getX();
 		int mouseY = event.getY();
 		int angle = (int) Math
@@ -39,7 +36,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 								+ Math.pow(mouseY - y, 2)))));
 		if (mouseY < y)
 			angle = 360 - angle;
-		panel.player.setRotation(angle);
+		GamePanel.player.setRotation(angle);
 	}
 
 }

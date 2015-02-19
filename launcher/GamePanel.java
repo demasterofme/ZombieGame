@@ -1,6 +1,7 @@
 package launcher;
 
 import gfx.DeadZombie;
+import gfx.Map;
 import gfx.MuzzleFlash;
 import input.KeyListener;
 import input.MouseListener;
@@ -35,22 +36,24 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int WINDOW_WIDTH;
 	public static int WINDOW_HEIGHT;
 
-	private Thread thread;
-	private boolean running;
+	private static Thread thread;
+	private static boolean running;
 
-	private BufferedImage image;
-	private Graphics2D g;
+	private static BufferedImage image;
+	private static Graphics2D g;
 
 	public static Player player;
+	
+	public static Map map;
 
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 
-	private int FPS = 60;
+	private static int FPS = 60;
 
-	private boolean can_run = false;
+	private static boolean can_run = false;
 
 	public GamePanel() {
 
@@ -77,14 +80,16 @@ public class GamePanel extends JPanel implements Runnable {
 			thread = new Thread(this);
 			thread.start();
 		}
-		addKeyListener(new KeyListener(this));
-		addMouseListener(new MouseListener(this));
-		addMouseMotionListener(new MouseMotionListener(this));
+		addKeyListener(new KeyListener());
+		addMouseListener(new MouseListener());
+		addMouseMotionListener(new MouseMotionListener());
 	}
 
 	public void run() {
 
 		running = true;
+		
+		map = new Map();
 
 		image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT,
 				BufferedImage.TYPE_INT_RGB);
@@ -94,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		player = new Player(WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+		player = new Player(1024, 1024);
 
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();
@@ -102,7 +107,7 @@ public class GamePanel extends JPanel implements Runnable {
 		muzzleFlashes = new ArrayList<>();
 
 		// for debugging
-		zombies.add(new Zombie(ZombieType.SWARMER, 300, 500));
+		zombies.add(new Zombie(ZombieType.SWARMER, 1024, 1024));
 
 		long startTime;
 		long URDTimeMillis;
@@ -139,7 +144,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
-	private boolean loadSprites() {
+	private static boolean loadSprites() {
 
 		try {
 
@@ -153,6 +158,8 @@ public class GamePanel extends JPanel implements Runnable {
 					.getResource("/sprites/Gun2.png"));
 			Zombie.texture = ImageIO.read(GamePanel.class
 					.getResource("/sprites/zombie-swarmer1.png"));
+			Map.texture = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Map.png"));
 
 		} catch (IOException e) {
 
@@ -166,6 +173,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private void gameUpdate() {
 
+		map.update();
+		
 		player.update();
 
 		// bullet update
@@ -211,11 +220,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private void gameRender() {
 
-		g.setColor(new Color(0, 100, 255));
-		g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+		map.draw(g);
 
 		for (DeadZombie d : deadZombies) {
-			d.draw();
+			d.draw(g);
 		}
 		
 		for (Zombie z : zombies) {
@@ -225,7 +233,11 @@ public class GamePanel extends JPanel implements Runnable {
 		for (MuzzleFlash m : muzzleFlashes) {
 			m.draw(g);
 		}
-
+		// For debugging only
+		for (Bullet b : bullets) {
+			b.draw(g);
+		}
+		
 		player.draw(g);
 
 	}

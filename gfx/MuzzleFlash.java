@@ -23,7 +23,7 @@ public class MuzzleFlash {
 	
 	public boolean update() {
 		
-		if ((System.nanoTime() - startTimer) / 1000000 >= 100) {
+		if ((System.nanoTime() - startTimer) / 1000000 >= 50) {
 		
 			return true;
 			

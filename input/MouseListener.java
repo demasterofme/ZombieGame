@@ -4,31 +4,26 @@ import java.awt.event.MouseEvent;
 
 import launcher.GamePanel;
 
-public class MouseListener implements java.awt.event.MouseListener{
+public class MouseListener implements java.awt.event.MouseListener {
 
-	private static GamePanel panel;
-	
-	public MouseListener(GamePanel panel) {
-		
-		this.panel = panel;
-		
+	public MouseListener() {
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent event) {
 		switch (event.getButton()) {
 		case 1:
-			panel.player.setFiring(true);
+			GamePanel.player.setFiring(true);
 			break;
 		}
 	}
@@ -37,12 +32,12 @@ public class MouseListener implements java.awt.event.MouseListener{
 	public void mouseReleased(MouseEvent event) {
 		switch (event.getButton()) {
 		case 1:
-			panel.player.setFiring(false);
+			GamePanel.player.setFiring(false);
 			break;
 		}
 	}
-	
+
 	@Override
-	public void mouseClicked(MouseEvent arg0) {	
+	public void mouseClicked(MouseEvent arg0) {
 	}
 }

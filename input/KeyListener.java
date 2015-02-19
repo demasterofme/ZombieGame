@@ -6,12 +6,8 @@ import launcher.GamePanel;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
-	private static GamePanel panel;
 
-	public KeyListener(GamePanel panel) {
-
-		this.panel = panel;
-
+	public KeyListener() {
 	}
 
 	@Override
@@ -19,20 +15,22 @@ public class KeyListener implements java.awt.event.KeyListener {
 		switch (event.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_A:
-			panel.player.setLeft(true);
+			GamePanel.player.setLeft(true);
 			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:
-			panel.player.setRight(true);
+			GamePanel.player.setRight(true);
 			break;
 		case KeyEvent.VK_UP:
 		case KeyEvent.VK_W:
-			panel.player.setUp(true);
+			GamePanel.player.setUp(true);
 			break;
 		case KeyEvent.VK_DOWN:
 		case KeyEvent.VK_S:
-			panel.player.setDown(true);
+			GamePanel.player.setDown(true);
 			break;
+		case KeyEvent.VK_Z:
+			System.out.println(GamePanel.player.getx() + " " + GamePanel.player.gety());
 		}
 	}
 
@@ -41,19 +39,19 @@ public class KeyListener implements java.awt.event.KeyListener {
 		switch (event.getKeyCode()) {
 		case KeyEvent.VK_LEFT:
 		case KeyEvent.VK_A:
-			panel.player.setLeft(false);
+			GamePanel.player.setLeft(false);
 			break;
 		case KeyEvent.VK_RIGHT:
 		case KeyEvent.VK_D:
-			panel.player.setRight(false);
+			GamePanel.player.setRight(false);
 			break;
 		case KeyEvent.VK_UP:
 		case KeyEvent.VK_W:
-			panel.player.setUp(false);
+			GamePanel.player.setUp(false);
 			break;
 		case KeyEvent.VK_DOWN:
 		case KeyEvent.VK_S:
-			panel.player.setDown(false);
+			GamePanel.player.setDown(false);
 			break;
 		}
 	}
