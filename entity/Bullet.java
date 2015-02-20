@@ -1,5 +1,7 @@
 package entity;
 
+import inGame.InGame;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -30,8 +32,8 @@ public class Bullet extends Entity {
 		x += dx;
 		y += dy;
 
-		if (x < -r || x > GamePanel.map.getWidth() + r || y < -r
-				|| y > GamePanel.map.getHeight() + r) {
+		if (x < -r || x > InGame.map.getWidth() + r || y < -r
+				|| y > InGame.map.getHeight() + r) {
 			return true;
 		}
 
@@ -45,8 +47,8 @@ public class Bullet extends Entity {
 	// For debugging only
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - GamePanel.map.getxOffset();
-		int relativeY = y - GamePanel.map.getyOffset();
+		int relativeX = x - InGame.map.getxOffset();
+		int relativeY = y - InGame.map.getyOffset();
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {

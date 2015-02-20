@@ -1,14 +1,15 @@
 package entity.livingEntity;
 
+import gfx.MuzzleFlash;
+import inGame.InGame;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import launcher.GamePanel;
 import entity.Bullet;
 import entity.Gun;
-import entity.GunType;
-import gfx.MuzzleFlash;
-import launcher.GamePanel;
 
 public class Player extends LivingEntity {
 
@@ -30,7 +31,7 @@ public class Player extends LivingEntity {
 
 	public Player(int x, int y) {
 		super(x, y);
-		gun = GamePanel.guns.get(GunType.AK47);
+		gun = InGame.guns.get(Gun.GunType.AK47);
 		speed = 2;
 		r = 30;
 	}
@@ -56,24 +57,23 @@ public class Player extends LivingEntity {
 			x = GamePanel.WINDOW_WIDTH / 2;
 		if (y < GamePanel.WINDOW_HEIGHT / 2)
 			y = GamePanel.WINDOW_HEIGHT / 2;
-		if (x > GamePanel.map.getWidth() - GamePanel.WINDOW_WIDTH / 2)
-			x = GamePanel.map.getWidth() - GamePanel.WINDOW_WIDTH / 2;
-		if (y > GamePanel.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
-			y = GamePanel.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
+		if (x > InGame.map.getWidth() - GamePanel.WINDOW_WIDTH / 2)
+			x = InGame.map.getWidth() - GamePanel.WINDOW_WIDTH / 2;
+		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
+			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
 		if (firing) {
 
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
 			if (elapsed >= gun.getFireRate()) {
+				// We can now fire
 				firingTimer = System.nanoTime();
 				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
 				int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
-				GamePanel.muzzleFlashes.add(new MuzzleFlash(
-						GamePanel.WINDOW_WIDTH / 2 - x1,
-						GamePanel.WINDOW_HEIGHT / 2 - y1, rotation));
-				GamePanel.bullets.add(new Bullet(x, y, rotation, gun
-						.getDamage()));
+				InGame.muzzleFlashes.add(new MuzzleFlash(GamePanel.WINDOW_WIDTH
+						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1, rotation));
+				InGame.bullets.add(new Bullet(x, y, rotation, gun.getDamage()));
 
 			}
 

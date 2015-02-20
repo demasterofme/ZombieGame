@@ -1,11 +1,13 @@
 package entity.livingEntity;
 
+import inGame.InGame;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-import entity.Bullet;
 import launcher.GamePanel;
+import entity.Bullet;
 
 public class Zombie extends LivingEntity {
 
@@ -29,14 +31,14 @@ public class Zombie extends LivingEntity {
 		this.x += dx;
 		this.y += dy;
 
-		for (int i = 0; i < GamePanel.bullets.size(); i++) {
+		for (int i = 0; i < InGame.bullets.size(); i++) {
 
-			Bullet b = GamePanel.bullets.get(i);
+			Bullet b = InGame.bullets.get(i);
 
 			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r
 					+ b.getr()) {
 				damage(b.getDamage());
-				GamePanel.bullets.remove(b);
+				InGame.bullets.remove(b);
 				i--;
 			}
 
@@ -59,8 +61,8 @@ public class Zombie extends LivingEntity {
 
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - GamePanel.map.getxOffset();
-		int relativeY = y - GamePanel.map.getyOffset();
+		int relativeX = x - InGame.map.getxOffset();
+		int relativeY = y - InGame.map.getyOffset();
 
 		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
 				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
@@ -75,6 +77,14 @@ public class Zombie extends LivingEntity {
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
 			}
 		}
+	}
+	
+	public enum ZombieType {
+
+		SWARMER,
+		STALKER,
+		CHOKER;
+		
 	}
 
 }

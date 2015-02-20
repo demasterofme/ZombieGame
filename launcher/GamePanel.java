@@ -1,5 +1,11 @@
 package launcher;
 
+import entity.Bullet;
+import entity.livingEntity.Zombie;
+import gfx.Button;
+import gfx.DeadZombie;
+import gfx.MuzzleFlash;
+import inGame.InGame;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
@@ -15,31 +21,10 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-import map.Map;
-
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import entity.Bullet;
-import entity.Gun;
-import entity.GunType;
-import entity.livingEntity.Player;
-import entity.livingEntity.Zombie;
-import entity.livingEntity.ZombieType;
-import gfx.DeadZombie;
-import gfx.MuzzleFlash;
+import titleScreen.TitleScreen;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -51,26 +36,17 @@ public class GamePanel extends JPanel implements Runnable {
 	private static Thread thread;
 	private static boolean running;
 
-	public static boolean debugMode = false;
+	public static GameState gameState;
 
-	private static BufferedImage image;
+	// Debug Mode
+	public static boolean debugMode = false;
+	public static int mouseX;
+	public static int mouseY;
+
+	public static BufferedImage image;
 	private static Graphics2D g;
 
-	public static Player player;
-
-	public static Map map;
-
-	public static ArrayList<Zombie> zombies;
-	public static ArrayList<DeadZombie> deadZombies;
-	public static ArrayList<Bullet> bullets;
-	public static HashMap<GunType, Gun> guns;
-	public static ArrayList<MuzzleFlash> muzzleFlashes;
-
 	private static boolean can_run = true;
-
-	private int framecount;
-	private long startGameTime;
-	private int gameFrames = 0;
 
 	public GamePanel() {
 
@@ -86,8 +62,6 @@ public class GamePanel extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
 		requestFocus();
-		if (!loadSprites() || !loadGuns())
-			can_run = false;
 
 	}
 
@@ -106,8 +80,6 @@ public class GamePanel extends JPanel implements Runnable {
 
 		running = true;
 
-		map = new Map();
-
 		image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT,
 				BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -115,18 +87,10 @@ public class GamePanel extends JPanel implements Runnable {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		new TitleScreen();
+		gameState = GameState.TITLE_SCREEN;
 
-		player = new Player(1024, 1024);
-
-		zombies = new ArrayList<>();
-		deadZombies = new ArrayList<>();
-		bullets = new ArrayList<>();
-		muzzleFlashes = new ArrayList<>();
-
-		// for debugging
-		zombies.add(new Zombie(ZombieType.SWARMER, 1024, 1024));
-
-		framecount = 0;
 		int ticksPerSecond = 25;
 		int skipTicks = 1000 / ticksPerSecond;
 		int maxFrameSkips = 5;
@@ -157,149 +121,146 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
-	private static boolean loadGuns() {
-		guns = new HashMap<>();
-		SAXReader reader = new SAXReader();
-		try {
-			Document document = reader.read(new File(GamePanel.class
-					.getResource("/xml/guns.xml").toURI()));
-			Element root = document.getRootElement();
-			@SuppressWarnings("unchecked")
-			List<Element> gunElements = root.elements();
-			for (Element gunElement : gunElements) {
-				GunType type = GunType.valueOf(gunElement.getName());
-				int damage = Integer.parseInt(gunElement.element("Damage")
-						.getText());
-				int fireRate = Integer.parseInt(gunElement.element("Firerate")
-						.getText());
-				int reloadSpeed = Integer.parseInt(gunElement.element(
-						"Reloadspeed").getText());
-				BufferedImage texture = ImageIO.read(GamePanel.class
-						.getResource("/sprites/guns/AK47.png"));
-				guns.put(type, new Gun(type, damage, fireRate, reloadSpeed,
-						texture));
-			}
-		} catch (DocumentException | URISyntaxException | IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
-	}
-
-	private static boolean loadSprites() {
-
-		try {
-
-			Player.texture_head = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-head.png"));
-			Player.texture_bottom = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-bottom.png"));
-			MuzzleFlash.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/MuzzleFlash2.png"));
-			Zombie.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/zombie-swarmer1.png"));
-			Map.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Map.png"));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
-
-	}
-
 	private void gameUpdate() {
 
-		map.update();
+		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
-		player.update();
+		} else if (gameState.equals(GameState.PRE_GAME)) {
 
-		// bullet update
-		for (int i = 0; i < bullets.size(); i++) {
-			if (bullets.get(i).update()) {
-				bullets.remove(i);
-				i--;
+		} else if (gameState.equals(GameState.IN_GAME)) {
+
+			InGame.map.update();
+
+			InGame.player.update();
+
+			// bullet update
+			for (int i = 0; i < InGame.bullets.size(); i++) {
+				if (InGame.bullets.get(i).update()) {
+					InGame.bullets.remove(i);
+					i--;
+				}
 			}
-		}
 
-		// zombie update
-		for (int i = 0; i < zombies.size(); i++) {
-			zombies.get(i).update();
-		}
-
-		// check dead zombie
-		for (int i = 0; i < zombies.size(); i++) {
-			if (zombies.get(i).isDead()) {
-				deadZombies.add(new DeadZombie(zombies.get(i).getx(), zombies
-						.get(i).gety()));
-				zombies.remove(i);
-				i--;
+			// zombie update
+			for (int i = 0; i < InGame.zombies.size(); i++) {
+				InGame.zombies.get(i).update();
 			}
-		}
 
-		// update deadzombies
-		for (int i = 0; i < deadZombies.size(); i++) {
-			if (deadZombies.get(i).update()) {
-				deadZombies.remove(i);
-				i--;
+			// check dead zombie
+			for (int i = 0; i < InGame.zombies.size(); i++) {
+				if (InGame.zombies.get(i).isDead()) {
+					InGame.deadZombies.add(new DeadZombie(InGame.zombies.get(i)
+							.getx(), InGame.zombies.get(i).gety()));
+					InGame.zombies.remove(i);
+					i--;
+				}
 			}
-		}
 
-		// update muzzleFlashes
-		for (int i = 0; i < muzzleFlashes.size(); i++) {
-			if (muzzleFlashes.get(i).update()) {
-				muzzleFlashes.remove(i);
-				i--;
+			// update deadzombies
+			for (int i = 0; i < InGame.deadZombies.size(); i++) {
+				if (InGame.deadZombies.get(i).update()) {
+					InGame.deadZombies.remove(i);
+					i--;
+				}
 			}
+
+			// update muzzleFlashes
+			for (int i = 0; i < InGame.muzzleFlashes.size(); i++) {
+				if (InGame.muzzleFlashes.get(i).update()) {
+					InGame.muzzleFlashes.remove(i);
+					i--;
+				}
+			}
+
+		} else if (gameState.equals(GameState.POST_GAME)) {
+
 		}
 
 	}
 
 	private void gameRender() {
 
-		map.draw(g);
+		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
-		for (DeadZombie d : deadZombies)
-			d.draw(g);
-
-		for (Zombie z : zombies)
-			z.draw(g);
-
-		for (MuzzleFlash m : muzzleFlashes)
-			m.draw(g);
-
-		if (debugMode)
-			for (Bullet b : bullets)
-				b.draw(g);
-
-		player.draw(g);
-
-		// Debug mode
-		if (debugMode) {
-
-			y = 5;
-
-			g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
 			g.setColor(Color.WHITE);
 
-			g.drawString("Debug Mode", 10, updateY());
-			g.drawString("Player: ", 10, updateY());
-			g.drawString(
-					"Coordinates: " + player.getx() + ", " + player.gety(), 20,
-					updateY());
-			g.drawString("Rotation: " + player.getRotation(), 20, updateY());
-			g.drawString("Gun:", 10, updateY());
-			g.drawString("Type: " + player.getGun().getType(), 20, updateY());
-			g.drawString("Damage: " + player.getGun().getDamage(), 20,
-					updateY());
-			g.drawString("FireRate: " + player.getGun().getFireRate(), 20,
-					updateY());
-			g.drawString("Reload Speed: " + player.getGun().getReloadSpeed(),
-					20, updateY());
-		}
+			for (Button b : TitleScreen.buttons)
+				b.draw(g);
 
+			// Debug mode
+			if (debugMode) {
+
+				y = 5;
+
+				g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+				g.setColor(Color.WHITE);
+
+				g.drawString("Debug Mode", 10, updateY());
+				g.drawString("Mouse: ", 10, updateY());
+				g.drawString("X: " + mouseX + " Y: " + mouseY, 20, updateY());
+				g.drawString("Button: ", 10, updateY());
+				g.drawString("X: " + TitleScreen.buttons.get(0).getx() + " Y: "
+						+ TitleScreen.buttons.get(0).gety(), 20, updateY());
+				g.drawString("Width: " + TitleScreen.buttons.get(0).getWidth()
+						+ " Heigth: " + TitleScreen.buttons.get(0).getHeight(),
+						20, updateY());
+				g.drawString("Hover: " + TitleScreen.buttons.get(0).hover, 20,
+						updateY());
+				g.drawString("Pressed: " + TitleScreen.buttons.get(0).pressed, 20,
+						updateY());
+			}
+
+		} else if (gameState.equals(GameState.PRE_GAME)) {
+
+		} else if (gameState.equals(GameState.IN_GAME)) {
+
+			InGame.map.draw(g);
+
+			for (DeadZombie d : InGame.deadZombies)
+				d.draw(g);
+
+			for (Zombie z : InGame.zombies)
+				z.draw(g);
+
+			for (MuzzleFlash m : InGame.muzzleFlashes)
+				m.draw(g);
+
+			if (debugMode)
+				for (Bullet b : InGame.bullets)
+					b.draw(g);
+
+			InGame.player.draw(g);
+
+			// Debug mode
+			if (debugMode) {
+
+				y = 5;
+
+				g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+				g.setColor(Color.WHITE);
+
+				g.drawString("Debug Mode", 10, updateY());
+				g.drawString("Player: ", 10, updateY());
+				g.drawString("Coordinates: " + InGame.player.getx() + ", "
+						+ InGame.player.gety(), 20, updateY());
+				g.drawString("Rotation: " + InGame.player.getRotation(), 20,
+						updateY());
+				g.drawString("Gun:", 10, updateY());
+				g.drawString("Type: " + InGame.player.getGun().getType(), 20,
+						updateY());
+				g.drawString("Damage: " + InGame.player.getGun().getDamage(),
+						20, updateY());
+				g.drawString("FireRate: "
+						+ InGame.player.getGun().getFireRate(), 20, updateY());
+				g.drawString("Reload Speed: "
+						+ InGame.player.getGun().getReloadSpeed(), 20,
+						updateY());
+			}
+		} else if (gameState.equals(GameState.POST_GAME)) {
+
+		}
 	}
 
 	// for debug mode

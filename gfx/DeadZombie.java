@@ -1,5 +1,7 @@
 package gfx;
 
+import inGame.InGame;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -33,8 +35,8 @@ public class DeadZombie extends Entity {
 
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - GamePanel.map.getxOffset();
-		int relativeY = y - GamePanel.map.getyOffset();
+		int relativeX = x - InGame.map.getxOffset();
+		int relativeY = y - InGame.map.getyOffset();
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {

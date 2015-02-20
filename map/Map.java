@@ -1,5 +1,7 @@
 package map;
 
+import inGame.InGame;
+
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -29,8 +31,8 @@ public class Map {
 
 	public void update() {
 
-		xOffset = GamePanel.player.getx() - GamePanel.WINDOW_WIDTH / 2;
-		yOffset = GamePanel.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
+		xOffset = InGame.player.getx() - GamePanel.WINDOW_WIDTH / 2;
+		yOffset = InGame.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
 
 	}
 
