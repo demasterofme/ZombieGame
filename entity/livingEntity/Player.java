@@ -30,8 +30,8 @@ public class Player extends LivingEntity {
 
 	public Player(int x, int y) {
 		super(x, y);
-		gun = new Gun(GunType.AK47);
-		speed = 20;
+		gun = GamePanel.guns.get(GunType.AK47);
+		speed = 10;
 	}
 
 	public boolean update() {

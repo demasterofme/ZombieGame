@@ -1,14 +1,12 @@
 package launcher;
 
-import gfx.DeadZombie;
-import gfx.Map;
-import gfx.MuzzleFlash;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsEnvironment;
@@ -17,17 +15,30 @@ import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
+
 import entity.Bullet;
 import entity.Gun;
+import entity.GunType;
 import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
 import entity.livingEntity.ZombieType;
+import gfx.DeadZombie;
+import gfx.Map;
+import gfx.MuzzleFlash;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -39,21 +50,24 @@ public class GamePanel extends JPanel implements Runnable {
 	private static Thread thread;
 	private static boolean running;
 
+	public static boolean debugMode = false;
+
 	private static BufferedImage image;
 	private static Graphics2D g;
 
 	public static Player player;
-	
+
 	public static Map map;
 
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
 	public static ArrayList<Bullet> bullets;
+	public static HashMap<GunType, Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 
 	private static int FPS = 60;
 
-	private static boolean can_run = false;
+	private static boolean can_run = true;
 
 	public GamePanel() {
 
@@ -69,8 +83,8 @@ public class GamePanel extends JPanel implements Runnable {
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
 		requestFocus();
-		if (loadSprites())
-			can_run = true;
+		if (!loadSprites() || !loadGuns())
+			can_run = false;
 
 	}
 
@@ -88,7 +102,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public void run() {
 
 		running = true;
-		
+
 		map = new Map();
 
 		image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT,
@@ -144,6 +158,35 @@ public class GamePanel extends JPanel implements Runnable {
 
 	}
 
+	private static boolean loadGuns() {
+		guns = new HashMap<>();
+		SAXReader reader = new SAXReader();
+		try {
+			Document document = reader.read(new File(GamePanel.class
+					.getResource("/xml/guns.xml").toURI()));
+			Element root = document.getRootElement();
+			@SuppressWarnings("unchecked")
+			List<Element> gunElements = root.elements();
+			for (Element gunElement : gunElements) {
+				GunType type = GunType.valueOf(gunElement.getName());
+				int damage = Integer.parseInt(gunElement.element("Damage")
+						.getText());
+				int fireRate = Integer.parseInt(gunElement.element("Firerate")
+						.getText());
+				int reloadSpeed = Integer.parseInt(gunElement.element(
+						"Reloadspeed").getText());
+				BufferedImage texture = ImageIO.read(GamePanel.class
+						.getResource("/sprites/guns/AK47.png"));
+				guns.put(type, new Gun(type, damage, fireRate, reloadSpeed,
+						texture));
+			}
+		} catch (DocumentException | URISyntaxException | IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
 	private static boolean loadSprites() {
 
 		try {
@@ -154,15 +197,12 @@ public class GamePanel extends JPanel implements Runnable {
 					.getResource("/sprites/Player-bottom.png"));
 			MuzzleFlash.texture = ImageIO.read(GamePanel.class
 					.getResource("/sprites/MuzzleFlash2.png"));
-			Gun.texture_ak47 = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Gun2.png"));
 			Zombie.texture = ImageIO.read(GamePanel.class
 					.getResource("/sprites/zombie-swarmer1.png"));
 			Map.texture = ImageIO.read(GamePanel.class
 					.getResource("/sprites/Map.png"));
 
 		} catch (IOException e) {
-
 			e.printStackTrace();
 			return false;
 		}
@@ -174,7 +214,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private void gameUpdate() {
 
 		map.update();
-		
+
 		player.update();
 
 		// bullet update
@@ -225,7 +265,7 @@ public class GamePanel extends JPanel implements Runnable {
 		for (DeadZombie d : deadZombies) {
 			d.draw(g);
 		}
-		
+
 		for (Zombie z : zombies) {
 			z.draw(g);
 		}
@@ -237,9 +277,42 @@ public class GamePanel extends JPanel implements Runnable {
 		for (Bullet b : bullets) {
 			b.draw(g);
 		}
-		
+
 		player.draw(g);
 
+		// Debug mode
+		if (debugMode) {
+
+			y = 5;
+
+			g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+			g.setColor(Color.WHITE);
+
+			g.drawString("Debug Mode", 10, updateY());
+			g.drawString("Player: ", 10, updateY());
+			g.drawString(
+					"Coordinates: " + player.getx() + ", " + player.gety(), 20,
+					updateY());
+			g.drawString("Rotation: " + player.getRotation(), 20, updateY());
+			g.drawString("Gun:", 10, updateY());
+			g.drawString("Type: " + player.getGun().getType(), 20, updateY());
+			g.drawString("Damage: " + player.getGun().getDamage(), 20,
+					updateY());
+			g.drawString("FireRate: " + player.getGun().getFireRate(), 20,
+					updateY());
+			g.drawString("Reload Speed: " + player.getGun().getReloadSpeed(),
+					20, updateY());
+			
+		}
+
+	}
+
+	// for debug mode
+	private static int y;
+
+	private int updateY() {
+		y += 15;
+		return y;
 	}
 
 	private void gameDraw() {

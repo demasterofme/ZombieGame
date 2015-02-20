@@ -29,8 +29,8 @@ public class KeyListener implements java.awt.event.KeyListener {
 		case KeyEvent.VK_S:
 			GamePanel.player.setDown(true);
 			break;
-		case KeyEvent.VK_Z:
-			System.out.println(GamePanel.player.getx() + " " + GamePanel.player.gety());
+		case KeyEvent.VK_F3:
+			GamePanel.debugMode = !GamePanel.debugMode;
 		}
 	}
 

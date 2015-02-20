@@ -61,8 +61,8 @@ public class Zombie extends LivingEntity {
 		int relativeX = x - GamePanel.map.getxOffset();
 		int relativeY = y - GamePanel.map.getyOffset();
 
-		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
-				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {
+		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
+				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
 			double scale = 0.1;
 
 			g.drawImage(

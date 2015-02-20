@@ -5,22 +5,18 @@ import java.awt.image.BufferedImage;
 public class Gun {
 
 	private int rotation;
-	private int fireRate;
 	private int damage;
+	private int fireRate;
 	private int reloadSpeed;
 	private GunType type;
+	private BufferedImage texture;
 
-	public static BufferedImage texture_ak47;
-
-	public Gun(GunType type) {
+	public Gun(GunType type, int damage, int fireRate, int reloadSpeed, BufferedImage texture) {
 		this.type = type;
-		switch(type) {
-		case AK47:
-			damage = 100;
-			fireRate = 100;
-			reloadSpeed = 0;
-			//enzovoort
-		}
+		this.damage = damage;
+		this.fireRate = fireRate;
+		this.reloadSpeed = reloadSpeed;
+		this.texture = texture;
 	}
 
 	public int getRotation() {
@@ -43,17 +39,11 @@ public class Gun {
 		return reloadSpeed;
 	}
 
+	public BufferedImage getTexture() {
+		return texture;
+	}
 	public GunType getType() {
 		return type;
-	}
-
-	public BufferedImage getTexture() {
-		switch (type) {
-		case AK47:
-			return texture_ak47;
-		default:
-			return null;
-		}
 	}
 
 	/*public boolean update() {

@@ -1,0 +1,7 @@
+<Guns>
+	<AK47>
+		<Damage>100</Damage>
+		<Firerate>100</Firerate>
+		<Reloadspeed>0</Reloadspeed>
+	</AK47>
+</Guns>
