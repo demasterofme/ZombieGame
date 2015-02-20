@@ -17,8 +17,9 @@ public class Zombie extends LivingEntity {
 
 		super(x, y);
 		this.type = type;
-		r = 60;
+		r = 30;
 		health = 1000;
+		speed = 1;
 	}
 
 	public boolean update() {
@@ -69,9 +70,10 @@ public class Zombie extends LivingEntity {
 					GamePanel.transformImage(texture, scale, rotation + 90),
 					(int) (relativeX - texture.getWidth() * scale / 2),
 					(int) (relativeY - texture.getHeight() * scale / 2), null);
-
-			g.setColor(Color.RED);
-			g.drawOval(relativeX - r / 2, relativeY - r / 2, r, r);
+			if (GamePanel.debugMode) {
+				g.setColor(Color.RED);
+				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
+			}
 		}
 	}
 

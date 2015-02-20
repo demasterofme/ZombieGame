@@ -13,7 +13,7 @@ import launcher.GamePanel;
 public class Player extends LivingEntity {
 
 	private boolean left, right, up, down = false;
-	
+
 	private int score = 0;
 	private int money = 0;
 
@@ -31,7 +31,8 @@ public class Player extends LivingEntity {
 	public Player(int x, int y) {
 		super(x, y);
 		gun = GamePanel.guns.get(GunType.AK47);
-		speed = 10;
+		speed = 2;
+		r = 30;
 	}
 
 	public boolean update() {
@@ -50,7 +51,7 @@ public class Player extends LivingEntity {
 
 		x += dx;
 		y += dy;
-		
+
 		if (x < GamePanel.WINDOW_WIDTH / 2)
 			x = GamePanel.WINDOW_WIDTH / 2;
 		if (y < GamePanel.WINDOW_HEIGHT / 2)
@@ -146,11 +147,11 @@ public class Player extends LivingEntity {
 				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
 						.getHeight() * scale / 2), null);
 
-		/*
-		 * g.drawImage(GamePanel.transformImage(tempPlayerImage, scale, rotation
-		 * + 90), (int) (x - tempPlayerImage.getWidth() * scale / 2), (int) (y -
-		 * tempPlayerImage.getHeight() * scale / 2), null);
-		 */
+		if (GamePanel.debugMode) {
+			g.setColor(Color.BLUE);
+			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
+					/ 2 - r, r * 2, r * 2);
+		}
 
 	}
 }

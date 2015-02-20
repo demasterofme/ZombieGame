@@ -1,4 +1,4 @@
-package gfx;
+package map;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -31,20 +31,20 @@ public class Map {
 
 		xOffset = GamePanel.player.getx() - GamePanel.WINDOW_WIDTH / 2;
 		yOffset = GamePanel.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
-		
+
 	}
-	
+
 	public int getxOffset() {
 		return xOffset;
 	}
-	
+
 	public int getyOffset() {
 		return yOffset;
 	}
 
 	public void draw(Graphics2D g) {
-		g.drawImage(texture.getSubimage(xOffset, yOffset, GamePanel.WINDOW_WIDTH,
-				GamePanel.WINDOW_HEIGHT), 0, 0, GamePanel.WINDOW_WIDTH,
-				GamePanel.WINDOW_HEIGHT, null);
+		g.drawImage(texture.getSubimage(xOffset, yOffset,
+				GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT), 0, 0,
+				GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT, null);
 	}
 }

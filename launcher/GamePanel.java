@@ -25,6 +25,8 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
+import map.Map;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -37,7 +39,6 @@ import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
 import entity.livingEntity.ZombieType;
 import gfx.DeadZombie;
-import gfx.Map;
 import gfx.MuzzleFlash;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -65,9 +66,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public static HashMap<GunType, Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 
-	private static int FPS = 60;
-
 	private static boolean can_run = true;
+
+	private int framecount;
+	private long startGameTime;
+	private int gameFrames = 0;
 
 	public GamePanel() {
 
@@ -123,35 +126,31 @@ public class GamePanel extends JPanel implements Runnable {
 		// for debugging
 		zombies.add(new Zombie(ZombieType.SWARMER, 1024, 1024));
 
-		long startTime;
-		long URDTimeMillis;
-		long waitTime;
+		framecount = 0;
+		int ticksPerSecond = 25;
+		int skipTicks = 1000 / ticksPerSecond;
+		int maxFrameSkips = 5;
 
-		int frameCount = 0;
-		int maxFrameCount = 60;
+		long nextGameTick = System.nanoTime();
 
-		long targetTime = 1000 / FPS;
+		int loops;
 
 		while (running) {
-			startTime = System.nanoTime();
 
-			gameUpdate();
+			loops = 0;
+
+			while (System.nanoTime() > nextGameTick && loops < maxFrameSkips) {
+				double deltaTime = (System.currentTimeMillis() + skipTicks - nextGameTick
+						/ (double) skipTicks);
+				gameUpdate();
+				nextGameTick += skipTicks;
+				loops++;
+
+			}
+
 			gameRender();
 			gameDraw();
 
-			URDTimeMillis = (System.nanoTime() - startTime) / 1000000;
-
-			waitTime = targetTime - URDTimeMillis;
-
-			try {
-				Thread.sleep(waitTime);
-			} catch (Exception e) {
-			}
-
-			frameCount++;
-			if (frameCount == maxFrameCount) {
-				frameCount = 0;
-			}
 		}
 
 		// Game ended
@@ -262,21 +261,18 @@ public class GamePanel extends JPanel implements Runnable {
 
 		map.draw(g);
 
-		for (DeadZombie d : deadZombies) {
+		for (DeadZombie d : deadZombies)
 			d.draw(g);
-		}
 
-		for (Zombie z : zombies) {
+		for (Zombie z : zombies)
 			z.draw(g);
-		}
 
-		for (MuzzleFlash m : muzzleFlashes) {
+		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
-		}
-		// For debugging only
-		for (Bullet b : bullets) {
-			b.draw(g);
-		}
+
+		if (debugMode)
+			for (Bullet b : bullets)
+				b.draw(g);
 
 		player.draw(g);
 
@@ -302,7 +298,6 @@ public class GamePanel extends JPanel implements Runnable {
 					updateY());
 			g.drawString("Reload Speed: " + player.getGun().getReloadSpeed(),
 					20, updateY());
-			
 		}
 
 	}
