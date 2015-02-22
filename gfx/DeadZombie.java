@@ -1,6 +1,6 @@
 package gfx;
 
-import inGame.InGame;
+import gameState.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

@@ -1,13 +1,12 @@
 package gfx;
 
-import inGame.InGame;
+import gameState.InGame;
 
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import launcher.GamePanel;
-import launcher.GameState;
 
 public class Button {
 
@@ -64,8 +63,7 @@ public class Button {
 		if (pressed)
 			switch (type) {
 			case START_GAME:
-				new InGame();
-				GamePanel.gameState = GameState.IN_GAME;
+				GamePanel.gameState = new InGame();
 				break;
 			case OPTIONS:
 				break;

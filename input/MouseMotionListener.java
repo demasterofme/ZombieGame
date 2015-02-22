@@ -1,13 +1,12 @@
 package input;
 
+import gameState.InGame;
+import gameState.TitleScreen;
 import gfx.Button;
-import inGame.InGame;
 
 import java.awt.event.MouseEvent;
 
-import titleScreen.TitleScreen;
 import launcher.GamePanel;
-import launcher.GameState;
 
 public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 
@@ -18,7 +17,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseDragged(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.TITLE_SCREEN))
+		if (GamePanel.gameState instanceof TitleScreen)
 			for (Button b : TitleScreen.buttons) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
@@ -28,8 +27,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)
-				&& InGame.player != null) {
+		else if (GamePanel.gameState instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
@@ -51,7 +49,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseMoved(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.TITLE_SCREEN))
+		if (GamePanel.gameState instanceof TitleScreen)
 			for (Button b : TitleScreen.buttons) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
@@ -61,8 +59,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)
-				&& InGame.player != null) {
+		else if (GamePanel.gameState instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();

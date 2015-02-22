@@ -1,7 +1,7 @@
 package entity.livingEntity;
 
+import gameState.InGame;
 import gfx.MuzzleFlash;
-import inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

@@ -1,13 +1,12 @@
 package input;
 
+import gameState.InGame;
+import gameState.TitleScreen;
 import gfx.Button;
-import inGame.InGame;
 
 import java.awt.event.MouseEvent;
 
 import launcher.GamePanel;
-import launcher.GameState;
-import titleScreen.TitleScreen;
 
 public class MouseListener implements java.awt.event.MouseListener {
 
@@ -18,7 +17,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 	public void mousePressed(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.TITLE_SCREEN))
+		if (GamePanel.gameState instanceof TitleScreen)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : TitleScreen.buttons) {
@@ -29,8 +28,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(true);
 				}
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)
-				&& InGame.player != null)
+		else if (GamePanel.gameState instanceof InGame && InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(true);
@@ -42,7 +40,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 	public void mouseReleased(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.TITLE_SCREEN))
+		if (GamePanel.gameState instanceof TitleScreen)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : TitleScreen.buttons) {
@@ -50,8 +48,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(false);
 				}
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)
-				&& InGame.player != null)
+		else if (GamePanel.gameState instanceof InGame && InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(false);

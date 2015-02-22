@@ -1,11 +1,11 @@
 package input;
 
-import inGame.InGame;
+import gameState.InGame;
+import gameState.TitleScreen;
 
 import java.awt.event.KeyEvent;
 
 import launcher.GamePanel;
-import launcher.GameState;
 
 public class KeyListener implements java.awt.event.KeyListener {
 
@@ -16,13 +16,13 @@ public class KeyListener implements java.awt.event.KeyListener {
 	public void keyPressed(KeyEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.TITLE_SCREEN))
+		if (GamePanel.gameState instanceof TitleScreen)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_F3:
 				GamePanel.debugMode = !GamePanel.debugMode;
 				break;
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME))
+		else if (GamePanel.gameState instanceof InGame)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
@@ -54,7 +54,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 	public void keyReleased(KeyEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState.equals(GameState.IN_GAME))
+		if (GamePanel.gameState instanceof InGame)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:

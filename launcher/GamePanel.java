@@ -1,11 +1,7 @@
 package launcher;
 
-import entity.Bullet;
-import entity.livingEntity.Zombie;
-import gfx.Button;
-import gfx.DeadZombie;
-import gfx.MuzzleFlash;
-import inGame.InGame;
+import gameState.GameState;
+import gameState.TitleScreen;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
@@ -23,9 +19,6 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
-
-import titleScreen.Settings;
-import titleScreen.TitleScreen;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -91,8 +84,7 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		new TitleScreen();
-		gameState = GameState.TITLE_SCREEN;
+		gameState = new TitleScreen();
 
 		int ticksPerSecond = 25;
 		int skipTicks = 1000 / ticksPerSecond;
@@ -162,23 +154,7 @@ public class GamePanel extends JPanel implements Runnable {
 		if (!running)
 			return;
 
-		if (gameState.equals(GameState.TITLE_SCREEN)) {
-
-			TitleScreen.update();
-		
-		} else if (gameState.equals(GameState.SETTINGS_SCREEN)) {
-				
-			Settings.update();
-
-		} else if (gameState.equals(GameState.PRE_GAME)) {
-
-		} else if (gameState.equals(GameState.IN_GAME)) {
-
-			InGame.update();
-
-		} else if (gameState.equals(GameState.POST_GAME)) {
-
-		}
+		gameState.update();
 
 	}
 
@@ -187,19 +163,8 @@ public class GamePanel extends JPanel implements Runnable {
 		if (!running)
 			return;
 
-		if (gameState.equals(GameState.TITLE_SCREEN)) {
-
-			TitleScreen.render(g);
-
-		} else if (gameState.equals(GameState.PRE_GAME)) {
-
-		} else if (gameState.equals(GameState.IN_GAME)) {
-
-			InGame.render(g);
-
-		} else if (gameState.equals(GameState.POST_GAME)) {
-
-		}
+		gameState.render(g);
+		
 	}
 
 	private void gameDraw() {

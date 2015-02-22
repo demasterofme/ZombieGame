@@ -1,6 +1,6 @@
 package map;
 
-import inGame.InGame;
+import gameState.InGame;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
