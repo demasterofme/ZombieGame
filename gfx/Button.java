@@ -15,14 +15,12 @@ public class Button {
 	private int x, y;
 	private int width, height;
 	private String text;
-	private buttonType type;
 	public static Font font;
 	public static Graphics g;
 
-	public Button(int x, int y, buttonType type, String text) {
+	public Button(int x, int y, String text) {
 		this.x = x;
 		this.y = y;
-		this.type = type;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -30,9 +28,8 @@ public class Button {
 		this.height = g.getFontMetrics(font).getHeight();
 	}
 
-	public Button(boolean centerX, int y, buttonType type, String text) {
+	public Button(boolean centerX, int y, String text) {
 		this.y = y;
-		this.type = type;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -44,9 +41,8 @@ public class Button {
 			x = 0;
 	}
 
-	public Button(int x, boolean centerY, buttonType type, String text) {
+	public Button(int x, boolean centerY, String text) {
 		this.x = x;
-		this.type = type;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -59,18 +55,6 @@ public class Button {
 	}
 
 	public void update() {
-
-		if (pressed)
-			switch (type) {
-			case START_GAME:
-				GamePanel.gameState = new InGame();
-				break;
-			case OPTIONS:
-				break;
-			case STOP_GAME:
-				GamePanel.running = false;
-				break;
-			}
 
 	}
 
@@ -117,8 +101,5 @@ public class Button {
 			g.setFont(new Font("Century Gothic", Font.PLAIN, 42));
 		g.drawString(text, x, y);
 	}
-
-	public enum buttonType {
-		START_GAME, OPTIONS, STOP_GAME;
-	}
+	
 }

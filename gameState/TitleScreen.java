@@ -1,17 +1,26 @@
 package gameState;
 
+import entity.livingEntity.Player;
 import gfx.Button;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 import launcher.GamePanel;
 
 public class TitleScreen extends GameState {
 
 	public static ArrayList<Button> buttons;
+	private Button button_start;
+	private Button button_settings;
+	private Button button_quit;
+	
+	private BufferedImage backgroundImage;
 
 	public TitleScreen() {
 
@@ -21,11 +30,22 @@ public class TitleScreen extends GameState {
 		Button.g = GamePanel.image.getGraphics();
 
 		// Add buttons to the screen, will be perfected later
-		buttons.add(new Button(true, 200, Button.buttonType.START_GAME,
-				"Start Game"));
-		buttons.add(new Button(true, 300, Button.buttonType.OPTIONS, "Options"));
-		buttons.add(new Button(true, 400, Button.buttonType.STOP_GAME, "Quit"));
-
+		
+		button_start = new Button(true, 200, "Start Game");
+		button_settings = new Button(true, 300, "Options");
+		button_quit = new Button(true, 400, "Quit");
+		
+		buttons.add(button_start);
+		buttons.add(button_settings);
+		buttons.add(button_quit);
+		
+		// For testing
+		try {
+			backgroundImage = ImageIO.read(GamePanel.class
+					.getResource("/sprites/temp.jpg"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void update() {
@@ -33,11 +53,23 @@ public class TitleScreen extends GameState {
 		for (Button b : buttons)
 			b.update();
 
+		if (button_start.pressed) {
+			GamePanel.gameState = new InGame();
+		}
+		if (button_settings.pressed) {
+			GamePanel.gameState = new Settings();
+		}
+		if (button_quit.pressed) {
+			GamePanel.running = false;
+		}
 	}
 
 	public void render(Graphics2D g) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
+//		g.setColor(Color.BLACK);
+//		g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
+		
+		g.drawImage(backgroundImage, 0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT, null);
+		
 		g.setColor(Color.WHITE);
 
 		for (Button b : TitleScreen.buttons)
