@@ -1,7 +1,5 @@
 package gfx;
 
-import gameState.InGame;
-
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -10,8 +8,8 @@ import launcher.GamePanel;
 
 public class Button {
 
-	public boolean hover;
-	public boolean pressed;
+	private boolean hover;
+	private boolean pressed;
 	private int x, y;
 	private int width, height;
 	private String text;

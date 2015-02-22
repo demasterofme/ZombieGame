@@ -1,6 +1,5 @@
 package gameState;
 
-import entity.livingEntity.Player;
 import gfx.Button;
 
 import java.awt.Color;
@@ -53,20 +52,20 @@ public class TitleScreen extends GameState {
 		for (Button b : buttons)
 			b.update();
 
-		if (button_start.pressed) {
+		if (button_start.isPressed()) {
 			GamePanel.gameState = new InGame();
 		}
-		if (button_settings.pressed) {
+		if (button_settings.isPressed()) {
 			GamePanel.gameState = new Settings();
 		}
-		if (button_quit.pressed) {
+		if (button_quit.isPressed()) {
 			GamePanel.running = false;
 		}
 	}
 
 	public void render(Graphics2D g) {
-//		g.setColor(Color.BLACK);
-//		g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
+		// g.setColor(Color.BLACK);
+		// g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
 		
 		g.drawImage(backgroundImage, 0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT, null);
 		
@@ -93,10 +92,11 @@ public class TitleScreen extends GameState {
 			g.drawString("Width: " + TitleScreen.buttons.get(2).getWidth()
 					+ " Heigth: " + TitleScreen.buttons.get(2).getHeight(), 20,
 					updateY());
-			g.drawString("Hover: " + TitleScreen.buttons.get(2).hover, 20,
+			g.drawString("Hover: " + TitleScreen.buttons.get(2).isHover(), 20,
 					updateY());
-			g.drawString("Pressed: " + TitleScreen.buttons.get(2).pressed, 20,
+			g.drawString("Pressed: " + TitleScreen.buttons.get(2).isPressed(), 20,
 					updateY());
+			
 		}
 	}
 
