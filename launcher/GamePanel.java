@@ -163,55 +163,13 @@ public class GamePanel extends JPanel implements Runnable {
 
 		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
-			for (Button b : TitleScreen.buttons)
-				b.update();
+			TitleScreen.update();
 
 		} else if (gameState.equals(GameState.PRE_GAME)) {
 
 		} else if (gameState.equals(GameState.IN_GAME)) {
 
-			InGame.map.update();
-
-			InGame.player.update();
-
-			// bullet update
-			for (int i = 0; i < InGame.bullets.size(); i++) {
-				if (InGame.bullets.get(i).update()) {
-					InGame.bullets.remove(i);
-					i--;
-				}
-			}
-
-			// zombie update
-			for (int i = 0; i < InGame.zombies.size(); i++) {
-				InGame.zombies.get(i).update();
-			}
-
-			// check dead zombie
-			for (int i = 0; i < InGame.zombies.size(); i++) {
-				if (InGame.zombies.get(i).isDead()) {
-					InGame.deadZombies.add(new DeadZombie(InGame.zombies.get(i)
-							.getx(), InGame.zombies.get(i).gety()));
-					InGame.zombies.remove(i);
-					i--;
-				}
-			}
-
-			// update deadzombies
-			for (int i = 0; i < InGame.deadZombies.size(); i++) {
-				if (InGame.deadZombies.get(i).update()) {
-					InGame.deadZombies.remove(i);
-					i--;
-				}
-			}
-
-			// update muzzleFlashes
-			for (int i = 0; i < InGame.muzzleFlashes.size(); i++) {
-				if (InGame.muzzleFlashes.get(i).update()) {
-					InGame.muzzleFlashes.remove(i);
-					i--;
-				}
-			}
+			InGame.update();
 
 		} else if (gameState.equals(GameState.POST_GAME)) {
 
@@ -226,121 +184,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
-			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
-			g.setColor(Color.WHITE);
-
-			for (Button b : TitleScreen.buttons)
-				b.draw(g);
-
-			// Debug mode
-			if (debugMode) {
-
-				y = 5;
-
-				g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-				g.setColor(Color.WHITE);
-
-				g.drawString("Debug Mode", 10, updateY());
-				g.drawString("Mouse: ", 10, updateY());
-				g.drawString("X: " + mouseX + " Y: " + mouseY, 20, updateY());
-				g.drawString("Button: ", 10, updateY());
-				g.drawString("X: " + TitleScreen.buttons.get(2).getx() + " Y: "
-						+ TitleScreen.buttons.get(0).gety(), 20, updateY());
-				g.drawString("Width: " + TitleScreen.buttons.get(2).getWidth()
-						+ " Heigth: " + TitleScreen.buttons.get(2).getHeight(),
-						20, updateY());
-				g.drawString("Hover: " + TitleScreen.buttons.get(2).hover, 20,
-						updateY());
-				g.drawString("Pressed: " + TitleScreen.buttons.get(2).pressed,
-						20, updateY());
-			}
+			TitleScreen.render(g);
 
 		} else if (gameState.equals(GameState.PRE_GAME)) {
 
 		} else if (gameState.equals(GameState.IN_GAME)) {
 
-			InGame.map.draw(g);
+			InGame.render(g);
 
-			for (DeadZombie d : InGame.deadZombies)
-				d.draw(g);
-
-			for (Zombie z : InGame.zombies)
-				z.draw(g);
-
-			for (MuzzleFlash m : InGame.muzzleFlashes)
-				m.draw(g);
-
-			if (debugMode)
-				for (Bullet b : InGame.bullets)
-					b.draw(g);
-
-			InGame.player.draw(g);
-
-			// Temp
-			// Player health
-			g.setColor(Color.WHITE);
-			g.fillRect(20, WINDOW_HEIGHT - 60, 400, 40);
-			g.setColor(Color.RED);
-			g.fillRect(23, WINDOW_HEIGHT - 57,
-					394 * InGame.player.getHealth() / 20, 34);
-
-			// Draw gun properties
-			g.setColor(Color.WHITE);
-			g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-			g.drawString(InGame.player.getGun().getName(), 440,
-					WINDOW_HEIGHT - 40);
-			if (InGame.player.isReloading())
-				g.setColor(Color.RED);
-			g.drawString(InGame.player.getGun().getCurrentBullets() + " / "
-					+ InGame.player.getGun().getMaxBullets(), 440,
-					WINDOW_HEIGHT - 20);
-
-			// Debug mode
-			if (debugMode) {
-
-				y = 5;
-
-				g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
-				g.setColor(Color.WHITE);
-
-				g.drawString("Debug Mode", 10, updateY());
-				g.drawString("Player: ", 10, updateY());
-				g.drawString("Coordinates: " + InGame.player.getx() + ", "
-						+ InGame.player.gety(), 20, updateY());
-				g.drawString("Rotation: " + InGame.player.getRotation(), 20,
-						updateY());
-				g.drawString("Reloading: " + InGame.player.isReloading(), 20,
-						updateY());
-				g.drawString("Gun:", 10, updateY());
-				g.drawString("Name: " + InGame.player.getGun().getName(), 20,
-						updateY());
-				g.drawString("Damage: " + InGame.player.getGun().getDamage(),
-						20, updateY());
-				g.drawString("FireRate: "
-						+ InGame.player.getGun().getFireRate(), 20, updateY());
-				g.drawString("Reload Speed: "
-						+ InGame.player.getGun().getReloadSpeed(), 20,
-						updateY());
-				g.drawString("Clip Size: "
-						+ InGame.player.getGun().getClipSize(), 20, updateY());
-				g.drawString("Current Bullets: "
-						+ InGame.player.getGun().getCurrentBullets(), 20,
-						updateY());
-				g.drawString("Max Bullets: "
-						+ InGame.player.getGun().getMaxBullets(), 20, updateY());
-			}
 		} else if (gameState.equals(GameState.POST_GAME)) {
 
 		}
-	}
-
-	// for debug mode
-	private static int y;
-
-	private int updateY() {
-		y += 15;
-		return y;
 	}
 
 	private void gameDraw() {

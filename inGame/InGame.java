@@ -1,11 +1,11 @@
 package inGame;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -14,7 +14,6 @@ import launcher.GamePanel;
 import map.Map;
 
 import org.dom4j.Document;
-import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
@@ -56,6 +55,132 @@ public class InGame {
 		// for debugging
 		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1024, 1024));
 
+	}
+
+	public static void update() {
+
+		map.update();
+
+		player.update();
+
+		// bullet update
+		for (int i = 0; i < bullets.size(); i++) {
+			if (bullets.get(i).update()) {
+				bullets.remove(i);
+				i--;
+			}
+		}
+
+		// zombie update
+		for (int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).update();
+		}
+
+		// check dead zombie
+		for (int i = 0; i < zombies.size(); i++) {
+			if (zombies.get(i).isDead()) {
+				deadZombies.add(new DeadZombie(zombies.get(i).getx(), zombies
+						.get(i).gety()));
+				zombies.remove(i);
+				i--;
+			}
+		}
+
+		// update deadzombies
+		for (int i = 0; i < deadZombies.size(); i++) {
+			if (deadZombies.get(i).update()) {
+				deadZombies.remove(i);
+				i--;
+			}
+		}
+
+		// update muzzleFlashes
+		for (int i = 0; i < muzzleFlashes.size(); i++) {
+			if (muzzleFlashes.get(i).update()) {
+				muzzleFlashes.remove(i);
+				i--;
+			}
+		}
+
+	}
+
+	public static void render(Graphics2D g) {
+		InGame.map.draw(g);
+
+		for (DeadZombie d : InGame.deadZombies)
+			d.draw(g);
+
+		for (Zombie z : InGame.zombies)
+			z.draw(g);
+
+		for (MuzzleFlash m : InGame.muzzleFlashes)
+			m.draw(g);
+
+		if (GamePanel.debugMode)
+			for (Bullet b : InGame.bullets)
+				b.draw(g);
+
+		InGame.player.draw(g);
+
+		// Temp
+		// Player health
+		g.setColor(Color.WHITE);
+		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 60, 400, 40);
+		g.setColor(Color.RED);
+		g.fillRect(23, GamePanel.WINDOW_HEIGHT - 57,
+				394 * InGame.player.getHealth() / 20, 34);
+
+		// Draw gun properties
+		g.setColor(Color.WHITE);
+		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		g.drawString(InGame.player.getGun().getName(), 440,
+				GamePanel.WINDOW_HEIGHT - 40);
+		if (InGame.player.isReloading())
+			g.setColor(Color.RED);
+		g.drawString(InGame.player.getGun().getCurrentBullets() + " / "
+				+ InGame.player.getGun().getMaxBullets(), 440,
+				GamePanel.WINDOW_HEIGHT - 20);
+
+		// Debug mode
+		if (GamePanel.debugMode) {
+
+			y = 5;
+
+			g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
+			g.setColor(Color.WHITE);
+
+			g.drawString("Debug Mode", 10, updateY());
+			g.drawString("Player: ", 10, updateY());
+			g.drawString("Coordinates: " + InGame.player.getx() + ", "
+					+ InGame.player.gety(), 20, updateY());
+			g.drawString("Rotation: " + InGame.player.getRotation(), 20,
+					updateY());
+			g.drawString("Reloading: " + InGame.player.isReloading(), 20,
+					updateY());
+			g.drawString("Gun:", 10, updateY());
+			g.drawString("Name: " + InGame.player.getGun().getName(), 20,
+					updateY());
+			g.drawString("Damage: " + InGame.player.getGun().getDamage(), 20,
+					updateY());
+			g.drawString("FireRate: " + InGame.player.getGun().getFireRate(),
+					20, updateY());
+			g.drawString("Reload Speed: "
+					+ InGame.player.getGun().getReloadSpeed(), 20, updateY());
+			g.drawString("Clip Size: " + InGame.player.getGun().getClipSize(),
+					20, updateY());
+			g.drawString("Current Bullets: "
+					+ InGame.player.getGun().getCurrentBullets(), 20, updateY());
+			g.drawString("Max Bullets: "
+					+ InGame.player.getGun().getMaxBullets(), 20, updateY());
+		}
+	}
+
+	// for debug mode
+	private static int y;
+
+	private static int updateY() {
+		y += 15;
+		return y;
 	}
 
 	private static boolean loadGuns() {
