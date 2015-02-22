@@ -11,7 +11,7 @@ public class Map {
 
 	private int WIDTH;
 	private int HEIGHT;
-
+	
 	private int xOffset, yOffset;
 
 	public static BufferedImage texture;
