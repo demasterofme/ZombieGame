@@ -43,6 +43,10 @@ public class KeyListener implements java.awt.event.KeyListener {
 			case KeyEvent.VK_F3:
 				GamePanel.debugMode = !GamePanel.debugMode;
 				break;
+			case KeyEvent.VK_R:
+				InGame.player.setReloadTimer(System.nanoTime());
+				InGame.player.setReloading(true);
+				break;
 			}
 	}
 

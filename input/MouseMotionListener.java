@@ -28,7 +28,8 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)) {
+		else if (GamePanel.gameState.equals(GameState.IN_GAME)
+				&& InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
@@ -60,7 +61,8 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME)) {
+		else if (GamePanel.gameState.equals(GameState.IN_GAME)
+				&& InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();

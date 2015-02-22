@@ -1,8 +1,13 @@
 package gfx;
 
+import inGame.InGame;
+
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
+import launcher.GamePanel;
+import launcher.GameState;
 
 public class Button {
 
@@ -11,23 +16,64 @@ public class Button {
 	private int x, y;
 	private int width, height;
 	private String text;
+	private buttonType type;
 	public static Font font;
 	public static Graphics g;
 
-	public Button(int x, int y, String text) {
+	public Button(int x, int y, buttonType type, String text) {
 		this.x = x;
 		this.y = y;
+		this.type = type;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
 		this.width = g.getFontMetrics(font).stringWidth(text);
 		this.height = g.getFontMetrics(font).getHeight();
 	}
-	
+
+	public Button(boolean centerX, int y, buttonType type, String text) {
+		this.y = y;
+		this.type = type;
+		this.text = text;
+		this.hover = false;
+		this.pressed = false;
+		this.width = g.getFontMetrics(font).stringWidth(text);
+		this.height = g.getFontMetrics(font).getHeight();
+		if (centerX)
+			x = GamePanel.WINDOW_WIDTH / 2 - width / 2;
+		else
+			x = 0;
+	}
+
+	public Button(int x, boolean centerY, buttonType type, String text) {
+		this.x = x;
+		this.type = type;
+		this.text = text;
+		this.hover = false;
+		this.pressed = false;
+		this.width = g.getFontMetrics(font).stringWidth(text);
+		this.height = g.getFontMetrics(font).getHeight();
+		if (centerY)
+			y = GamePanel.WINDOW_HEIGHT / 2 - height / 2;
+		else
+			y = 0;
+	}
+
 	public void update() {
-		
-		
-		
+
+		if (pressed)
+			switch (type) {
+			case START_GAME:
+				new InGame();
+				GamePanel.gameState = GameState.IN_GAME;
+				break;
+			case OPTIONS:
+				break;
+			case STOP_GAME:
+				GamePanel.running = false;
+				break;
+			}
+
 	}
 
 	public boolean isPressed() {
@@ -74,4 +120,7 @@ public class Button {
 		g.drawString(text, x, y);
 	}
 
+	public enum buttonType {
+		START_GAME, OPTIONS, STOP_GAME;
+	}
 }

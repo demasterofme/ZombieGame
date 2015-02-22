@@ -8,15 +8,21 @@ public class Gun {
 	private int damage;
 	private int fireRate;
 	private int reloadSpeed;
-	private GunType type;
+	private int currentBullets;
+	private int clipSize;
+	private int maxBullets;
+	private String name;
 	private BufferedImage texture;
 
-	public Gun(GunType type, int damage, int fireRate, int reloadSpeed,
-			BufferedImage texture) {
-		this.type = type;
+	public Gun(String name, int damage, int fireRate, int reloadSpeed,
+			int clipSize, int maxBullets, BufferedImage texture) {
+		this.name = name;
 		this.damage = damage;
 		this.fireRate = fireRate;
 		this.reloadSpeed = reloadSpeed;
+		this.currentBullets = clipSize;
+		this.clipSize = clipSize;
+		this.maxBullets = maxBullets;
 		this.texture = texture;
 	}
 
@@ -44,15 +50,28 @@ public class Gun {
 		return texture;
 	}
 
-	public GunType getType() {
-		return type;
+	public String getName() {
+		return name;
 	}
-	
-	public enum GunType {
 
-		AK47,
-		HACKORZ;
-		
+	public int getCurrentBullets() {
+		return currentBullets;
 	}
-	
+
+	public void setCurrentBullets(int currentBullets) {
+		this.currentBullets = currentBullets;
+	}
+
+	public int getClipSize() {
+		return clipSize;
+	}
+
+	public int getMaxBullets() {
+		return maxBullets;
+	}
+
+	public void setMaxBullets(int maxBullets) {
+		this.maxBullets = maxBullets;
+	}
+
 }

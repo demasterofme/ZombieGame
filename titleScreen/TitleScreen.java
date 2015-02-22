@@ -18,7 +18,11 @@ public class TitleScreen {
 		Button.font = new Font("Century Gothic", Font.PLAIN, 42);
 		Button.g = GamePanel.image.getGraphics();
 
-		buttons.add(new Button(200, 200, "Start Game"));
+		// Add buttons to the screen, will be perfected later
+		buttons.add(new Button(true, 200, Button.buttonType.START_GAME, "Start Game"));
+		buttons.add(new Button(true, 300, Button.buttonType.OPTIONS, "Options"));
+		buttons.add(new Button(true, 400, Button.buttonType.STOP_GAME, "Quit"));
+		
 
 	}
 

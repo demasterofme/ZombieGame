@@ -21,8 +21,13 @@ public class Player extends LivingEntity {
 	private boolean firing;
 	private long firingTimer;
 
+	private boolean reloading;
+	private long reloadTimer;
+
 	private boolean recovering;
 	private long recoveringTimer;
+	
+	private int maxHealth;
 
 	private Gun gun;
 
@@ -31,9 +36,13 @@ public class Player extends LivingEntity {
 
 	public Player(int x, int y) {
 		super(x, y);
-		gun = InGame.guns.get(Gun.GunType.AK47);
+		gun = InGame.guns.get(0);
 		speed = 2;
 		r = 30;
+		health = 20;
+		
+		// Temp, will be done by XML later
+		maxHealth = 20;
 	}
 
 	public boolean update() {
@@ -62,11 +71,26 @@ public class Player extends LivingEntity {
 		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
+		if (reloading
+				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
+						.getReloadSpeed()) {
+			reloading = false;
+						
+			if (gun.getMaxBullets() >= gun.getClipSize()) {
+				gun.setMaxBullets(gun.getMaxBullets() - gun.getClipSize() + gun.getCurrentBullets());
+				gun.setCurrentBullets(gun.getClipSize());
+			} else {
+				gun.setCurrentBullets(gun.getMaxBullets());
+				gun.setMaxBullets(0);
+			}
+		}
+
 		if (firing) {
 
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
-			if (elapsed >= gun.getFireRate()) {
+			if (elapsed >= gun.getFireRate() && !reloading
+					&& gun.getCurrentBullets() > 0) {
 				// We can now fire
 				firingTimer = System.nanoTime();
 				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
@@ -74,6 +98,14 @@ public class Player extends LivingEntity {
 				InGame.muzzleFlashes.add(new MuzzleFlash(GamePanel.WINDOW_WIDTH
 						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1, rotation));
 				InGame.bullets.add(new Bullet(x, y, rotation, gun.getDamage()));
+
+				gun.setCurrentBullets(gun.getCurrentBullets() - 1);
+
+				// Reloading
+				if (gun.getCurrentBullets() == 0) {
+					reloading = true;
+					reloadTimer = System.nanoTime();
+				}
 
 			}
 
@@ -121,6 +153,14 @@ public class Player extends LivingEntity {
 	public void setFiring(boolean firing) {
 		this.firing = firing;
 	}
+	
+	public void setReloading(boolean reloading) {
+		this.reloading = reloading;
+	}
+	
+	public void setReloadTimer(long reloadTimer) {
+		this.reloadTimer = reloadTimer;
+	}
 
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
@@ -130,9 +170,14 @@ public class Player extends LivingEntity {
 	public Gun getGun() {
 		return gun;
 	}
+	
+	public boolean isReloading() {
+		return reloading;
+	}
 
 	public void draw(Graphics2D g) {
 
+		// Combine the player with the gun
 		BufferedImage tempImage = GamePanel.mergeImages(Player.texture_bottom,
 				0, 0, this.getGun().getTexture(), 100, 300);
 		BufferedImage tempPlayerImage = GamePanel.mergeImages(tempImage, 0, 0,

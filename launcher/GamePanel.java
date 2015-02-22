@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int WINDOW_HEIGHT;
 
 	private static Thread thread;
-	private static boolean running;
+	public static boolean running;
 
 	public static GameState gameState;
 
@@ -46,7 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static BufferedImage image;
 	private static Graphics2D g;
 
-	private static boolean can_run = true;
+	public static String errorLog;
 
 	public GamePanel() {
 
@@ -67,7 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public void addNotify() {
 		super.addNotify();
-		if (thread == null && can_run) {
+		if (thread == null) {
 			thread = new Thread(this);
 			thread.start();
 		}
@@ -80,6 +80,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 		running = true;
 
+		errorLog = "";
+
 		image = new BufferedImage(WINDOW_WIDTH, WINDOW_HEIGHT,
 				BufferedImage.TYPE_INT_RGB);
 		g = (Graphics2D) image.getGraphics();
@@ -87,7 +89,7 @@ public class GamePanel extends JPanel implements Runnable {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-		
+
 		new TitleScreen();
 		gameState = GameState.TITLE_SCREEN;
 
@@ -119,11 +121,50 @@ public class GamePanel extends JPanel implements Runnable {
 
 		// Game ended
 
+		if (!errorLog.isEmpty()) {
+
+			// The game has crashed, print the error on screen
+			g.setColor(Color.BLACK);
+			g.fillRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Century Gothic", Font.PLAIN, 25));
+			g.drawString("The game has crashed. StackTrace: ", 50, 50);
+			g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+			int breakIndex = 0;
+			int drawY = 100;
+			boolean canBreak = true;
+			while (canBreak) {
+				try {
+					g.drawString(
+							errorLog.substring(breakIndex, breakIndex + 80),
+							50, drawY);
+					breakIndex += 50;
+					drawY += 30;
+				} catch (Exception e) {
+					canBreak = false;
+					g.drawString(
+							errorLog.substring(breakIndex, errorLog.length()),
+							50, drawY);
+				}
+			}
+
+			gameDraw();
+
+		} else {
+			Launcher.window.dispose();
+		}
+
 	}
 
 	private void gameUpdate() {
 
+		if (!running)
+			return;
+
 		if (gameState.equals(GameState.TITLE_SCREEN)) {
+
+			for (Button b : TitleScreen.buttons)
+				b.update();
 
 		} else if (gameState.equals(GameState.PRE_GAME)) {
 
@@ -180,6 +221,9 @@ public class GamePanel extends JPanel implements Runnable {
 
 	private void gameRender() {
 
+		if (!running)
+			return;
+
 		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
 			g.setColor(Color.BLACK);
@@ -201,15 +245,15 @@ public class GamePanel extends JPanel implements Runnable {
 				g.drawString("Mouse: ", 10, updateY());
 				g.drawString("X: " + mouseX + " Y: " + mouseY, 20, updateY());
 				g.drawString("Button: ", 10, updateY());
-				g.drawString("X: " + TitleScreen.buttons.get(0).getx() + " Y: "
+				g.drawString("X: " + TitleScreen.buttons.get(2).getx() + " Y: "
 						+ TitleScreen.buttons.get(0).gety(), 20, updateY());
-				g.drawString("Width: " + TitleScreen.buttons.get(0).getWidth()
-						+ " Heigth: " + TitleScreen.buttons.get(0).getHeight(),
+				g.drawString("Width: " + TitleScreen.buttons.get(2).getWidth()
+						+ " Heigth: " + TitleScreen.buttons.get(2).getHeight(),
 						20, updateY());
-				g.drawString("Hover: " + TitleScreen.buttons.get(0).hover, 20,
+				g.drawString("Hover: " + TitleScreen.buttons.get(2).hover, 20,
 						updateY());
-				g.drawString("Pressed: " + TitleScreen.buttons.get(0).pressed, 20,
-						updateY());
+				g.drawString("Pressed: " + TitleScreen.buttons.get(2).pressed,
+						20, updateY());
 			}
 
 		} else if (gameState.equals(GameState.PRE_GAME)) {
@@ -233,6 +277,25 @@ public class GamePanel extends JPanel implements Runnable {
 
 			InGame.player.draw(g);
 
+			// Temp
+			// Player health
+			g.setColor(Color.WHITE);
+			g.fillRect(20, WINDOW_HEIGHT - 60, 400, 40);
+			g.setColor(Color.RED);
+			g.fillRect(23, WINDOW_HEIGHT - 57,
+					394 * InGame.player.getHealth() / 20, 34);
+
+			// Draw gun properties
+			g.setColor(Color.WHITE);
+			g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+			g.drawString(InGame.player.getGun().getName(), 440,
+					WINDOW_HEIGHT - 40);
+			if (InGame.player.isReloading())
+				g.setColor(Color.RED);
+			g.drawString(InGame.player.getGun().getCurrentBullets() + " / "
+					+ InGame.player.getGun().getMaxBullets(), 440,
+					WINDOW_HEIGHT - 20);
+
 			// Debug mode
 			if (debugMode) {
 
@@ -247,8 +310,10 @@ public class GamePanel extends JPanel implements Runnable {
 						+ InGame.player.gety(), 20, updateY());
 				g.drawString("Rotation: " + InGame.player.getRotation(), 20,
 						updateY());
+				g.drawString("Reloading: " + InGame.player.isReloading(), 20,
+						updateY());
 				g.drawString("Gun:", 10, updateY());
-				g.drawString("Type: " + InGame.player.getGun().getType(), 20,
+				g.drawString("Name: " + InGame.player.getGun().getName(), 20,
 						updateY());
 				g.drawString("Damage: " + InGame.player.getGun().getDamage(),
 						20, updateY());
@@ -257,6 +322,13 @@ public class GamePanel extends JPanel implements Runnable {
 				g.drawString("Reload Speed: "
 						+ InGame.player.getGun().getReloadSpeed(), 20,
 						updateY());
+				g.drawString("Clip Size: "
+						+ InGame.player.getGun().getClipSize(), 20, updateY());
+				g.drawString("Current Bullets: "
+						+ InGame.player.getGun().getCurrentBullets(), 20,
+						updateY());
+				g.drawString("Max Bullets: "
+						+ InGame.player.getGun().getMaxBullets(), 20, updateY());
 			}
 		} else if (gameState.equals(GameState.POST_GAME)) {
 

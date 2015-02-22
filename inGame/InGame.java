@@ -34,10 +34,16 @@ public class InGame {
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
 	public static ArrayList<Bullet> bullets;
-	public static HashMap<Gun.GunType, Gun> guns;
+	public static ArrayList<Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 
 	public InGame() {
+
+		if (!loadGuns() || !loadSprites()) {
+			GamePanel.running = false;
+			return;
+		}
+
 		map = new Map();
 
 		player = new Player(1024, 1024);
@@ -49,10 +55,11 @@ public class InGame {
 
 		// for debugging
 		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1024, 1024));
+
 	}
 
 	private static boolean loadGuns() {
-		guns = new HashMap<>();
+		guns = new ArrayList<>();
 		SAXReader reader = new SAXReader();
 		try {
 			Document document = reader.read(new File(GamePanel.class
@@ -61,20 +68,26 @@ public class InGame {
 			@SuppressWarnings("unchecked")
 			List<Element> gunElements = root.elements();
 			for (Element gunElement : gunElements) {
-				Gun.GunType type = Gun.GunType.valueOf(gunElement.getName());
+				String name = gunElement.getName();
 				int damage = Integer.parseInt(gunElement.element("Damage")
 						.getText());
 				int fireRate = Integer.parseInt(gunElement.element("Firerate")
 						.getText());
 				int reloadSpeed = Integer.parseInt(gunElement.element(
 						"Reloadspeed").getText());
+				int clipSize = Integer.parseInt(gunElement.element("Clipsize")
+						.getText());
+				int maxBullets = Integer.parseInt(gunElement.element(
+						"Maxbullets").getText());
 				BufferedImage texture = ImageIO.read(GamePanel.class
-						.getResource("/sprites/guns/AK47.png"));
-				guns.put(type, new Gun(type, damage, fireRate, reloadSpeed,
-						texture));
+						.getResource("/sprites/guns/" + name + ".png"));
+				guns.add(new Gun(name, damage, fireRate, reloadSpeed, clipSize,
+						maxBullets, texture));
 			}
-		} catch (DocumentException | URISyntaxException | IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			// e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
 			return false;
 		}
 		return true;
@@ -95,8 +108,10 @@ public class InGame {
 			Map.texture = ImageIO.read(GamePanel.class
 					.getResource("/sprites/Map.png"));
 
-		} catch (IOException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			// e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
 			return false;
 		}
 

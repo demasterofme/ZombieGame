@@ -29,7 +29,8 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(true);
 				}
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME))
+		else if (GamePanel.gameState.equals(GameState.IN_GAME)
+				&& InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(true);
@@ -49,7 +50,8 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(false);
 				}
 			}
-		else if (GamePanel.gameState.equals(GameState.IN_GAME))
+		else if (GamePanel.gameState.equals(GameState.IN_GAME)
+				&& InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(false);
