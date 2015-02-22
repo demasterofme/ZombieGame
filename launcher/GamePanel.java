@@ -24,6 +24,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import titleScreen.Settings;
 import titleScreen.TitleScreen;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -164,6 +165,10 @@ public class GamePanel extends JPanel implements Runnable {
 		if (gameState.equals(GameState.TITLE_SCREEN)) {
 
 			TitleScreen.update();
+		
+		} else if (gameState.equals(GameState.SETTINGS_SCREEN)) {
+				
+			Settings.update();
 
 		} else if (gameState.equals(GameState.PRE_GAME)) {
 
