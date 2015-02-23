@@ -71,7 +71,7 @@ public class TitleScreen extends GameState {
 		
 		g.setColor(Color.WHITE);
 
-		for (Button b : TitleScreen.buttons)
+		for (Button b : buttons)
 			b.draw(g);
 
 		// Debug mode
@@ -87,14 +87,14 @@ public class TitleScreen extends GameState {
 			g.drawString("X: " + GamePanel.mouseX + " Y: " + GamePanel.mouseY,
 					20, updateY());
 			g.drawString("Button: ", 10, updateY());
-			g.drawString("X: " + TitleScreen.buttons.get(2).getx() + " Y: "
-					+ TitleScreen.buttons.get(0).gety(), 20, updateY());
-			g.drawString("Width: " + TitleScreen.buttons.get(2).getWidth()
-					+ " Heigth: " + TitleScreen.buttons.get(2).getHeight(), 20,
+			g.drawString("X: " + buttons.get(2).getx() + " Y: "
+					+ buttons.get(0).gety(), 20, updateY());
+			g.drawString("Width: " + buttons.get(2).getWidth()
+					+ " Heigth: " + buttons.get(2).getHeight(), 20,
 					updateY());
-			g.drawString("Hover: " + TitleScreen.buttons.get(2).isHover(), 20,
+			g.drawString("Hover: " + buttons.get(2).isHover(), 20,
 					updateY());
-			g.drawString("Pressed: " + TitleScreen.buttons.get(2).isPressed(), 20,
+			g.drawString("Pressed: " + buttons.get(2).isPressed(), 20,
 					updateY());
 			
 		}

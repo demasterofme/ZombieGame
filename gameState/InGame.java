@@ -107,20 +107,20 @@ public class InGame extends GameState {
 	public void render(Graphics2D g) {
 		InGame.map.draw(g);
 
-		for (DeadZombie d : InGame.deadZombies)
+		for (DeadZombie d : deadZombies)
 			d.draw(g);
 
-		for (Zombie z : InGame.zombies)
+		for (Zombie z : zombies)
 			z.draw(g);
 
-		for (MuzzleFlash m : InGame.muzzleFlashes)
+		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
 
 		if (GamePanel.debugMode)
-			for (Bullet b : InGame.bullets)
+			for (Bullet b : bullets)
 				b.draw(g);
 
-		InGame.player.draw(g);
+		player.draw(g);
 
 		// Temp
 		// Player health
@@ -128,17 +128,17 @@ public class InGame extends GameState {
 		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 60, 400, 40);
 		g.setColor(Color.RED);
 		g.fillRect(23, GamePanel.WINDOW_HEIGHT - 57,
-				394 * InGame.player.getHealth() / 20, 34);
+				394 * player.getHealth() / 20, 34);
 
 		// Draw gun properties
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		g.drawString(InGame.player.getGun().getName(), 440,
+		g.drawString(player.getGun().getName(), 440,
 				GamePanel.WINDOW_HEIGHT - 40);
-		if (InGame.player.isReloading())
+		if (player.isReloading())
 			g.setColor(Color.RED);
-		g.drawString(InGame.player.getGun().getCurrentBullets() + " / "
-				+ InGame.player.getGun().getMaxBullets(), 440,
+		g.drawString(player.getGun().getCurrentBullets() + " / "
+				+ player.getGun().getMaxBullets(), 440,
 				GamePanel.WINDOW_HEIGHT - 20);
 
 		// Debug mode
@@ -151,27 +151,27 @@ public class InGame extends GameState {
 
 			g.drawString("Debug Mode", 10, updateY());
 			g.drawString("Player: ", 10, updateY());
-			g.drawString("Coordinates: " + InGame.player.getx() + ", "
-					+ InGame.player.gety(), 20, updateY());
-			g.drawString("Rotation: " + InGame.player.getRotation(), 20,
+			g.drawString("Coordinates: " + player.getx() + ", "
+					+ player.gety(), 20, updateY());
+			g.drawString("Rotation: " + player.getRotation(), 20,
 					updateY());
-			g.drawString("Reloading: " + InGame.player.isReloading(), 20,
+			g.drawString("Reloading: " + player.isReloading(), 20,
 					updateY());
 			g.drawString("Gun:", 10, updateY());
-			g.drawString("Name: " + InGame.player.getGun().getName(), 20,
+			g.drawString("Name: " + player.getGun().getName(), 20,
 					updateY());
-			g.drawString("Damage: " + InGame.player.getGun().getDamage(), 20,
+			g.drawString("Damage: " + player.getGun().getDamage(), 20,
 					updateY());
-			g.drawString("FireRate: " + InGame.player.getGun().getFireRate(),
+			g.drawString("FireRate: " + player.getGun().getFireRate(),
 					20, updateY());
 			g.drawString("Reload Speed: "
-					+ InGame.player.getGun().getReloadSpeed(), 20, updateY());
-			g.drawString("Clip Size: " + InGame.player.getGun().getClipSize(),
+					+ player.getGun().getReloadSpeed(), 20, updateY());
+			g.drawString("Clip Size: " + player.getGun().getClipSize(),
 					20, updateY());
 			g.drawString("Current Bullets: "
-					+ InGame.player.getGun().getCurrentBullets(), 20, updateY());
+					+ player.getGun().getCurrentBullets(), 20, updateY());
 			g.drawString("Max Bullets: "
-					+ InGame.player.getGun().getMaxBullets(), 20, updateY());
+					+ player.getGun().getMaxBullets(), 20, updateY());
 		}
 	}
 
