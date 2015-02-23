@@ -1,6 +1,8 @@
 package input;
 
 import gameState.InGame;
+import gameState.Settings;
+import gameState.Shop;
 import gameState.TitleScreen;
 import gfx.Button;
 
@@ -17,8 +19,10 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseDragged(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen)
-			for (Button b : TitleScreen.buttons) {
+		if (GamePanel.gameState instanceof TitleScreen
+				|| GamePanel.gameState instanceof Settings
+				|| GamePanel.gameState instanceof Shop)
+			for (Button b : GamePanel.gameState.getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
 						&& event.getY() >= b.gety() - b.getHeight()
@@ -49,8 +53,10 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseMoved(MouseEvent event) {
 		if (GamePanel.gameState == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen)
-			for (Button b : TitleScreen.buttons) {
+		if (GamePanel.gameState instanceof TitleScreen
+				|| GamePanel.gameState instanceof Settings
+				|| GamePanel.gameState instanceof Shop)
+			for (Button b : GamePanel.gameState.getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
 						&& event.getY() >= b.gety() - b.getHeight()

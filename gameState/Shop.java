@@ -13,23 +13,22 @@ import java.util.ArrayList;
 
 import launcher.GamePanel;
 
-public class Settings extends GameState {
+public class Shop extends GameState {
 
 	private BufferedImage sourceBackgroundImage;
 	private BufferedImage blurredBackgroundImage;
 	float[] matrix = { 0.111f, 0.111f, 0.111f, 0.111f, 0.111f, 0.111f, 0.111f,
 			0.111f, 0.111f, };
 
-	private TitleScreen oldState;
+	private InGame oldState;
 
 	private ArrayList<Button> buttons;
 
 	private Button button_back;
 
-	public Settings(TitleScreen oldState) {
+	public Shop(InGame oldState) {
 
 		this.oldState = oldState;
-
 		sourceBackgroundImage = GamePanel.image;
 
 		BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix),
@@ -39,9 +38,9 @@ public class Settings extends GameState {
 
 		buttons = new ArrayList<>();
 
-		button_back = new Button(true, 300, "Options", new Font(
-				"Century Gothic", Font.BOLD, 43), new Font("Century Gothic",
-				Font.PLAIN, 43));
+		button_back = new Button(400, 400, "BACK",
+				new Font("Century Gothic", Font.PLAIN, 24), new Font(
+						"Century Gothic", Font.BOLD, 24));
 
 		buttons.add(button_back);
 
@@ -63,6 +62,8 @@ public class Settings extends GameState {
 				GamePanel.WINDOW_HEIGHT, null);
 
 		g.setColor(Color.WHITE);
+		g.setFont(new Font("Century Gothic", Font.PLAIN, 48));
+		g.drawString("SHOP", GamePanel.WINDOW_WIDTH / 2, 150);
 
 		for (Button b : buttons)
 			b.draw(g);

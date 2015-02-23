@@ -13,12 +13,15 @@ public class Button {
 	private int x, y;
 	private int width, height;
 	private String text;
-	public static Font font;
+	private Font font;
+	private Font font_hover;
 	public static Graphics g;
 
-	public Button(int x, int y, String text) {
+	public Button(int x, int y, String text, Font font, Font font_hover) {
 		this.x = x;
 		this.y = y;
+		this.font = font;
+		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -26,8 +29,11 @@ public class Button {
 		this.height = g.getFontMetrics(font).getHeight();
 	}
 
-	public Button(boolean centerX, int y, String text) {
+	public Button(boolean centerX, int y, String text, Font font,
+			Font font_hover) {
 		this.y = y;
+		this.font = font;
+		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -39,8 +45,11 @@ public class Button {
 			x = 0;
 	}
 
-	public Button(int x, boolean centerY, String text) {
+	public Button(int x, boolean centerY, String text, Font font,
+			Font font_hover) {
 		this.x = x;
+		this.font = font;
+		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -53,7 +62,6 @@ public class Button {
 	}
 
 	public void update() {
-
 	}
 
 	public boolean isPressed() {
@@ -94,10 +102,10 @@ public class Button {
 
 	public void draw(Graphics2D g) {
 		if (hover)
-			g.setFont(new Font("Century Gothic", Font.BOLD, 42));
+			g.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize()));
 		else
-			g.setFont(new Font("Century Gothic", Font.PLAIN, 42));
+			g.setFont(font);
 		g.drawString(text, x, y);
 	}
-	
+
 }

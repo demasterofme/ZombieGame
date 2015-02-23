@@ -1,8 +1,13 @@
 package gameState;
 
+import gfx.Button;
+
 import java.awt.Graphics2D;
+import java.util.ArrayList;
 
 public class GameState {
+
+	private ArrayList<Button> buttons;
 
 	public GameState() {
 
@@ -15,11 +20,9 @@ public class GameState {
 	public void render(Graphics2D g) {
 
 	}
-
-	public enum State {
-
-		TITLE_SCREEN, SETTINGS_SCREEN, IN_GAME, POST_GAME, PRE_GAME;
-
+	
+	public ArrayList<Button> getButtons() {
+		return buttons;
 	}
 
 }

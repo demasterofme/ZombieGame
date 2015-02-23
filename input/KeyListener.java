@@ -1,6 +1,7 @@
 package input;
 
 import gameState.InGame;
+import gameState.Shop;
 import gameState.TitleScreen;
 
 import java.awt.event.KeyEvent;
@@ -20,6 +21,9 @@ public class KeyListener implements java.awt.event.KeyListener {
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_F3:
 				GamePanel.debugMode = !GamePanel.debugMode;
+				break;
+			case KeyEvent.VK_ESCAPE:
+				GamePanel.running = false;
 				break;
 			}
 		else if (GamePanel.gameState instanceof InGame)
@@ -46,6 +50,9 @@ public class KeyListener implements java.awt.event.KeyListener {
 			case KeyEvent.VK_R:
 				InGame.player.setReloadTimer(System.nanoTime());
 				InGame.player.setReloading(true);
+				break;
+			case KeyEvent.VK_ESCAPE:
+				GamePanel.gameState = new Shop((InGame) GamePanel.gameState);
 				break;
 			}
 	}

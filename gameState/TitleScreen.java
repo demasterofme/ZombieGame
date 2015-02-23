@@ -18,26 +18,27 @@ public class TitleScreen extends GameState {
 	private Button button_start;
 	private Button button_settings;
 	private Button button_quit;
-	
+
 	private BufferedImage backgroundImage;
 
 	public TitleScreen() {
 
 		buttons = new ArrayList<>();
 
-		Button.font = new Font("Century Gothic", Font.PLAIN, 42);
+		Font font = new Font("Century Gothic", Font.PLAIN, 42);
+		Font font_hover = new Font("Century Gothic", Font.BOLD, 42);
 		Button.g = GamePanel.image.getGraphics();
 
 		// Add buttons to the screen, will be perfected later
-		
-		button_start = new Button(true, 200, "Start Game");
-		button_settings = new Button(true, 300, "Options");
-		button_quit = new Button(true, 400, "Quit");
-		
+
+		button_start = new Button(true, 200, "Start Game", font, font_hover);
+		button_settings = new Button(true, 300, "Options", font, font_hover);
+		button_quit = new Button(true, 400, "Quit", font, font_hover);
+
 		buttons.add(button_start);
 		buttons.add(button_settings);
 		buttons.add(button_quit);
-		
+
 		// For testing
 		try {
 			backgroundImage = ImageIO.read(GamePanel.class
@@ -56,7 +57,8 @@ public class TitleScreen extends GameState {
 			GamePanel.gameState = new InGame();
 		}
 		if (button_settings.isPressed()) {
-			GamePanel.gameState = new Settings();
+			GamePanel.gameState = new Settings(this);
+			button_settings.setPressed(false);
 		}
 		if (button_quit.isPressed()) {
 			GamePanel.running = false;
@@ -66,9 +68,10 @@ public class TitleScreen extends GameState {
 	public void render(Graphics2D g) {
 		// g.setColor(Color.BLACK);
 		// g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
-		
-		g.drawImage(backgroundImage, 0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT, null);
-		
+
+		g.drawImage(backgroundImage, 0, 0, GamePanel.WINDOW_WIDTH,
+				GamePanel.WINDOW_HEIGHT, null);
+
 		g.setColor(Color.WHITE);
 
 		for (Button b : buttons)
@@ -89,14 +92,12 @@ public class TitleScreen extends GameState {
 			g.drawString("Button: ", 10, updateY());
 			g.drawString("X: " + buttons.get(2).getx() + " Y: "
 					+ buttons.get(0).gety(), 20, updateY());
-			g.drawString("Width: " + buttons.get(2).getWidth()
-					+ " Heigth: " + buttons.get(2).getHeight(), 20,
-					updateY());
-			g.drawString("Hover: " + buttons.get(2).isHover(), 20,
-					updateY());
+			g.drawString("Width: " + buttons.get(2).getWidth() + " Heigth: "
+					+ buttons.get(2).getHeight(), 20, updateY());
+			g.drawString("Hover: " + buttons.get(2).isHover(), 20, updateY());
 			g.drawString("Pressed: " + buttons.get(2).isPressed(), 20,
 					updateY());
-			
+
 		}
 	}
 
@@ -106,6 +107,10 @@ public class TitleScreen extends GameState {
 	private static int updateY() {
 		y += 15;
 		return y;
+	}
+
+	public ArrayList<Button> getButtons() {
+		return buttons;
 	}
 
 }
