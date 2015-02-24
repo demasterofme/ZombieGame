@@ -1,6 +1,7 @@
 package input;
 
 import gameState.InGame;
+import gameState.PauseMenu;
 import gameState.Settings;
 import gameState.Shop;
 import gameState.TitleScreen;
@@ -21,7 +22,8 @@ public class MouseListener implements java.awt.event.MouseListener {
 			return;
 		if (GamePanel.gameState instanceof TitleScreen
 				|| GamePanel.gameState instanceof Settings
-				|| GamePanel.gameState instanceof Shop)
+				|| GamePanel.gameState instanceof Shop
+				|| GamePanel.gameState instanceof PauseMenu)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : GamePanel.gameState.getButtons()) {

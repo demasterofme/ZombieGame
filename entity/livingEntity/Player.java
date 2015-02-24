@@ -1,6 +1,7 @@
 package entity.livingEntity;
 
 import gameState.InGame;
+import gameState.PauseMenu;
 import gfx.MuzzleFlash;
 
 import java.awt.Color;
@@ -33,6 +34,8 @@ public class Player extends LivingEntity {
 
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
+	
+	private long pauseTimer;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -173,6 +176,10 @@ public class Player extends LivingEntity {
 	
 	public boolean isReloading() {
 		return reloading;
+	}
+	
+	public void resume() {
+		reloadTimer += System.nanoTime() - ((PauseMenu) GamePanel.gameState).getPauseTimer();
 	}
 
 	public void draw(Graphics2D g) {

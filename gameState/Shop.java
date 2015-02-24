@@ -4,6 +4,7 @@ import gfx.Button;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -17,30 +18,59 @@ public class Shop extends GameState {
 
 	private BufferedImage sourceBackgroundImage;
 	private BufferedImage blurredBackgroundImage;
-	float[] matrix = { 0.111f, 0.111f, 0.111f, 0.111f, 0.111f, 0.111f, 0.111f,
-			0.111f, 0.111f, };
+	private BufferedImage blurredBackgroundImageEdges;
+	float[] matrix;
 
 	private InGame oldState;
 
 	private ArrayList<Button> buttons;
-
 	private Button button_back;
+	
+	private Graphics2D g;
 
 	public Shop(InGame oldState) {
 
 		this.oldState = oldState;
-		sourceBackgroundImage = GamePanel.image;
+		
+		matrix = new float[400];
+		for (int i = 0; i < 400; i++)
+			matrix[i] = 1.0f / 400.0f;
 
-		BufferedImageOp op = new ConvolveOp(new Kernel(3, 3, matrix),
+		sourceBackgroundImage = new BufferedImage(
+				(int) (GamePanel.image.getWidth() * 1.1),
+				(int) (GamePanel.image.getHeight() * 1.1),
+				BufferedImage.TYPE_INT_RGB);
+
+		Graphics g = sourceBackgroundImage.getGraphics();
+
+		g.drawImage(
+				GamePanel.image,
+				(sourceBackgroundImage.getWidth() - GamePanel.image.getWidth()) / 2,
+				(sourceBackgroundImage.getHeight() - GamePanel.image
+						.getHeight()) / 2, GamePanel.image.getWidth(),
+				GamePanel.image.getHeight(), null);
+		g.dispose();
+
+		BufferedImageOp op = new ConvolveOp(new Kernel(20, 20, matrix),
 				ConvolveOp.EDGE_ZERO_FILL, null);
-		blurredBackgroundImage = op.filter(sourceBackgroundImage,
-				blurredBackgroundImage);
+		blurredBackgroundImageEdges = op.filter(sourceBackgroundImage,
+				blurredBackgroundImageEdges);
+		blurredBackgroundImage = new BufferedImage(GamePanel.WINDOW_WIDTH,
+				GamePanel.WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
+		g = blurredBackgroundImage.getGraphics();
+		g.drawImage(
+				blurredBackgroundImageEdges.getSubimage((sourceBackgroundImage
+						.getWidth() - GamePanel.image.getWidth()) / 2,
+						(sourceBackgroundImage.getHeight() - GamePanel.image
+								.getHeight()) / 2, GamePanel.WINDOW_WIDTH,
+						GamePanel.WINDOW_HEIGHT), 0, 0, GamePanel.WINDOW_WIDTH,
+				GamePanel.WINDOW_HEIGHT, null);
+		g.dispose();
 
 		buttons = new ArrayList<>();
 
-		button_back = new Button(400, 400, "BACK",
-				new Font("Century Gothic", Font.PLAIN, 24), new Font(
-						"Century Gothic", Font.BOLD, 24));
+		button_back = new Button(400, 400, "BACK", new Font("Century Gothic",
+				Font.PLAIN, 24), new Font("Century Gothic", Font.BOLD, 24));
 
 		buttons.add(button_back);
 

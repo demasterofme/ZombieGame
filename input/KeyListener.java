@@ -1,6 +1,7 @@
 package input;
 
 import gameState.InGame;
+import gameState.PauseMenu;
 import gameState.Shop;
 import gameState.TitleScreen;
 
@@ -53,6 +54,9 @@ public class KeyListener implements java.awt.event.KeyListener {
 				break;
 			case KeyEvent.VK_ESCAPE:
 				GamePanel.gameState = new Shop((InGame) GamePanel.gameState);
+				break;
+			case KeyEvent.VK_P:
+				GamePanel.gameState = new PauseMenu((InGame) GamePanel.gameState);
 				break;
 			}
 	}
