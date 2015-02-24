@@ -35,19 +35,18 @@ public class Settings extends GameState {
 		for (int i = 0; i < 400; i++)
 			matrix[i] = 1.0f / 400.0f;
 
-		sourceBackgroundImage = new BufferedImage(
-				(int) (GamePanel.image.getWidth() * 1.1),
-				(int) (GamePanel.image.getHeight() * 1.1),
-				BufferedImage.TYPE_INT_RGB);
+		sourceBackgroundImage = new BufferedImage((int) (GamePanel
+				.getLastFrame().getWidth() * 1.1), (int) (GamePanel
+				.getLastFrame().getHeight() * 1.1), BufferedImage.TYPE_INT_RGB);
 
 		Graphics g = sourceBackgroundImage.getGraphics();
 
-		g.drawImage(
-				GamePanel.image,
-				(sourceBackgroundImage.getWidth() - GamePanel.image.getWidth()) / 2,
-				(sourceBackgroundImage.getHeight() - GamePanel.image
-						.getHeight()) / 2, GamePanel.image.getWidth(),
-				GamePanel.image.getHeight(), null);
+		g.drawImage(GamePanel.getLastFrame(),
+				(sourceBackgroundImage.getWidth() - GamePanel.getLastFrame()
+						.getWidth()) / 2,
+				(sourceBackgroundImage.getHeight() - GamePanel.getLastFrame()
+						.getHeight()) / 2, GamePanel.getLastFrame().getWidth(),
+				GamePanel.getLastFrame().getHeight(), null);
 		g.dispose();
 
 		BufferedImageOp op = new ConvolveOp(new Kernel(20, 20, matrix),
@@ -57,12 +56,12 @@ public class Settings extends GameState {
 		blurredBackgroundImage = new BufferedImage(GamePanel.WINDOW_WIDTH,
 				GamePanel.WINDOW_HEIGHT, BufferedImage.TYPE_INT_RGB);
 		g = blurredBackgroundImage.getGraphics();
-		g.drawImage(
-				blurredBackgroundImageEdges.getSubimage((sourceBackgroundImage
-						.getWidth() - GamePanel.image.getWidth()) / 2,
-						(sourceBackgroundImage.getHeight() - GamePanel.image
-								.getHeight()) / 2, GamePanel.WINDOW_WIDTH,
-						GamePanel.WINDOW_HEIGHT), 0, 0, GamePanel.WINDOW_WIDTH,
+		g.drawImage(blurredBackgroundImageEdges.getSubimage(
+				(sourceBackgroundImage.getWidth() - GamePanel.getLastFrame()
+						.getWidth()) / 2,
+				(sourceBackgroundImage.getHeight() - GamePanel.getLastFrame()
+						.getHeight()) / 2, GamePanel.WINDOW_WIDTH,
+				GamePanel.WINDOW_HEIGHT), 0, 0, GamePanel.WINDOW_WIDTH,
 				GamePanel.WINDOW_HEIGHT, null);
 		g.dispose();
 
@@ -82,7 +81,7 @@ public class Settings extends GameState {
 			b.update();
 
 		if (button_back.isPressed())
-			GamePanel.gameState = oldState;
+			GamePanel.changeGameState(oldState);
 
 	}
 

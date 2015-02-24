@@ -25,30 +25,28 @@ public class Shop extends GameState {
 
 	private ArrayList<Button> buttons;
 	private Button button_back;
-	
-	private Graphics2D g;
 
 	public Shop(InGame oldState) {
 
 		this.oldState = oldState;
-		
+
+		BufferedImage lastFrame = GamePanel.getLastFrame();
+
 		matrix = new float[400];
 		for (int i = 0; i < 400; i++)
 			matrix[i] = 1.0f / 400.0f;
 
 		sourceBackgroundImage = new BufferedImage(
-				(int) (GamePanel.image.getWidth() * 1.1),
-				(int) (GamePanel.image.getHeight() * 1.1),
-				BufferedImage.TYPE_INT_RGB);
+				(int) (lastFrame.getWidth() * 1.1),
+				(int) (lastFrame.getHeight() * 1.1), BufferedImage.TYPE_INT_RGB);
 
 		Graphics g = sourceBackgroundImage.getGraphics();
 
 		g.drawImage(
-				GamePanel.image,
-				(sourceBackgroundImage.getWidth() - GamePanel.image.getWidth()) / 2,
-				(sourceBackgroundImage.getHeight() - GamePanel.image
-						.getHeight()) / 2, GamePanel.image.getWidth(),
-				GamePanel.image.getHeight(), null);
+				lastFrame,
+				(sourceBackgroundImage.getWidth() - lastFrame.getWidth()) / 2,
+				(sourceBackgroundImage.getHeight() - lastFrame.getHeight()) / 2,
+				lastFrame.getWidth(), lastFrame.getHeight(), null);
 		g.dispose();
 
 		BufferedImageOp op = new ConvolveOp(new Kernel(20, 20, matrix),
@@ -60,8 +58,8 @@ public class Shop extends GameState {
 		g = blurredBackgroundImage.getGraphics();
 		g.drawImage(
 				blurredBackgroundImageEdges.getSubimage((sourceBackgroundImage
-						.getWidth() - GamePanel.image.getWidth()) / 2,
-						(sourceBackgroundImage.getHeight() - GamePanel.image
+						.getWidth() - lastFrame.getWidth()) / 2,
+						(sourceBackgroundImage.getHeight() - lastFrame
 								.getHeight()) / 2, GamePanel.WINDOW_WIDTH,
 						GamePanel.WINDOW_HEIGHT), 0, 0, GamePanel.WINDOW_WIDTH,
 				GamePanel.WINDOW_HEIGHT, null);
@@ -82,7 +80,7 @@ public class Shop extends GameState {
 			b.update();
 
 		if (button_back.isPressed())
-			GamePanel.gameState = oldState;
+			GamePanel.changeGameState(oldState);
 
 	}
 

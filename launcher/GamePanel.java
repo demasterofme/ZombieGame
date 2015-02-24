@@ -38,6 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int mouseY;
 
 	public static BufferedImage image;
+	private static BufferedImage lastFrame;
 	private static Graphics2D g;
 
 	public static String errorLog;
@@ -164,13 +165,18 @@ public class GamePanel extends JPanel implements Runnable {
 			return;
 
 		gameState.render(g);
-		
+
 	}
 
 	private void gameDraw() {
 		Graphics g2 = this.getGraphics();
+		lastFrame = image;
 		g2.drawImage(image, 0, 0, null);
 		g2.dispose();
+	}
+
+	public static void changeGameState(GameState gameState) {
+		GamePanel.gameState = gameState;
 	}
 
 	public static BufferedImage transformImage(BufferedImage image,
@@ -196,4 +202,9 @@ public class GamePanel extends JPanel implements Runnable {
 				+ 512 - image2.getHeight() / 2, null);
 		return combined;
 	}
+
+	public static BufferedImage getLastFrame() {
+		return lastFrame;
+	}
+
 }

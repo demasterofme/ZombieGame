@@ -54,10 +54,10 @@ public class TitleScreen extends GameState {
 			b.update();
 
 		if (button_start.isPressed()) {
-			GamePanel.gameState = new InGame();
+			GamePanel.changeGameState(new InGame());
 		}
 		if (button_settings.isPressed()) {
-			GamePanel.gameState = new Settings(this);
+			GamePanel.changeGameState(new Settings(this));
 			button_settings.setPressed(false);
 		}
 		if (button_quit.isPressed()) {
