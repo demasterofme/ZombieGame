@@ -16,9 +16,9 @@ public class KeyListener implements java.awt.event.KeyListener {
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen)
+		if (GamePanel.getGameState() instanceof TitleScreen)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_F3:
 				GamePanel.debugMode = !GamePanel.debugMode;
@@ -27,7 +27,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 				GamePanel.running = false;
 				break;
 			}
-		else if (GamePanel.gameState instanceof InGame)
+		else if (GamePanel.getGameState() instanceof InGame)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:
@@ -53,19 +53,28 @@ public class KeyListener implements java.awt.event.KeyListener {
 				InGame.player.setReloading(true);
 				break;
 			case KeyEvent.VK_ESCAPE:
-				GamePanel.changeGameState(new Shop((InGame) GamePanel.gameState));
+				GamePanel.changeGameState(new Shop((InGame) GamePanel
+						.getGameState()));
 				break;
 			case KeyEvent.VK_P:
-				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel.gameState));
+				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
+						.getGameState()));
+				break;
+			}
+		else if (GamePanel.getGameState() instanceof Shop)
+			switch (event.getKeyCode()) {
+			case KeyEvent.VK_ESCAPE:
+				GamePanel.changeGameState(((Shop) GamePanel.getGameState())
+						.getOldState());
 				break;
 			}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof InGame)
+		if (GamePanel.getGameState() instanceof InGame)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_LEFT:
 			case KeyEvent.VK_A:

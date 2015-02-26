@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable {
 	private static Thread thread;
 	public static boolean running;
 
-	public static GameState gameState;
+	private static GameState gameState;
 
 	// Debug Mode
 	public static boolean debugMode = false;
@@ -205,6 +205,10 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public static BufferedImage getLastFrame() {
 		return lastFrame;
+	}
+
+	public static GameState getGameState() {
+		return gameState;
 	}
 
 }

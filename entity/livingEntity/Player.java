@@ -27,15 +27,13 @@ public class Player extends LivingEntity {
 
 	private boolean recovering;
 	private long recoveringTimer;
-	
+
 	private int maxHealth;
 
 	private Gun gun;
 
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
-	
-	private long pauseTimer;
 
 	public Player(int x, int y) {
 		super(x, y);
@@ -43,7 +41,7 @@ public class Player extends LivingEntity {
 		speed = 2;
 		r = 30;
 		health = 20;
-		
+
 		// Temp, will be done by XML later
 		maxHealth = 20;
 	}
@@ -54,13 +52,13 @@ public class Player extends LivingEntity {
 		dy = 0;
 
 		if (left)
-			dx = -speed;
+			dx = (int) (-speed * (up || down ? 0.6 : 1));
 		if (right)
-			dx = speed;
+			dx = (int) (speed * (up || down ? 0.6 : 1));
 		if (up)
-			dy = -speed;
+			dy = (int) (-speed * (left || right ? 0.6 : 1));
 		if (down)
-			dy = speed;
+			dy = (int) (speed * (left || right ? 0.6 : 1));
 
 		x += dx;
 		y += dy;
@@ -78,9 +76,10 @@ public class Player extends LivingEntity {
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
 						.getReloadSpeed()) {
 			reloading = false;
-						
+
 			if (gun.getMaxBullets() >= gun.getClipSize()) {
-				gun.setMaxBullets(gun.getMaxBullets() - gun.getClipSize() + gun.getCurrentBullets());
+				gun.setMaxBullets(gun.getMaxBullets() - gun.getClipSize()
+						+ gun.getCurrentBullets());
 				gun.setCurrentBullets(gun.getClipSize());
 			} else {
 				gun.setCurrentBullets(gun.getMaxBullets());
@@ -156,11 +155,11 @@ public class Player extends LivingEntity {
 	public void setFiring(boolean firing) {
 		this.firing = firing;
 	}
-	
+
 	public void setReloading(boolean reloading) {
 		this.reloading = reloading;
 	}
-	
+
 	public void setReloadTimer(long reloadTimer) {
 		this.reloadTimer = reloadTimer;
 	}
@@ -173,13 +172,14 @@ public class Player extends LivingEntity {
 	public Gun getGun() {
 		return gun;
 	}
-	
+
 	public boolean isReloading() {
 		return reloading;
 	}
-	
+
 	public void resume() {
-		reloadTimer += System.nanoTime() - ((PauseMenu) GamePanel.gameState).getPauseTimer();
+		reloadTimer += System.nanoTime()
+				- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
 	}
 
 	public void draw(Graphics2D g) {
@@ -206,4 +206,13 @@ public class Player extends LivingEntity {
 		}
 
 	}
+
+	public void resetKeys() {
+		down = false;
+		up = false;
+		left = false;
+		right = false;
+		firing = false;
+	}
+
 }

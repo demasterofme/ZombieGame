@@ -9,28 +9,30 @@ import java.util.ArrayList;
 
 import launcher.GamePanel;
 
-public class PauseMenu extends GameState{
+public class PauseMenu extends GameState {
 
 	private long pauseTimer;
-	
+
 	private InGame oldState;
-	
+
 	private ArrayList<Button> buttons;
 	private Button button_resume;
-	
+
 	public PauseMenu(InGame oldState) {
 
 		this.oldState = oldState;
-		
+
 		pauseTimer = System.nanoTime();
-		
+
 		buttons = new ArrayList<>();
 
-		button_resume = new Button(400, 400, "Resume",
-				new Font("Century Gothic", Font.PLAIN, 24), new Font(
-						"Century Gothic", Font.BOLD, 24));
-		
+		button_resume = new Button(400, 400, "Resume", new Font(
+				"Century Gothic", Font.PLAIN, 24), new Font("Century Gothic",
+				Font.BOLD, 24));
+
 		buttons.add(button_resume);
+
+		oldState.getPlayer().resetKeys();
 	}
 
 	public void update() {
@@ -39,15 +41,17 @@ public class PauseMenu extends GameState{
 			b.update();
 
 		if (button_resume.isPressed()) {
-		
-			oldState.player.resume();
-			GamePanel.gameState = oldState;
-			
+
+			oldState.getPlayer().resume();
+			GamePanel.changeGameState(oldState);
+
 		}
-		
+
 	}
 
 	public void render(Graphics2D g) {
+
+		oldState.render(g);
 
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 48));
@@ -55,13 +59,13 @@ public class PauseMenu extends GameState{
 
 		for (Button b : buttons)
 			b.draw(g);
-		
+
 	}
-	
+
 	public ArrayList<Button> getButtons() {
 		return buttons;
 	}
-	
+
 	public long getPauseTimer() {
 		return pauseTimer;
 	}

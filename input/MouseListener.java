@@ -18,15 +18,15 @@ public class MouseListener implements java.awt.event.MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen
-				|| GamePanel.gameState instanceof Settings
-				|| GamePanel.gameState instanceof Shop
-				|| GamePanel.gameState instanceof PauseMenu)
+		if (GamePanel.getGameState() instanceof TitleScreen
+				|| GamePanel.getGameState() instanceof Settings
+				|| GamePanel.getGameState() instanceof Shop
+				|| GamePanel.getGameState() instanceof PauseMenu)
 			switch (event.getButton()) {
 			case 1:
-				for (Button b : GamePanel.gameState.getButtons()) {
+				for (Button b : GamePanel.getGameState().getButtons()) {
 					if (event.getX() >= b.getx()
 							&& event.getX() <= b.getx() + b.getWidth()
 							&& event.getY() >= b.gety() - b.getHeight()
@@ -34,7 +34,7 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(true);
 				}
 			}
-		else if (GamePanel.gameState instanceof InGame && InGame.player != null)
+		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(true);
@@ -44,19 +44,19 @@ public class MouseListener implements java.awt.event.MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen
-				|| GamePanel.gameState instanceof Settings
-				|| GamePanel.gameState instanceof Shop)
+		if (GamePanel.getGameState() instanceof TitleScreen
+				|| GamePanel.getGameState() instanceof Settings
+				|| GamePanel.getGameState() instanceof Shop)
 			switch (event.getButton()) {
 			case 1:
-				for (Button b : GamePanel.gameState.getButtons()) {
+				for (Button b : GamePanel.getGameState().getButtons()) {
 					if (b.isPressed())
 						b.setPressed(false);
 				}
 			}
-		else if (GamePanel.gameState instanceof InGame && InGame.player != null)
+		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(false);

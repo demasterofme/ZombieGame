@@ -243,5 +243,9 @@ public class InGame extends GameState {
 		return true;
 
 	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 
 }

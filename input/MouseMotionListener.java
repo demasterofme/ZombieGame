@@ -17,12 +17,12 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 
 	@Override
 	public void mouseDragged(MouseEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen
-				|| GamePanel.gameState instanceof Settings
-				|| GamePanel.gameState instanceof Shop)
-			for (Button b : GamePanel.gameState.getButtons()) {
+		if (GamePanel.getGameState() instanceof TitleScreen
+				|| GamePanel.getGameState() instanceof Settings
+				|| GamePanel.getGameState() instanceof Shop)
+			for (Button b : GamePanel.getGameState().getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
 						&& event.getY() >= b.gety() - b.getHeight()
@@ -31,7 +31,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState instanceof InGame && InGame.player != null) {
+		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
@@ -51,12 +51,12 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent event) {
-		if (GamePanel.gameState == null)
+		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.gameState instanceof TitleScreen
-				|| GamePanel.gameState instanceof Settings
-				|| GamePanel.gameState instanceof Shop)
-			for (Button b : GamePanel.gameState.getButtons()) {
+		if (GamePanel.getGameState() instanceof TitleScreen
+				|| GamePanel.getGameState() instanceof Settings
+				|| GamePanel.getGameState() instanceof Shop)
+			for (Button b : GamePanel.getGameState().getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
 						&& event.getY() >= b.gety() - b.getHeight()
@@ -65,7 +65,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 				else
 					b.setHover(false);
 			}
-		else if (GamePanel.gameState instanceof InGame && InGame.player != null) {
+		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
