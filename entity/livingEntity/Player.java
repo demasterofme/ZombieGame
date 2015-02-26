@@ -1,9 +1,5 @@
 package entity.livingEntity;
 
-import gameState.InGame;
-import gameState.PauseMenu;
-import gfx.MuzzleFlash;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -11,6 +7,9 @@ import java.awt.image.BufferedImage;
 import launcher.GamePanel;
 import entity.Bullet;
 import entity.Gun;
+import gameState.InGame;
+import gameState.PauseMenu;
+import gfx.MuzzleFlash;
 
 public class Player extends LivingEntity {
 
@@ -59,6 +58,14 @@ public class Player extends LivingEntity {
 			dy = (int) (-speed * (left || right ? 0.6 : 1));
 		if (down)
 			dy = (int) (speed * (left || right ? 0.6 : 1));
+		if (left && !right)
+			dx = -speed;
+		if (right && !left)
+			dx = speed;
+		if (up && !down)
+			dy = -speed;
+		if (down && !up)
+			dy = speed;
 
 		x += dx;
 		y += dy;
@@ -140,16 +147,32 @@ public class Player extends LivingEntity {
 		this.left = left;
 	}
 
+	public boolean getLeft() {
+		return left;
+	}
+
 	public void setRight(boolean right) {
 		this.right = right;
+	}
+
+	public boolean getRight() {
+		return right;
 	}
 
 	public void setUp(boolean up) {
 		this.up = up;
 	}
 
+	public boolean getUp() {
+		return up;
+	}
+
 	public void setDown(boolean down) {
 		this.down = down;
+	}
+
+	public boolean getDown() {
+		return down;
 	}
 
 	public void setFiring(boolean firing) {
@@ -180,6 +203,12 @@ public class Player extends LivingEntity {
 	public void resume() {
 		reloadTimer += System.nanoTime()
 				- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
+		reloadTimer += System.nanoTime()
+				- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
+		right = false;
+		left = false;
+		up = false;
+		down = false;
 	}
 
 	public void draw(Graphics2D g) {
@@ -204,7 +233,6 @@ public class Player extends LivingEntity {
 			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
 					/ 2 - r, r * 2, r * 2);
 		}
-
 	}
 
 	public void resetKeys() {

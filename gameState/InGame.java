@@ -151,27 +151,29 @@ public class InGame extends GameState {
 
 			g.drawString("Debug Mode", 10, updateY());
 			g.drawString("Player: ", 10, updateY());
-			g.drawString("Coordinates: " + player.getx() + ", "
-					+ player.gety(), 20, updateY());
-			g.drawString("Rotation: " + player.getRotation(), 20,
+			g.drawString(
+					"Coordinates: " + player.getx() + ", " + player.gety(), 20,
 					updateY());
-			g.drawString("Reloading: " + player.isReloading(), 20,
-					updateY());
+			g.drawString("Rotation: " + player.getRotation(), 20, updateY());
+			g.drawString("Reloading: " + player.isReloading(), 20, updateY());
+			g.drawString("Going Right: " + player.getRight(), 20, updateY());
+			g.drawString("Going Left: " + player.getLeft(), 20, updateY());
+			g.drawString("Going Up: " + player.getUp(), 20, updateY());
+			g.drawString("Going Down: " + player.getDown(), 20, updateY());
 			g.drawString("Gun:", 10, updateY());
-			g.drawString("Name: " + player.getGun().getName(), 20,
-					updateY());
+			g.drawString("Name: " + player.getGun().getName(), 20, updateY());
 			g.drawString("Damage: " + player.getGun().getDamage(), 20,
 					updateY());
-			g.drawString("FireRate: " + player.getGun().getFireRate(),
+			g.drawString("FireRate: " + player.getGun().getFireRate(), 20,
+					updateY());
+			g.drawString("Reload Speed: " + player.getGun().getReloadSpeed(),
 					20, updateY());
-			g.drawString("Reload Speed: "
-					+ player.getGun().getReloadSpeed(), 20, updateY());
-			g.drawString("Clip Size: " + player.getGun().getClipSize(),
-					20, updateY());
+			g.drawString("Clip Size: " + player.getGun().getClipSize(), 20,
+					updateY());
 			g.drawString("Current Bullets: "
 					+ player.getGun().getCurrentBullets(), 20, updateY());
-			g.drawString("Max Bullets: "
-					+ player.getGun().getMaxBullets(), 20, updateY());
+			g.drawString("Max Bullets: " + player.getGun().getMaxBullets(), 20,
+					updateY());
 		}
 	}
 
