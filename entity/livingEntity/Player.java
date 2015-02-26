@@ -8,6 +8,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import shop.Shop;
 import launcher.GamePanel;
 import entity.Bullet;
 import entity.Gun;
@@ -53,13 +54,13 @@ public class Player extends LivingEntity {
 		dx = 0;
 		dy = 0;
 
-		if (left)
+		if (left && !right)
 			dx = -speed;
-		if (right)
+		if (right && !left)
 			dx = speed;
-		if (up)
+		if (up && !down)
 			dy = -speed;
-		if (down)
+		if (down && !up)
 			dy = speed;
 
 		x += dx;
@@ -140,17 +141,33 @@ public class Player extends LivingEntity {
 	public void setLeft(boolean left) {
 		this.left = left;
 	}
+	
+	public boolean getLeft() {
+		return left;
+	}
 
 	public void setRight(boolean right) {
 		this.right = right;
+	}
+	
+	public boolean getRight() {
+		return right;
 	}
 
 	public void setUp(boolean up) {
 		this.up = up;
 	}
+	
+	public boolean getUp() {
+		return up;
+	}
 
 	public void setDown(boolean down) {
 		this.down = down;
+	}
+	
+	public boolean getDown() {
+		return down;
 	}
 
 	public void setFiring(boolean firing) {
@@ -180,8 +197,12 @@ public class Player extends LivingEntity {
 	
 	public void resume() {
 		reloadTimer += System.nanoTime() - ((PauseMenu) GamePanel.gameState).getPauseTimer();
+		right = false;
+		left = false;
+		up = false;
+		down = false;
 	}
-
+	
 	public void draw(Graphics2D g) {
 
 		// Combine the player with the gun
@@ -204,6 +225,5 @@ public class Player extends LivingEntity {
 			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
 					/ 2 - r, r * 2, r * 2);
 		}
-
 	}
 }
