@@ -1,7 +1,7 @@
 package launcher;
 
 import gameState.GameState;
-import gameState.TitleScreen;
+import gameState.TitleScreen.TitleScreen;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;

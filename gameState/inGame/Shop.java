@@ -1,5 +1,6 @@
-package gameState;
+package gameState.inGame;
 
+import gameState.GameState;
 import gfx.Button;
 
 import java.awt.BasicStroke;

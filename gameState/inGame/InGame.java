@@ -1,4 +1,4 @@
-package gameState;
+package gameState.inGame;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,6 +21,7 @@ import entity.Bullet;
 import entity.Gun;
 import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
+import gameState.GameState;
 import gfx.DeadZombie;
 import gfx.MuzzleFlash;
 
@@ -140,6 +141,9 @@ public class InGame extends GameState {
 		g.drawString(player.getGun().getCurrentBullets() + " / "
 				+ player.getGun().getMaxBullets(), 440,
 				GamePanel.WINDOW_HEIGHT - 20);
+		g.drawString("Money: " + player.getMoney(),
+				(int) (GamePanel.WINDOW_WIDTH - 200),
+				(int) (GamePanel.WINDOW_HEIGHT - 20));
 
 		// Debug mode
 		if (GamePanel.debugMode) {
@@ -245,7 +249,7 @@ public class InGame extends GameState {
 		return true;
 
 	}
-	
+
 	public Player getPlayer() {
 		return player;
 	}

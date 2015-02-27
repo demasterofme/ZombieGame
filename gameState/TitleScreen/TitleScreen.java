@@ -1,5 +1,7 @@
-package gameState;
+package gameState.TitleScreen;
 
+import gameState.GameState;
+import gameState.inGame.Endless;
 import gfx.Button;
 
 import java.awt.Color;
@@ -54,7 +56,7 @@ public class TitleScreen extends GameState {
 			b.update();
 
 		if (button_start.isPressed()) {
-			GamePanel.changeGameState(new InGame());
+			GamePanel.changeGameState(new Endless());
 		}
 		if (button_settings.isPressed()) {
 			GamePanel.changeGameState(new Settings(this));

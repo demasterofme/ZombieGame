@@ -1,5 +1,6 @@
 package gameState;
 
+import gameState.inGame.InGame;
 import gfx.Button;
 
 import java.awt.Color;

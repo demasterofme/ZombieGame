@@ -1,5 +1,6 @@
-package gameState;
+package gameState.TitleScreen;
 
+import gameState.GameState;
 import gfx.Button;
 
 import java.awt.Color;

@@ -1,9 +1,9 @@
 package input;
 
-import gameState.InGame;
-import gameState.Settings;
-import gameState.Shop;
-import gameState.TitleScreen;
+import gameState.TitleScreen.Settings;
+import gameState.TitleScreen.TitleScreen;
+import gameState.inGame.InGame;
+import gameState.inGame.Shop;
 import gfx.Button;
 
 import java.awt.event.MouseEvent;

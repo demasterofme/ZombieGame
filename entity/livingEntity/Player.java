@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import launcher.GamePanel;
 import entity.Bullet;
 import entity.Gun;
-import gameState.InGame;
 import gameState.PauseMenu;
+import gameState.inGame.InGame;
 import gfx.MuzzleFlash;
 
 public class Player extends LivingEntity {
