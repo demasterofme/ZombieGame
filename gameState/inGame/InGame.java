@@ -53,9 +53,6 @@ public class InGame extends GameState {
 		bullets = new ArrayList<>();
 		muzzleFlashes = new ArrayList<>();
 
-		// for debugging
-		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1024, 1024));
-
 	}
 
 	public void update() {
