@@ -1,6 +1,6 @@
 <Guns>
 	<AK47>
-		<Damage>100</Damage>
+		<Damage>200</Damage>
 		<Firerate>100</Firerate>
 		<Reloadspeed>3</Reloadspeed>
 		<Clipsize>30</Clipsize>
