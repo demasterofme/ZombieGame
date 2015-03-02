@@ -3,6 +3,7 @@ package gameState.inGame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
@@ -36,10 +37,12 @@ public class InGame extends GameState {
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
+	
+	private static ArrayList<Rectangle> rectangleList;
 
 	public InGame() {
 
-		if (!loadGuns() || !loadSprites()) {
+		if (!loadGuns() || !loadSprites() || !loadCollisionMap()) {
 			GamePanel.running = false;
 			return;
 		}
@@ -245,6 +248,34 @@ public class InGame extends GameState {
 
 		return true;
 
+	}
+	
+	private static boolean loadCollisionMap() {
+		SAXReader reader = new SAXReader();
+		rectangleList = new ArrayList<>();
+		try {
+			Document document = reader.read(new File(GamePanel.class
+					.getResource("/xml/colission-map-1.xml").toURI()));
+			Element root = document.getRootElement();
+			@SuppressWarnings("unchecked")
+			List<Element> rectangleElements = root.elements();
+			for (Element rectangleElement : rectangleElements) {
+				int xPos = Integer.parseInt(rectangleElement.element("xPos")
+						.getText());
+				int yPos = Integer.parseInt(rectangleElement.element("yPos")
+						.getText());
+				int width = Integer.parseInt(rectangleElement.element("width")
+						.getText());
+				int height = Integer.parseInt(rectangleElement.element("height")
+						.getText());
+				rectangleList.add(new Rectangle(xPos, yPos, width, height));
+			}
+			Map.rectangleList = rectangleList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	public Player getPlayer() {

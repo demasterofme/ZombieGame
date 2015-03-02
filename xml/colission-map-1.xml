@@ -1,0 +1,14 @@
+<map>
+	<rectangle>
+		<xPos>1200</xPos>
+		<yPos>1200</yPos>
+		<width>300</width>
+		<height>300</height>
+	</rectangle>
+	<rectangle>
+		<xPos>1500</xPos>
+		<yPos>800</yPos>
+		<width>200</width>
+		<height>300</height>
+	</rectangle>
+</map>

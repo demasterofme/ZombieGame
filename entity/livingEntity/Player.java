@@ -2,9 +2,11 @@ package entity.livingEntity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
+import map.Map;
 import entity.Bullet;
 import entity.Gun;
 import gameState.PauseMenu;
@@ -49,7 +51,7 @@ public class Player extends LivingEntity {
 
 		dx = 0;
 		dy = 0;
-
+		
 		if (left)
 			dx = (int) (-speed * (up || down ? 0.6 : 1));
 		if (right)
@@ -67,8 +69,13 @@ public class Player extends LivingEntity {
 		if (down && !up)
 			dy = speed;
 
-		x += dx;
-		y += dy;
+		if (!checkColissions()) {
+			// We didn't collide, add normal speed to the position
+
+			x += dx;
+			y += dy;
+
+		}
 
 		if (x < GamePanel.WINDOW_WIDTH / 2)
 			x = GamePanel.WINDOW_WIDTH / 2;
@@ -211,6 +218,30 @@ public class Player extends LivingEntity {
 		down = false;
 	}
 
+	public boolean checkColissions() {
+
+		int dx = this.dx;
+		int dy = this.dy;
+		
+		if (dx == 0)
+			dx = 1;
+		if (dy == 0)
+			dy = 1;
+		
+		Rectangle movementRect = new Rectangle(x, y, dx, dy);
+
+		for (Rectangle r : Map.rectangleList) {
+
+			if (movementRect.intersects(r)) {
+				// We are coliding with that rectangle
+				return true;
+			}
+
+		}
+
+		return false;
+	}
+
 	public void draw(Graphics2D g) {
 
 		// Combine the player with the gun
@@ -229,9 +260,12 @@ public class Player extends LivingEntity {
 						.getHeight() * scale / 2), null);
 
 		if (GamePanel.debugMode) {
-			g.setColor(Color.BLUE);
-			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
-					/ 2 - r, r * 2, r * 2);
+			g.setColor(Color.YELLOW);
+//			 g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r,
+//			 GamePanel.WINDOW_HEIGHT
+//			 / 2 - r, r * 2, r * 2);
+//			g.drawRect(x - InGame.map.getxOffset() - r,
+//					y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 
