@@ -51,7 +51,7 @@ public class Player extends LivingEntity {
 
 		dx = 0;
 		dy = 0;
-		
+
 		if (left)
 			dx = (int) (-speed * (up || down ? 0.6 : 1));
 		if (right)
@@ -60,22 +60,14 @@ public class Player extends LivingEntity {
 			dy = (int) (-speed * (left || right ? 0.6 : 1));
 		if (down)
 			dy = (int) (speed * (left || right ? 0.6 : 1));
-		if (left && !right)
-			dx = -speed;
-		if (right && !left)
-			dx = speed;
-		if (up && !down)
-			dy = -speed;
-		if (down && !up)
-			dy = speed;
 
-		if (!checkColissions()) {
-			// We didn't collide, add normal speed to the position
+		if (checkCollisions(dx, 0))
+			dx = 0;
+		if (checkCollisions(0, dy))
+			dy = 0;
 
-			x += dx;
-			y += dy;
-
-		}
+		x += dx;
+		y += dy;
 
 		if (x < GamePanel.WINDOW_WIDTH / 2)
 			x = GamePanel.WINDOW_WIDTH / 2;
@@ -218,22 +210,14 @@ public class Player extends LivingEntity {
 		down = false;
 	}
 
-	public boolean checkColissions() {
+	public boolean checkCollisions(int dx, int dy) {
 
-		int dx = this.dx;
-		int dy = this.dy;
-		
-		if (dx == 0)
-			dx = 1;
-		if (dy == 0)
-			dy = 1;
-		
-		Rectangle movementRect = new Rectangle(x, y, dx, dy);
+		Rectangle movementRect = new Rectangle(x + dx - 5, y + dy - 5, 5, 5);
 
 		for (Rectangle r : Map.rectangleList) {
 
-			if (movementRect.intersects(r)) {
-				// We are coliding with that rectangle
+			if (movementRect.intersects(r)) { // We are coliding with that
+												// rectangle
 				return true;
 			}
 
@@ -261,11 +245,12 @@ public class Player extends LivingEntity {
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.YELLOW);
-//			 g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r,
-//			 GamePanel.WINDOW_HEIGHT
-//			 / 2 - r, r * 2, r * 2);
-//			g.drawRect(x - InGame.map.getxOffset() - r,
-//					y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
+			g.fillRect(x - 5, y - 5, 5, 5);
+			// g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r,
+			// GamePanel.WINDOW_HEIGHT
+			// / 2 - r, r * 2, r * 2);
+			// g.drawRect(x - InGame.map.getxOffset() - r,
+			// y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 
