@@ -2,6 +2,7 @@ package launcher;
 
 import gameState.GameState;
 import gameState.TitleScreen.TitleScreen;
+import gameState.inGame.Endless;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
@@ -85,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		gameState = new TitleScreen();
+		gameState = new Endless();
 
 		int ticksPerSecond = 25;
 		int skipTicks = 1000 / ticksPerSecond;

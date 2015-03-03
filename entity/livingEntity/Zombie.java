@@ -70,14 +70,14 @@ public class Zombie extends LivingEntity {
 
 			InGame.transformZombieTimer = System.nanoTime();
 			BufferedImage temp = GamePanel.transformImage(texture, scale, rotation + 90);
-			InGame.diffTransformZombie = (System.nanoTime() - InGame.transformZombieTimer) / 1000000;
+			InGame.diffTransformZombie = (System.nanoTime() - InGame.transformZombieTimer);
 			
 			InGame.drawZombieTimer = System.nanoTime();
 			g.drawImage(
 					temp,
 					(int) (relativeX - texture.getWidth() * scale / 2),
 					(int) (relativeY - texture.getHeight() * scale / 2), null);
-			InGame.diffDrawZombie = (System.nanoTime() - InGame.drawZombieTimer) / 1000000;
+			InGame.diffDrawZombie = (System.nanoTime() - InGame.drawZombieTimer);
 			
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
