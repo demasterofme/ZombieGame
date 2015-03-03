@@ -98,7 +98,7 @@ public class GamePanel extends JPanel implements Runnable {
 		while (running) {
 
 			loops = 0;
-
+			
 			while (System.nanoTime() > nextGameTick && loops < maxFrameSkips) {
 				double deltaTime = (System.currentTimeMillis() + skipTicks - nextGameTick
 						/ (double) skipTicks);
@@ -107,9 +107,13 @@ public class GamePanel extends JPanel implements Runnable {
 				loops++;
 
 			}
+			
+			// long start = System.nanoTime();
 
 			gameRender();
 			gameDraw();
+			
+			// System.out.println((long) 1000 / ((long)((long) System.nanoTime() - start) / 1000000));
 
 		}
 

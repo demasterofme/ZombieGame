@@ -104,18 +104,36 @@ public class InGame extends GameState {
 		}
 
 	}
+	
+	// For lag testing
+	private long deadZombieStartTimer;
+	private long diffDeadZombie;
+	private long zombieStartTimer;
+	private long diffZombie;
+	private long muzzleFlashStartTimer;
+	private long diffMuzzleFlash;
+	public static long transformZombieTimer;
+	public static long diffTransformZombie;
+	public static long drawZombieTimer;
+	public static long diffDrawZombie;
 
 	public void render(Graphics2D g) {
 		InGame.map.draw(g);
 
+		deadZombieStartTimer = System.nanoTime();
 		for (DeadZombie d : deadZombies)
 			d.draw(g);
-
+		diffDeadZombie = (System.nanoTime() - deadZombieStartTimer) / 1000000;
+		
+		zombieStartTimer = System.nanoTime();
 		for (Zombie z : zombies)
 			z.draw(g);
-
+		diffZombie = (System.nanoTime() - zombieStartTimer) / 1000000;
+		
+		muzzleFlashStartTimer = System.nanoTime();
 		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
+		diffMuzzleFlash = (System.nanoTime() - muzzleFlashStartTimer) / 1000000;
 
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
@@ -178,6 +196,11 @@ public class InGame extends GameState {
 					+ player.getGun().getCurrentBullets(), 20, updateY());
 			g.drawString("Max Bullets: " + player.getGun().getMaxBullets(), 20,
 					updateY());
+			g.drawString("Dead zombie draw time: " + diffDeadZombie, 10, updateY());
+			g.drawString("Zombie draw time: " + diffZombie, 10, updateY());
+			g.drawString("Zombie transformation time: " + diffTransformZombie, 20, updateY());
+			g.drawString("Zombie draw time: " + diffDrawZombie, 20, updateY());
+			g.drawString("MuzzleFlash draw time: " + diffMuzzleFlash, 10, updateY());
 		}
 	}
 
