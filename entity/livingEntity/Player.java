@@ -216,8 +216,8 @@ public class Player extends LivingEntity {
 
 		for (Rectangle r : Map.rectangleList) {
 
-			if (movementRect.intersects(r)) { // We are coliding with that
-												// rectangle
+			if (movementRect.intersects(r)) {
+				// We are coliding with that rectangle
 				return true;
 			}
 
@@ -244,13 +244,12 @@ public class Player extends LivingEntity {
 						.getHeight() * scale / 2), null);
 
 		if (GamePanel.debugMode) {
+			g.setColor(Color.RED);
+			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
+					/ 2 - r, r * 2, r * 2);
 			g.setColor(Color.YELLOW);
-			g.fillRect(x - 5, y - 5, 5, 5);
-			// g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r,
-			// GamePanel.WINDOW_HEIGHT
-			// / 2 - r, r * 2, r * 2);
-			// g.drawRect(x - InGame.map.getxOffset() - r,
-			// y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
+			g.drawRect(x - InGame.map.getxOffset() - r,
+					y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 

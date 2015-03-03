@@ -66,6 +66,7 @@ public class Shop extends GameState {
 		for (Button b : buttons)
 			b.draw(g);
 
+		g.setStroke(new BasicStroke(1));
 	}
 
 	public ArrayList<Button> getButtons() {

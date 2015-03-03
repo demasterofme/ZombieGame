@@ -65,10 +65,12 @@ public class Map {
 				GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT), 0, 0,
 				GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT, null);
 		
-		// For debug
-		g.setColor(Color.GREEN);
-		for (Rectangle r : rectangleList) {
-			g.drawRect(r.x - xOffset, r.y - yOffset, r.width, r.height);
+		// Draw collision rectangles
+		if (GamePanel.debugMode) {
+			g.setColor(Color.GREEN);
+			for (Rectangle r : rectangleList) {
+				g.drawRect(r.x - xOffset, r.y - yOffset, r.width, r.height);
+			}
 		}
 	}
 }
