@@ -186,6 +186,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public static BufferedImage transformImage(BufferedImage image,
 			double scale, int rotation) {
+		
 		int scaledWidth = (int) (scale * image.getWidth());
 		int scaledHeight = (int) (scale * image.getHeight());
 		AffineTransform transform = AffineTransform.getRotateInstance(
@@ -194,6 +195,7 @@ public class GamePanel extends JPanel implements Runnable {
 		AffineTransformOp operation = new AffineTransformOp(transform,
 				AffineTransformOp.TYPE_BILINEAR);
 		return operation.filter(image, null);
+		
 	}
 
 	public static BufferedImage mergeImages(BufferedImage image1, int xOffset1,
