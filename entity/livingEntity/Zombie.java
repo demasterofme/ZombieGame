@@ -23,7 +23,7 @@ public class Zombie extends LivingEntity {
 		r = 30;
 		health = 1000;
 		speed = 1;
-		
+
 	}
 
 	public boolean update() {
@@ -68,47 +68,29 @@ public class Zombie extends LivingEntity {
 
 		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
 				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
+
 			double scale = 0.1;
 
-			InGame.transformZombieTimer = System.nanoTime();
-			// BufferedImage temp = GamePanel.transformImage(texture, scale, rotation + 90);
-			
-			  int x = (int) (relativeX - texture.getWidth() * scale / 2);
-		      int y = (int) (relativeY - texture.getHeight() * scale / 2);
-			
-			AffineTransform rotateXform = new AffineTransform();
-	        rotateXform.setToTranslation(x - texture.getWidth() / 2, y - texture.getHeight() / 2);
-	        rotateXform.rotate(rotation, texture.getWidth()/2.0, texture.getHeight()/2.0);
-	        
-	        // System.out.println("x: " + x + " " + this.x + "| y: " + y + " " + this.y);
-	        
-	        AffineTransform scaleXform = AffineTransform.getTranslateInstance(x, y);
-	        scaleXform.scale(scale, scale);
-	        scaleXform.concatenate(rotateXform);
-	        
-			InGame.diffTransformZombie = (System.nanoTime() - InGame.transformZombieTimer);
-			
-			InGame.drawZombieTimer = System.nanoTime();
-			g.drawRenderedImage(texture, scaleXform);
-//			g.drawImage(
-//					texture,
-//					(int) (relativeX - texture.getWidth() * scale / 2),
-//					(int) (relativeY - texture.getHeight() * scale / 2), null);
-			InGame.diffDrawZombie = (System.nanoTime() - InGame.drawZombieTimer);
-			
+			// Calculate new x and y position
+			int x = (int) (relativeX - texture.getWidth() * scale / 2);
+			int y = (int) (relativeY - texture.getHeight() * scale / 2);
+
+			g.drawRenderedImage(
+					texture,
+					GamePanel.getAffineTransform(texture, x, y, scale,
+							Math.toRadians(rotation)));
+
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
 			}
 		}
 	}
-	
+
 	public enum ZombieType {
 
-		SWARMER,
-		STALKER,
-		CHOKER;
-		
+		SWARMER, STALKER, CHOKER;
+
 	}
 
 }

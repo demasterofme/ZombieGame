@@ -99,7 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
 		while (running) {
 
 			loops = 0;
-			
+
 			while (System.nanoTime() > nextGameTick && loops < maxFrameSkips) {
 				double deltaTime = (System.currentTimeMillis() + skipTicks - nextGameTick
 						/ (double) skipTicks);
@@ -108,13 +108,14 @@ public class GamePanel extends JPanel implements Runnable {
 				loops++;
 
 			}
-			
+
 			// long start = System.nanoTime();
 
 			gameRender();
 			gameDraw();
-			
-			// System.out.println((long) 1000 / ((long)((long) System.nanoTime() - start) / 1000000));
+
+			// System.out.println((long) 1000 / ((long)((long) System.nanoTime()
+			// - start) / 1000000));
 
 		}
 
@@ -184,17 +185,17 @@ public class GamePanel extends JPanel implements Runnable {
 		GamePanel.gameState = gameState;
 	}
 
-	public static BufferedImage transformImage(BufferedImage image,
-			double scale, int rotation) {
-		
-		int scaledWidth = (int) (scale * image.getWidth());
-		int scaledHeight = (int) (scale * image.getHeight());
-		AffineTransform transform = AffineTransform.getRotateInstance(
-				Math.toRadians(rotation), scaledWidth / 2, scaledHeight / 2);
-		transform.scale(scale, scale);
-		AffineTransformOp operation = new AffineTransformOp(transform,
-				AffineTransformOp.TYPE_BILINEAR);
-		return operation.filter(image, null);
+	// This rotatates and scales an image
+	public static AffineTransform getAffineTransform(BufferedImage image,
+			int x, int y, double scale, double rotation) {
+
+		AffineTransform rotateXform = new AffineTransform();
+        rotateXform.rotate(rotation, image.getWidth() / 2.0, image.getHeight() / 2.0);
+        AffineTransform scaleXform = AffineTransform.getTranslateInstance(x, y);
+        scaleXform.scale(scale, scale);
+        scaleXform.concatenate(rotateXform);
+        
+        return scaleXform;
 		
 	}
 

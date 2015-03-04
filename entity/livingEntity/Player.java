@@ -236,12 +236,12 @@ public class Player extends LivingEntity {
 
 		double scale = 0.1;
 
-		g.drawImage(
-				GamePanel.transformImage(tempPlayerImage, scale, rotation + 90),
+		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(
+				tempPlayerImage,
 				(int) (GamePanel.WINDOW_WIDTH / 2 - tempPlayerImage.getWidth()
 						* scale / 2),
 				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
-						.getHeight() * scale / 2), null);
+						.getHeight() * scale / 2), scale, Math.toRadians(rotation + 90)));
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.RED);
