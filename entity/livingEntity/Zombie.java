@@ -30,8 +30,8 @@ public class Zombie extends LivingEntity {
 
 		findPath();
 
-		this.x += dx;
-		this.y += dy;
+		x += dx;
+		y += dy;
 
 		for (int i = 0; i < InGame.bullets.size(); i++) {
 
@@ -50,7 +50,6 @@ public class Zombie extends LivingEntity {
 	}
 
 	public void findPath() {
-
 	}
 
 	public void damage(int damage) {

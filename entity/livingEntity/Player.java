@@ -214,14 +214,11 @@ public class Player extends LivingEntity {
 
 		Rectangle movementRect = new Rectangle(x + dx - 5, y + dy - 5, 5, 5);
 
-		for (Rectangle r : Map.rectangleList) {
+		for (Rectangle r : Map.rectangleList)
 
-			if (movementRect.intersects(r)) {
+			if (movementRect.intersects(r))
 				// We are coliding with that rectangle
 				return true;
-			}
-
-		}
 
 		return false;
 	}
