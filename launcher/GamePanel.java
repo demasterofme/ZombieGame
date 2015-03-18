@@ -3,6 +3,7 @@ package launcher;
 import gameState.GameState;
 import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.Endless;
+import gfx.Button;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
@@ -86,7 +87,9 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		gameState = new Endless();
+		Button.setGraphics(g);
+		
+		gameState = new TitleScreen();
 
 		int ticksPerSecond = 25;
 		int skipTicks = 1000 / ticksPerSecond;
@@ -190,13 +193,14 @@ public class GamePanel extends JPanel implements Runnable {
 			int x, int y, double scale, double rotation) {
 
 		AffineTransform rotateXform = new AffineTransform();
-        rotateXform.rotate(rotation, image.getWidth() / 2.0, image.getHeight() / 2.0);
-        AffineTransform scaleXform = AffineTransform.getTranslateInstance(x, y);
-        scaleXform.scale(scale, scale);
-        scaleXform.concatenate(rotateXform);
-        
-        return scaleXform;
-		
+		rotateXform.rotate(rotation, image.getWidth() / 2.0,
+				image.getHeight() / 2.0);
+		AffineTransform scaleXform = AffineTransform.getTranslateInstance(x, y);
+		scaleXform.scale(scale, scale);
+		scaleXform.concatenate(rotateXform);
+
+		return scaleXform;
+
 	}
 
 	public static BufferedImage mergeImages(BufferedImage image1, int xOffset1,

@@ -30,7 +30,6 @@ public class TitleScreen extends GameState {
 
 		Font font = new Font("Century Gothic", Font.PLAIN, 42);
 		Font font_hover = new Font("Century Gothic", Font.BOLD, 42);
-		Button.g = GamePanel.image.getGraphics();
 
 		// Add buttons to the screen, will be perfected later
 

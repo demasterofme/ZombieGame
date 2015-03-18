@@ -15,7 +15,7 @@ public class Button {
 	private String text;
 	private Font font;
 	private Font font_hover;
-	public static Graphics g;
+	private static Graphics g;
 
 	public Button(int x, int y, String text, Font font, Font font_hover) {
 		this.x = x;
@@ -98,6 +98,10 @@ public class Button {
 
 	public String getText() {
 		return text;
+	}
+	
+	public static void setGraphics(Graphics g) {
+		Button.g = g;
 	}
 
 	public void draw(Graphics2D g) {

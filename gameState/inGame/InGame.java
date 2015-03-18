@@ -37,7 +37,7 @@ public class InGame extends GameState {
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
-	
+
 	private static ArrayList<Rectangle> rectangleList;
 
 	public InGame() {
@@ -106,7 +106,8 @@ public class InGame extends GameState {
 	}
 
 	public void render(Graphics2D g) {
-		InGame.map.draw(g);
+		
+		map.draw(g);
 
 		for (DeadZombie d : deadZombies)
 			d.draw(g);
@@ -141,6 +142,9 @@ public class InGame extends GameState {
 		g.drawString(player.getGun().getCurrentBullets() + " / "
 				+ player.getGun().getMaxBullets(), 440,
 				GamePanel.WINDOW_HEIGHT - 20);
+
+		// Money
+		g.setColor(Color.WHITE);
 		g.drawString("Money: " + player.getMoney(),
 				(int) (GamePanel.WINDOW_WIDTH - 200),
 				(int) (GamePanel.WINDOW_HEIGHT - 20));
@@ -193,8 +197,8 @@ public class InGame extends GameState {
 		guns = new ArrayList<>();
 		SAXReader reader = new SAXReader();
 		try {
-			Document document = reader.read(new File(GamePanel.class
-					.getResource("/xml/guns.xml").toURI()));
+			Document document = reader.read(GamePanel.class
+					.getResource("/xml/guns.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			@SuppressWarnings("unchecked")
 			List<Element> gunElements = root.elements();
@@ -249,13 +253,13 @@ public class InGame extends GameState {
 		return true;
 
 	}
-	
+
 	private static boolean loadCollisionMap() {
 		SAXReader reader = new SAXReader();
 		rectangleList = new ArrayList<>();
 		try {
-			Document document = reader.read(new File(GamePanel.class
-					.getResource("/xml/colission-map-1.xml").toURI()));
+			Document document = reader.read(GamePanel.class
+					.getResource("/xml/colission-map-1.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			@SuppressWarnings("unchecked")
 			List<Element> rectangleElements = root.elements();
@@ -266,8 +270,8 @@ public class InGame extends GameState {
 						.getText());
 				int width = Integer.parseInt(rectangleElement.element("width")
 						.getText());
-				int height = Integer.parseInt(rectangleElement.element("height")
-						.getText());
+				int height = Integer.parseInt(rectangleElement
+						.element("height").getText());
 				rectangleList.add(new Rectangle(xPos, yPos, width, height));
 			}
 			Map.rectangleList = rectangleList;

@@ -53,17 +53,18 @@ public class KeyListener implements java.awt.event.KeyListener {
 				InGame.player.setReloading(true);
 				break;
 			case KeyEvent.VK_ESCAPE:
-				GamePanel.changeGameState(new Shop((InGame) GamePanel
+				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
 						.getGameState()));
 				break;
-			case KeyEvent.VK_P:
-				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
+			case KeyEvent.VK_SPACE:
+				GamePanel.changeGameState(new Shop((InGame) GamePanel
 						.getGameState()));
 				break;
 			}
 		else if (GamePanel.getGameState() instanceof Shop)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_ESCAPE:
+			case KeyEvent.VK_SPACE:
 				GamePanel.changeGameState(((Shop) GamePanel.getGameState())
 						.getOldState());
 				break;

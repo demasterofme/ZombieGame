@@ -52,14 +52,15 @@ public class Shop extends GameState {
 
 		oldState.render(g);
 
-		g.setColor(Color.WHITE);
+		g.setColor(new Color(24, 24, 24, 240));
 
-		g.setStroke(new BasicStroke(3));
-		g.drawRect((int) (GamePanel.WINDOW_WIDTH * 0.1),
+		g.fillRect((int) (GamePanel.WINDOW_WIDTH * 0.1),
 				(int) (GamePanel.WINDOW_HEIGHT * 0.1),
 				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2));
 
+		g.setColor(Color.WHITE);
+		
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 48));
 		g.drawString("SHOP", GamePanel.WINDOW_WIDTH / 2, 150);
 

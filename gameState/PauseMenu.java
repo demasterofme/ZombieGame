@@ -1,5 +1,6 @@
 package gameState;
 
+import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
 import gfx.Button;
 
@@ -18,6 +19,7 @@ public class PauseMenu extends GameState {
 
 	private ArrayList<Button> buttons;
 	private Button button_resume;
+	private Button button_back;
 
 	public PauseMenu(InGame oldState) {
 
@@ -27,11 +29,20 @@ public class PauseMenu extends GameState {
 
 		buttons = new ArrayList<>();
 
-		button_resume = new Button(400, 400, "Resume", new Font(
-				"Century Gothic", Font.PLAIN, 24), new Font("Century Gothic",
-				Font.BOLD, 24));
+		button_resume = new Button(
+				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
+				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
+				"Resume", new Font("Century Gothic", Font.PLAIN, 24), new Font(
+						"Century Gothic", Font.BOLD, 24));
+
+		button_back = new Button(
+				(int) (GamePanel.WINDOW_WIDTH * 0.2),
+				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
+				"Back to Titlescreen", new Font("Century Gothic", Font.PLAIN,
+						24), new Font("Century Gothic", Font.BOLD, 24));
 
 		buttons.add(button_resume);
+		buttons.add(button_back);
 
 		oldState.getPlayer().resetKeys();
 	}
@@ -45,6 +56,12 @@ public class PauseMenu extends GameState {
 
 			oldState.getPlayer().resume();
 			GamePanel.changeGameState(oldState);
+
+		}
+
+		if (button_back.isPressed()) {
+
+			GamePanel.changeGameState(new TitleScreen());
 
 		}
 
