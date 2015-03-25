@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 	public static BufferedImage image;
 	private static BufferedImage lastFrame;
-	private static Graphics2D g;
+	public static Graphics2D g;
 
 	public static String errorLog;
 
@@ -87,8 +87,6 @@ public class GamePanel extends JPanel implements Runnable {
 		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-		Button.setGraphics(g);
-		
 		gameState = new TitleScreen();
 
 		int ticksPerSecond = 25;

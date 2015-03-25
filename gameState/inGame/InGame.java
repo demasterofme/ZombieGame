@@ -25,6 +25,7 @@ import entity.livingEntity.Zombie;
 import gameState.GameState;
 import gfx.DeadZombie;
 import gfx.MuzzleFlash;
+import gfx.Text;
 
 public class InGame extends GameState {
 
@@ -37,6 +38,7 @@ public class InGame extends GameState {
 	public static ArrayList<Bullet> bullets;
 	public static ArrayList<Gun> guns;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
+	public static ArrayList<Text> texts;
 
 	private static ArrayList<Rectangle> rectangleList;
 
@@ -55,6 +57,7 @@ public class InGame extends GameState {
 		deadZombies = new ArrayList<>();
 		bullets = new ArrayList<>();
 		muzzleFlashes = new ArrayList<>();
+		texts = new ArrayList<>();
 
 	}
 
@@ -103,10 +106,18 @@ public class InGame extends GameState {
 			}
 		}
 
+		// update texts
+		for (int i = 0; i < texts.size(); i++) {
+			if (texts.get(i).update()) {
+				texts.remove(i);
+				i--;
+			}
+		}
+
 	}
 
 	public void render(Graphics2D g) {
-		
+
 		map.draw(g);
 
 		for (DeadZombie d : deadZombies)
@@ -117,6 +128,9 @@ public class InGame extends GameState {
 
 		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
+		
+		for (Text t : texts)
+			t.draw(g);
 
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
