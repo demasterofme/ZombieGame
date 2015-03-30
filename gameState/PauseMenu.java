@@ -72,6 +72,7 @@ public class PauseMenu extends GameState {
 		oldState.render(g);
 
 		g.setColor(Color.WHITE);
+		
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 48));
 		g.drawString("Pause", GamePanel.WINDOW_WIDTH / 2, 150);
 
@@ -82,6 +83,10 @@ public class PauseMenu extends GameState {
 
 	public ArrayList<Button> getButtons() {
 		return buttons;
+	}
+	
+	public InGame getOldState() {
+		return oldState;
 	}
 
 	public long getPauseTimer() {

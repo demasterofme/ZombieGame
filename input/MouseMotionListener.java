@@ -1,5 +1,6 @@
 package input;
 
+import gameState.PauseMenu;
 import gameState.TitleScreen.Settings;
 import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
@@ -19,19 +20,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseDragged(MouseEvent event) {
 		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.getGameState() instanceof TitleScreen
-				|| GamePanel.getGameState() instanceof Settings
-				|| GamePanel.getGameState() instanceof Shop)
-			for (Button b : GamePanel.getGameState().getButtons()) {
-				if (event.getX() >= b.getx()
-						&& event.getX() <= b.getx() + b.getWidth()
-						&& event.getY() >= b.gety() - b.getHeight()
-						&& event.getY() <= b.gety())
-					b.setHover(true);
-				else
-					b.setHover(false);
-			}
-		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
+		if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
@@ -42,7 +31,16 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 			if (mouseY < y)
 				angle = 360 - angle;
 			InGame.player.setRotation(angle);
-		}
+		} else
+			for (Button b : GamePanel.getGameState().getButtons()) {
+				if (event.getX() >= b.getx()
+						&& event.getX() <= b.getx() + b.getWidth()
+						&& event.getY() >= b.gety() - b.getHeight()
+						&& event.getY() <= b.gety())
+					b.setHover(true);
+				else
+					b.setHover(false);
+			}
 		if (GamePanel.debugMode) {
 			GamePanel.mouseX = event.getX();
 			GamePanel.mouseY = event.getY();
@@ -53,19 +51,7 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 	public void mouseMoved(MouseEvent event) {
 		if (GamePanel.getGameState() == null)
 			return;
-		if (GamePanel.getGameState() instanceof TitleScreen
-				|| GamePanel.getGameState() instanceof Settings
-				|| GamePanel.getGameState() instanceof Shop)
-			for (Button b : GamePanel.getGameState().getButtons()) {
-				if (event.getX() >= b.getx()
-						&& event.getX() <= b.getx() + b.getWidth()
-						&& event.getY() >= b.gety() - b.getHeight()
-						&& event.getY() <= b.gety())
-					b.setHover(true);
-				else
-					b.setHover(false);
-			}
-		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
+		if (GamePanel.getGameState() instanceof InGame && InGame.player != null) {
 			int x = GamePanel.WINDOW_WIDTH / 2;
 			int y = GamePanel.WINDOW_HEIGHT / 2;
 			int mouseX = event.getX();
@@ -76,7 +62,16 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 			if (mouseY < y)
 				angle = 360 - angle;
 			InGame.player.setRotation(angle);
-		}
+		} else
+			for (Button b : GamePanel.getGameState().getButtons()) {
+				if (event.getX() >= b.getx()
+						&& event.getX() <= b.getx() + b.getWidth()
+						&& event.getY() >= b.gety() - b.getHeight()
+						&& event.getY() <= b.gety())
+					b.setHover(true);
+				else
+					b.setHover(false);
+			}
 		if (GamePanel.debugMode) {
 			GamePanel.mouseX = event.getX();
 			GamePanel.mouseY = event.getY();

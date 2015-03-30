@@ -12,10 +12,11 @@ public class Gun {
 	private int clipSize;
 	private int maxBullets;
 	private String name;
+	private int price;
 	private BufferedImage texture;
 
 	public Gun(String name, int damage, int fireRate, int reloadSpeed,
-			int clipSize, int maxBullets, BufferedImage texture) {
+			int clipSize, int maxBullets, int price, BufferedImage texture) {
 		this.name = name;
 		this.damage = damage;
 		this.fireRate = fireRate;
@@ -23,6 +24,7 @@ public class Gun {
 		this.currentBullets = clipSize;
 		this.clipSize = clipSize;
 		this.maxBullets = maxBullets;
+		this.price = price;
 		this.texture = texture;
 	}
 
@@ -68,6 +70,10 @@ public class Gun {
 
 	public int getMaxBullets() {
 		return maxBullets;
+	}
+	
+	public int getPrice() {
+		return price;
 	}
 
 	public void setMaxBullets(int maxBullets) {

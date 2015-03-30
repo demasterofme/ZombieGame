@@ -128,7 +128,7 @@ public class InGame extends GameState {
 
 		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
-		
+
 		for (Text t : texts)
 			t.draw(g);
 
@@ -228,10 +228,12 @@ public class InGame extends GameState {
 						.getText());
 				int maxBullets = Integer.parseInt(gunElement.element(
 						"Maxbullets").getText());
+				int price = Integer.parseInt(gunElement.element("Price")
+						.getText());
 				BufferedImage texture = ImageIO.read(GamePanel.class
 						.getResource("/sprites/guns/" + name + ".png"));
 				guns.add(new Gun(name, damage, fireRate, reloadSpeed, clipSize,
-						maxBullets, texture));
+						maxBullets, price, texture));
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
