@@ -12,6 +12,7 @@ import entity.Gun;
 import gameState.PauseMenu;
 import gameState.inGame.InGame;
 import gfx.MuzzleFlash;
+import gui.Inventory;
 
 public class Player extends LivingEntity {
 
@@ -28,6 +29,8 @@ public class Player extends LivingEntity {
 
 	private boolean recovering;
 	private long recoveringTimer;
+	
+	private Inventory inventory;
 
 	private int maxHealth;
 

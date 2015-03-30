@@ -10,6 +10,8 @@ public class MedKit extends Utility {
 		
 		super();
 		
+		healthBoost = 25;
+		
 	}
 	
 	public boolean update() {
