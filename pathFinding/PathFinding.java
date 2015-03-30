@@ -22,6 +22,9 @@ public class PathFinding {
 	
 	
 	
-	
+	private boolean lineOfSight(Vertex vertex1, Vertex vertex2) {
+		
+		return true;
+	}
 	
 }
