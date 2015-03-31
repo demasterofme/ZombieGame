@@ -85,6 +85,7 @@ public class InGame extends GameState {
 			if (zombies.get(i).isDead()) {
 				deadZombies.add(new DeadZombie(zombies.get(i).getx(), zombies
 						.get(i).gety()));
+				player.setMoney(player.getMoney() + 20);
 				zombies.remove(i);
 				i--;
 			}
@@ -149,13 +150,17 @@ public class InGame extends GameState {
 		// Draw gun properties
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		g.drawString(player.getGun().getName(), 440,
-				GamePanel.WINDOW_HEIGHT - 40);
+		if (player.getInventory().getCurrentGun() != null)
+			g.drawString(player.getInventory().getCurrentGun().getName(), 440,
+					GamePanel.WINDOW_HEIGHT - 40);
 		if (player.isReloading())
 			g.setColor(Color.RED);
-		g.drawString(player.getGun().getCurrentBullets() + " / "
-				+ player.getGun().getMaxBullets(), 440,
-				GamePanel.WINDOW_HEIGHT - 20);
+		if (player.getInventory().getCurrentGun() != null)
+			g.drawString(player.getInventory().getCurrentGun()
+					.getCurrentBullets()
+					+ " / "
+					+ player.getInventory().getCurrentGun().getMaxBullets(),
+					440, GamePanel.WINDOW_HEIGHT - 20);
 
 		// Money
 		g.setColor(Color.WHITE);
@@ -183,19 +188,24 @@ public class InGame extends GameState {
 			g.drawString("Going Up: " + player.getUp(), 20, updateY());
 			g.drawString("Going Down: " + player.getDown(), 20, updateY());
 			g.drawString("Gun:", 10, updateY());
-			g.drawString("Name: " + player.getGun().getName(), 20, updateY());
-			g.drawString("Damage: " + player.getGun().getDamage(), 20,
-					updateY());
-			g.drawString("FireRate: " + player.getGun().getFireRate(), 20,
-					updateY());
-			g.drawString("Reload Speed: " + player.getGun().getReloadSpeed(),
-					20, updateY());
-			g.drawString("Clip Size: " + player.getGun().getClipSize(), 20,
-					updateY());
-			g.drawString("Current Bullets: "
-					+ player.getGun().getCurrentBullets(), 20, updateY());
-			g.drawString("Max Bullets: " + player.getGun().getMaxBullets(), 20,
-					updateY());
+			if (player.getInventory().getCurrentGun() != null) {
+				g.drawString("Name: " + player.getInventory().getCurrentGun().getName(), 20,
+						updateY());
+				g.drawString("Damage: " + player.getInventory().getCurrentGun().getDamage(), 20,
+						updateY());
+				g.drawString("FireRate: " + player.getInventory().getCurrentGun().getFireRate(), 20,
+						updateY());
+				g.drawString("Reload Speed: "
+						+ player.getInventory().getCurrentGun().getReloadSpeed(), 20, updateY());
+				g.drawString("Clip Size: " + player.getInventory().getCurrentGun().getClipSize(), 20,
+						updateY());
+				g.drawString("Current Bullets: "
+						+ player.getInventory().getCurrentGun().getCurrentBullets(), 20, updateY());
+				g.drawString(
+						"Max Bullets: "
+								+ player.getInventory().getCurrentGun().getMaxBullets(),
+						20, updateY());
+			}
 		}
 	}
 

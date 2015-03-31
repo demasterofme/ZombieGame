@@ -29,22 +29,20 @@ public class Player extends LivingEntity {
 
 	private boolean recovering;
 	private long recoveringTimer;
-	
+
 	private Inventory inventory;
 
 	private int maxHealth;
-
-	private Gun gun;
 
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
 
 	public Player(int x, int y) {
 		super(x, y);
-		gun = InGame.guns.get(0);
 		speed = 2;
 		r = 30;
 		health = 20;
+		inventory = new Inventory(InGame.guns.get(0));
 
 		// Temp, will be done by XML later
 		maxHealth = 20;
@@ -81,7 +79,10 @@ public class Player extends LivingEntity {
 		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
+		Gun gun = inventory.getCurrentGun();
+
 		if (reloading
+				&& gun != null
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
 						.getReloadSpeed()) {
 			reloading = false;
@@ -96,7 +97,7 @@ public class Player extends LivingEntity {
 			}
 		}
 
-		if (firing) {
+		if (firing && gun != null) {
 
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
@@ -191,15 +192,16 @@ public class Player extends LivingEntity {
 
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
-		gun.setRotation(rotation);
-	}
-
-	public Gun getGun() {
-		return gun;
+		if (inventory.getCurrentGun() != null)
+			inventory.getCurrentGun().setRotation(rotation);
 	}
 
 	public boolean isReloading() {
 		return reloading;
+	}
+
+	public Inventory getInventory() {
+		return inventory;
 	}
 
 	public void resume() {
@@ -229,8 +231,12 @@ public class Player extends LivingEntity {
 	public void draw(Graphics2D g) {
 
 		// Combine the player with the gun
-		BufferedImage tempImage = GamePanel.mergeImages(Player.texture_bottom,
-				0, 0, this.getGun().getTexture(), 100, 300);
+		BufferedImage tempImage;
+		if (inventory.getCurrentGun() != null)
+			tempImage = GamePanel.mergeImages(Player.texture_bottom, 0, 0,
+					inventory.getCurrentGun().getTexture(), 100, 300);
+		else
+			tempImage = Player.texture_bottom;
 		BufferedImage tempPlayerImage = GamePanel.mergeImages(tempImage, 0, 0,
 				Player.texture_head, 0, 0);
 
@@ -241,7 +247,8 @@ public class Player extends LivingEntity {
 				(int) (GamePanel.WINDOW_WIDTH / 2 - tempPlayerImage.getWidth()
 						* scale / 2),
 				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
-						.getHeight() * scale / 2), scale, Math.toRadians(rotation + 90)));
+						.getHeight() * scale / 2), scale,
+				Math.toRadians(rotation + 90)));
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.RED);

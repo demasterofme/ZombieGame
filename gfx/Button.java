@@ -60,7 +60,16 @@ public class Button {
 			y = 0;
 	}
 
+	// Press prevention, disables the button being pressed for over a tick
+	int times = 0;
+
 	public void update() {
+		if (pressed)
+			times++;
+		if (times > 1) {
+			times = 0;
+			pressed = false;
+		}
 	}
 
 	public boolean isPressed() {
@@ -98,7 +107,7 @@ public class Button {
 	public String getText() {
 		return text;
 	}
-	
+
 	public void draw(Graphics2D g) {
 		if (hover)
 			g.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize()));

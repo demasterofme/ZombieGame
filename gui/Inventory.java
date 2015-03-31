@@ -18,6 +18,8 @@ public class Inventory {
 	private HashMap<Utility, Integer> slot4;
 	private HashMap<Utility, Integer> slot5;
 
+	private int selected = 1;
+
 	public Inventory(Gun startGun) {
 
 		this.slot1 = startGun;
@@ -26,6 +28,21 @@ public class Inventory {
 
 	public void update() {
 
+	}
+
+	public Gun getCurrentGun() {
+		switch (selected) {
+		case 1:
+			return slot1;
+		case 2:
+			return slot2;
+		case 3:
+			return slot3;
+		case 4:
+		case 5:
+		default:
+			return null;
+		}
 	}
 
 	public boolean addGun(Gun gun) {

@@ -3,6 +3,7 @@ package gameState.inGame;
 import entity.Gun;
 import gameState.GameState;
 import gfx.Button;
+import gfx.Text;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,6 +22,8 @@ public class Shop extends GameState {
 
 	private boolean available;
 
+	private ArrayList<Text> texts;
+
 	private static double sx = GamePanel.WINDOW_WIDTH;
 	private static double sy = GamePanel.WINDOW_HEIGHT;
 
@@ -32,6 +35,7 @@ public class Shop extends GameState {
 
 		buttons = new ArrayList<>();
 		buyButtons = new ArrayList<>();
+		texts = new ArrayList<>();
 
 		button_back = new Button(
 				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
@@ -78,8 +82,37 @@ public class Shop extends GameState {
 		for (Button b : buttons)
 			b.update();
 
-		for (Button b : buyButtons)
+		for (Button b : buyButtons) {
 			b.update();
+			if (b.isPressed()) {
+				String name = b.getText().split(":")[0];
+				Gun gun = null;
+				for (Gun g : InGame.guns)
+					if (g.getName().equalsIgnoreCase(name))
+						gun = g;
+				if (gun != null)
+					if (InGame.player.getMoney() < gun.getPrice())
+						texts.add(new Text("Unsufficient cash!", 2000,
+								new Font("Century Gothic", Font.PLAIN, 36),
+								Color.RED, GamePanel.WINDOW_WIDTH / 2,
+								GamePanel.WINDOW_HEIGHT / 2));
+					else if (!InGame.player.getInventory().addGun(gun))
+						texts.add(new Text("Unsufficient room!", 2000,
+								new Font("Century Gothic", Font.PLAIN, 36),
+								Color.RED, GamePanel.WINDOW_WIDTH / 2,
+								GamePanel.WINDOW_HEIGHT / 2));
+					else
+						InGame.player.setMoney(InGame.player.getMoney()
+								- gun.getPrice());
+			}
+		}
+
+		for (int i = 0; i < texts.size(); i++) {
+			if (texts.get(i).update()) {
+				texts.remove(i);
+				i--;
+			}
+		}
 
 		if (button_back.isPressed())
 			GamePanel.changeGameState(oldState);
@@ -123,6 +156,9 @@ public class Shop extends GameState {
 					(int) (gun.getTexture().getWidth() * 0.1) + 40, (int) (gun
 							.getTexture().getHeight() * 0.1) + 40);
 		}
+
+		for (Text t : texts)
+			t.draw(g);
 
 	}
 
