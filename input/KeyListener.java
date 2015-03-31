@@ -52,6 +52,12 @@ public class KeyListener implements java.awt.event.KeyListener {
 				InGame.player.setReloadTimer(System.nanoTime());
 				InGame.player.setReloading(true);
 				break;
+			case KeyEvent.VK_E:
+				InGame.player.getInventory().cycleSelected(true);
+				break;
+			case KeyEvent.VK_Q:
+				InGame.player.getInventory().cycleSelected(false);
+				break;
 			case KeyEvent.VK_ESCAPE:
 				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
 						.getGameState()));

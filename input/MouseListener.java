@@ -8,10 +8,12 @@ import gameState.inGame.Shop;
 import gfx.Button;
 
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import launcher.GamePanel;
 
-public class MouseListener implements java.awt.event.MouseListener {
+public class MouseListener implements java.awt.event.MouseListener,
+		java.awt.event.MouseWheelListener {
 
 	public MouseListener() {
 	}
@@ -34,7 +36,8 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(true);
 				}
 			}
-		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
+		else if (GamePanel.getGameState() instanceof InGame
+				&& InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(true);
@@ -56,12 +59,26 @@ public class MouseListener implements java.awt.event.MouseListener {
 						b.setPressed(false);
 				}
 			}
-		else if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
+		else if (GamePanel.getGameState() instanceof InGame
+				&& InGame.player != null)
 			switch (event.getButton()) {
 			case 1:
 				InGame.player.setFiring(false);
 				break;
 			}
+	}
+
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent event) {
+		if (GamePanel.getGameState() == null)
+			return;
+		if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
+			if (event.getWheelRotation() < 0)
+				for (int x = 0; x < -event.getWheelRotation(); x++)
+					InGame.player.getInventory().cycleSelected(false);
+			else
+				for (int x = 0; x < event.getWheelRotation(); x++)
+					InGame.player.getInventory().cycleSelected(true);
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

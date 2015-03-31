@@ -139,6 +139,18 @@ public class Inventory {
 		}
 
 	}
+	
+	public void cycleSelected(boolean right) {
+		if (right) {
+			selected++;
+			if (selected == 6)
+				selected = 1;
+		} else {
+			selected--;
+			if (selected == 0)
+				selected = 5;
+		}
+	}
 
 	public void draw(Graphics2D g) {
 

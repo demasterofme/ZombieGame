@@ -69,7 +69,9 @@ public class GamePanel extends JPanel implements Runnable {
 			thread.start();
 		}
 		addKeyListener(new KeyListener());
-		addMouseListener(new MouseListener());
+		MouseListener mouseListener = new MouseListener();
+		addMouseListener(mouseListener);
+		addMouseWheelListener(mouseListener);
 		addMouseMotionListener(new MouseMotionListener());
 	}
 
