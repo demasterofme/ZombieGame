@@ -17,6 +17,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+import pathFinding.PathFinding;
 import launcher.GamePanel;
 
 public class Map {
@@ -29,11 +30,15 @@ public class Map {
 	public static BufferedImage texture;
 	
 	public static ArrayList<Rectangle> rectangleList;
+	
+	private PathFinding pathFinding;
 
 	public Map() {
 		
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
+		
+		pathFinding = new PathFinding(rectangleList);
 		
 	}
 

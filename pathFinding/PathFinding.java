@@ -1,30 +1,43 @@
 package pathFinding;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PathFinding {
 
-	private ArrayList<Vertex> open;
-	private ArrayList<Vertex> closed;
+	private ArrayList<Rectangle> colissionMap;
+	private ArrayList<Vertex> vertexes;
 	
-	private ArrayList<Vertex> path;
-	
-	private Vertex start;
-	private Vertex goal;
-	
-	public PathFinding(int startX, int startY, int goalX, int goalY) {
-		start = new Vertex(startX, startY, null);
-		goal = new Vertex(goalX, goalY, null);
-		open = new ArrayList<>();
-		closed = new ArrayList<>();
-		path = new ArrayList<>();
+	public PathFinding(ArrayList<Rectangle> colissionMap) {
+
+		this.colissionMap = colissionMap;
+		this.vertexes = getVertexes();
+		
 	}
 	
+	public ArrayList<Rectangle> getColissionMap() {
+		return colissionMap;
+	}
 	
-	
-	private boolean lineOfSight(Vertex vertex1, Vertex vertex2) {
+	public ArrayList<Vertex> getVertexes() {
 		
-		return true;
+		ArrayList<Vertex> vertexes = new ArrayList<Vertex>();
+		
+		for (Rectangle r : colissionMap) {
+			vertexes.add(new Vertex(r.x, r.y));
+			vertexes.add(new Vertex(r.x, r.y + r.height));
+			vertexes.add(new Vertex(r.x + r.width, r.y + r.height));
+			vertexes.add(new Vertex(r.x + r.width, r.y));
+		}
+		
+		return vertexes;
+	}
+	
+	public  ArrayList<Vertex> findPath(Vertex start, Vertex goal) {
+		
+		return null;
+		
 	}
 	
 }
