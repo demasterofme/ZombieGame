@@ -21,6 +21,7 @@ import javax.imageio.ImageIO;
 
 import launcher.GamePanel;
 import map.Map;
+import map.Quad;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -39,7 +40,7 @@ public class InGame extends GameState {
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 	public static ArrayList<Text> texts;
 
-	private static ArrayList<Rectangle> rectangleList;
+	private static ArrayList<Quad> quadList;
 
 	public InGame() {
 
@@ -188,22 +189,28 @@ public class InGame extends GameState {
 			g.drawString("Going Down: " + player.getDown(), 20, updateY());
 			g.drawString("Gun:", 10, updateY());
 			if (player.getInventory().hasGunEquipped()) {
-				g.drawString("Name: " + player.getInventory().getCurrentGun().getName(), 20,
+				g.drawString("Name: "
+						+ player.getInventory().getCurrentGun().getName(), 20,
 						updateY());
-				g.drawString("Damage: " + player.getInventory().getCurrentGun().getDamage(), 20,
-						updateY());
-				g.drawString("FireRate: " + player.getInventory().getCurrentGun().getFireRate(), 20,
-						updateY());
+				g.drawString("Damage: "
+						+ player.getInventory().getCurrentGun().getDamage(),
+						20, updateY());
+				g.drawString("FireRate: "
+						+ player.getInventory().getCurrentGun().getFireRate(),
+						20, updateY());
 				g.drawString("Reload Speed: "
-						+ player.getInventory().getCurrentGun().getReloadSpeed(), 20, updateY());
-				g.drawString("Clip Size: " + player.getInventory().getCurrentGun().getClipSize(), 20,
-						updateY());
+						+ player.getInventory().getCurrentGun()
+								.getReloadSpeed(), 20, updateY());
+				g.drawString("Clip Size: "
+						+ player.getInventory().getCurrentGun().getClipSize(),
+						20, updateY());
 				g.drawString("Current Bullets: "
-						+ player.getInventory().getCurrentGun().getCurrentBullets(), 20, updateY());
+						+ player.getInventory().getCurrentGun()
+								.getCurrentBullets(), 20, updateY());
 				g.drawString(
 						"Max Bullets: "
-								+ player.getInventory().getCurrentGun().getMaxBullets(),
-						20, updateY());
+								+ player.getInventory().getCurrentGun()
+										.getMaxBullets(), 20, updateY());
 			}
 		}
 	}
@@ -281,7 +288,7 @@ public class InGame extends GameState {
 
 	private static boolean loadCollisionMap() {
 		SAXReader reader = new SAXReader();
-		rectangleList = new ArrayList<>();
+		quadList = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
 					.getResource("/xml/colission-map-1.xml").toURI().toURL());
@@ -289,17 +296,30 @@ public class InGame extends GameState {
 			@SuppressWarnings("unchecked")
 			List<Element> rectangleElements = root.elements();
 			for (Element rectangleElement : rectangleElements) {
-				int xPos = Integer.parseInt(rectangleElement.element("xPos")
+				
+				int x1 = Integer.parseInt(rectangleElement.element("x1")
 						.getText());
-				int yPos = Integer.parseInt(rectangleElement.element("yPos")
+				int y1 = Integer.parseInt(rectangleElement.element("y1")
 						.getText());
-				int width = Integer.parseInt(rectangleElement.element("width")
+				
+				int x2 = Integer.parseInt(rectangleElement.element("x2")
 						.getText());
-				int height = Integer.parseInt(rectangleElement
-						.element("height").getText());
-				rectangleList.add(new Rectangle(xPos, yPos, width, height));
+				int y2 = Integer.parseInt(rectangleElement.element("y2")
+						.getText());
+				
+				int x3 = Integer.parseInt(rectangleElement.element("x3")
+						.getText());
+				int y3 = Integer.parseInt(rectangleElement.element("y3")
+						.getText());
+				
+				int x4 = Integer.parseInt(rectangleElement.element("x4")
+						.getText());
+				int y4 = Integer.parseInt(rectangleElement.element("y4")
+						.getText());
+				
+				quadList.add(new Quad(x1, y1, x2, y2, x3, y3, x4, y4));
 			}
-			Map.rectangleList = rectangleList;
+			Map.quadList = quadList;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

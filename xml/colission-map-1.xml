@@ -1,20 +1,21 @@
 <map>
-	<rectangle>
-		<xPos>1200</xPos>
-		<yPos>1200</yPos>
-		<width>300</width>
-		<height>300</height>
-	</rectangle>
-	<rectangle>
+	<!-- <rectangle>
 		<xPos>1500</xPos>
 		<yPos>800</yPos>
 		<width>200</width>
 		<height>300</height>
+	</rectangle> -->
+	<rectangle>
+		<x1>1200</x1>
+		<y1>1200</y1>
+		
+		<x2>1600</x2>
+		<y2>1200</y2>
+		
+		<x3>1500</x3>
+		<y3>1500</y3>
+		
+		<x4>1200</x4>
+		<y4>1500</y4>
 	</rectangle>
-	<dinges>
-		<corner1></corner1>
-		<corner2></corner2>
-		<corner3></corner3>
-		<corner4></corner4>
-	</dinges>
 </map>

@@ -6,30 +6,22 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import org.dom4j.Document;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
-import pathFinding.PathFinding;
 import launcher.GamePanel;
+import map.pathFinding.PathFinding;
 
 public class Map {
 
 	private int WIDTH;
 	private int HEIGHT;
 	
-	private int xOffset, yOffset;
+	private int xOffset;
+	private int yOffset;
 
 	public static BufferedImage texture;
 	
-	public static ArrayList<Rectangle> rectangleList;
+	public static ArrayList<Quad> quadList;
 	
 	private PathFinding pathFinding;
 
@@ -38,7 +30,7 @@ public class Map {
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 		
-		pathFinding = new PathFinding(rectangleList);
+		pathFinding = new PathFinding(quadList);
 		
 	}
 
@@ -73,8 +65,8 @@ public class Map {
 		// Draw collision rectangles
 		if (GamePanel.debugMode) {
 			g.setColor(Color.GREEN);
-			for (Rectangle r : rectangleList) {
-				g.drawRect(r.x - xOffset, r.y - yOffset, r.width, r.height);
+			for (Quad q : quadList) {
+				q.draw(g);
 			}
 		}
 	}

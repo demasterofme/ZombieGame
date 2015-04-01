@@ -1,4 +1,4 @@
-package pathFinding;
+package map;
 
 import java.util.ArrayList;
 
@@ -58,7 +58,7 @@ public class Vertex {
 	
 	public ArrayList<Vertex> getNeighbours() {
 		
-		
+		// Return vertices that are in LineOfSight
 		
 		return null;
 	}
