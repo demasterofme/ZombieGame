@@ -12,7 +12,8 @@ import gfx.Text;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
+import java.awt.Polygon;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +22,12 @@ import javax.imageio.ImageIO;
 
 import launcher.GamePanel;
 import map.Map;
-import map.Quad;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+
+import com.sun.javafx.geom.Shape;
 
 public class InGame extends GameState {
 
@@ -40,7 +42,7 @@ public class InGame extends GameState {
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 	public static ArrayList<Text> texts;
 
-	private static ArrayList<Quad> quadList;
+	private static ArrayList<GeneralPath> shapeList;
 
 	public InGame() {
 
@@ -288,38 +290,35 @@ public class InGame extends GameState {
 
 	private static boolean loadCollisionMap() {
 		SAXReader reader = new SAXReader();
-		quadList = new ArrayList<>();
+		shapeList = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
 					.getResource("/xml/colission-map-1.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			@SuppressWarnings("unchecked")
-			List<Element> rectangleElements = root.elements();
-			for (Element rectangleElement : rectangleElements) {
-				
-				int x1 = Integer.parseInt(rectangleElement.element("x1")
+			List<Element> shapeElements = root.elements("shape");
+
+			GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD,
+					4);
+			for (Element shapeElement : shapeElements) {
+				int startx = Integer.parseInt(shapeElement.element("x1")
 						.getText());
-				int y1 = Integer.parseInt(rectangleElement.element("y1")
+				int starty = Integer.parseInt(shapeElement.element("y1")
 						.getText());
-				
-				int x2 = Integer.parseInt(rectangleElement.element("x2")
-						.getText());
-				int y2 = Integer.parseInt(rectangleElement.element("y2")
-						.getText());
-				
-				int x3 = Integer.parseInt(rectangleElement.element("x3")
-						.getText());
-				int y3 = Integer.parseInt(rectangleElement.element("y3")
-						.getText());
-				
-				int x4 = Integer.parseInt(rectangleElement.element("x4")
-						.getText());
-				int y4 = Integer.parseInt(rectangleElement.element("y4")
-						.getText());
-				
-				quadList.add(new Quad(x1, y1, x2, y2, x3, y3, x4, y4));
+				polyline.moveTo(startx, starty);
+				int index = 2;
+				while (shapeElement.element("x" + index) != null) {
+					int x = Integer.parseInt(shapeElement.element("x" + index)
+							.getText());
+					int y = Integer.parseInt(shapeElement.element("y" + index++)
+							.getText());
+					polyline.lineTo(x, y);
+				}
+				polyline.closePath();
+
+				shapeList.add(polyline);
 			}
-			Map.quadList = quadList;
+			Map.shapeList = shapeList;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;

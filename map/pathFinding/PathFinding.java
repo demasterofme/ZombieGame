@@ -1,24 +1,26 @@
 package map.pathFinding;
 
+import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import map.Quad;
 import map.Vertex;
+
+import com.sun.javafx.geom.Shape;
 
 public class PathFinding {
 
-	private ArrayList<Quad> colissionMap;
+	private ArrayList<GeneralPath> colissionMap;
 	private ArrayList<Vertex> vertices;
 
-	public PathFinding(ArrayList<Quad> colissionMap) {
+	public PathFinding(ArrayList<GeneralPath> colissionMap) {
 
 		this.colissionMap = colissionMap;
 		this.vertices = getVertices();
 
 	}
 
-	public ArrayList<Quad> getColissionMap() {
+	public ArrayList<GeneralPath> getColissionMap() {
 		return colissionMap;
 	}
 
@@ -26,11 +28,10 @@ public class PathFinding {
 
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 
-		for (Quad q : colissionMap) {
-			for (Vertex v : q.getVerticies()) {
-				vertices.add(v);
-			}
-		}
+		/*
+		 * for (Shape s : colissionMap) { for (Vertex v : s.getVerticies()) {
+		 * vertices.add(v); } }
+		 */
 
 		return vertices;
 	}
@@ -73,10 +74,10 @@ public class PathFinding {
 
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : lowestVertex.getNeighbours()) {
-				
+
 			}
 
-				return null;
+			return null;
 		}
 
 		return null;

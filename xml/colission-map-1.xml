@@ -5,7 +5,7 @@
 		<width>200</width>
 		<height>300</height>
 	</rectangle> -->
-	<rectangle>
+	<shape>
 		<x1>1200</x1>
 		<y1>1200</y1>
 		
@@ -17,5 +17,5 @@
 		
 		<x4>1200</x4>
 		<y4>1500</y4>
-	</rectangle>
+	</shape>
 </map>
