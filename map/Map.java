@@ -70,16 +70,23 @@ public class Map {
 				PathIterator iterator = p.getPathIterator(null);
 				int previousX = -1;
 				int previousY = -1;
+				int startX = -1;
+				int startY = -1;
 				while (!iterator.isDone()) {
 					double[] coords = new double[6];
 					iterator.currentSegment(coords);
-					iterator.next();
 					if (previousX != -1 && previousY != -1) {
-						g.drawLine(previousX, previousY, (int) coords[0],
-								(int) coords[1]);
+						g.drawLine(previousX - InGame.map.getxOffset(),
+								previousY - InGame.map.getyOffset(),
+								(int) (coords[0] == 0 ? startX : coords[0]) - InGame.map.getxOffset(),
+								(int)  (coords[1] == 0 ? startY : coords[1]) - InGame.map.getyOffset());
+					} else {
+						startX = (int) coords[0];
+						startY = (int) coords[1];
 					}
 					previousX = (int) coords[0];
 					previousY = (int) coords[1];
+					iterator.next();
 				}
 			}
 		}
