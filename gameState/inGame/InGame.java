@@ -298,21 +298,18 @@ public class InGame extends GameState {
 			@SuppressWarnings("unchecked")
 			List<Element> shapeElements = root.elements("shape");
 
-			GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD,
-					4);
+			GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
 			for (Element shapeElement : shapeElements) {
-				int startx = Integer.parseInt(shapeElement.element("x1")
-						.getText());
-				int starty = Integer.parseInt(shapeElement.element("y1")
-						.getText());
-				polyline.moveTo(startx, starty);
-				int index = 2;
+				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
 					int x = Integer.parseInt(shapeElement.element("x" + index)
 							.getText());
-					int y = Integer.parseInt(shapeElement.element("y" + index++)
+					int y = Integer.parseInt(shapeElement.element("y" + index)
 							.getText());
-					polyline.lineTo(x, y);
+					if (index++ == 1)
+						polyline.moveTo(x, y);
+					else
+						polyline.lineTo(x, y);
 				}
 				polyline.closePath();
 

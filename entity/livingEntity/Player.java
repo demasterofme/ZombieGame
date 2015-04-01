@@ -216,7 +216,7 @@ public class Player extends LivingEntity {
 	}
 
 	public boolean checkCollisions(int dx, int dy) {
-
+		
 		return false;
 	}
 
