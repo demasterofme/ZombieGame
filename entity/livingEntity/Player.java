@@ -82,7 +82,7 @@ public class Player extends LivingEntity {
 		Gun gun = inventory.getCurrentGun();
 
 		if (reloading
-				&& gun != null
+				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
 						.getReloadSpeed()) {
 			reloading = false;
@@ -97,7 +97,7 @@ public class Player extends LivingEntity {
 			}
 		}
 
-		if (firing && gun != null) {
+		if (firing && getInventory().hasGunEquipped()) {
 
 			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 

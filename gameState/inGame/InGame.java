@@ -1,11 +1,19 @@
 package gameState.inGame;
 
+import entity.Bullet;
+import entity.Gun;
+import entity.livingEntity.Player;
+import entity.livingEntity.Zombie;
+import gameState.GameState;
+import gfx.DeadZombie;
+import gfx.MuzzleFlash;
+import gfx.Text;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,15 +25,6 @@ import map.Map;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-
-import entity.Bullet;
-import entity.Gun;
-import entity.livingEntity.Player;
-import entity.livingEntity.Zombie;
-import gameState.GameState;
-import gfx.DeadZombie;
-import gfx.MuzzleFlash;
-import gfx.Text;
 
 public class InGame extends GameState {
 
@@ -150,12 +149,12 @@ public class InGame extends GameState {
 		// Draw gun properties
 		g.setColor(Color.WHITE);
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		if (player.getInventory().getCurrentGun() != null)
+		if (player.getInventory().hasGunEquipped())
 			g.drawString(player.getInventory().getCurrentGun().getName(), 440,
 					GamePanel.WINDOW_HEIGHT - 40);
 		if (player.isReloading())
 			g.setColor(Color.RED);
-		if (player.getInventory().getCurrentGun() != null)
+		if (player.getInventory().hasGunEquipped())
 			g.drawString(player.getInventory().getCurrentGun()
 					.getCurrentBullets()
 					+ " / "
@@ -188,7 +187,7 @@ public class InGame extends GameState {
 			g.drawString("Going Up: " + player.getUp(), 20, updateY());
 			g.drawString("Going Down: " + player.getDown(), 20, updateY());
 			g.drawString("Gun:", 10, updateY());
-			if (player.getInventory().getCurrentGun() != null) {
+			if (player.getInventory().hasGunEquipped()) {
 				g.drawString("Name: " + player.getInventory().getCurrentGun().getName(), 20,
 						updateY());
 				g.drawString("Damage: " + player.getInventory().getCurrentGun().getDamage(), 20,

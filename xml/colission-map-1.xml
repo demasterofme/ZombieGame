@@ -11,4 +11,10 @@
 		<width>200</width>
 		<height>300</height>
 	</rectangle>
+	<dinges>
+		<corner1></corner1>
+		<corner2></corner2>
+		<corner3></corner3>
+		<corner4></corner4>
+	</dinges>
 </map>

@@ -6,7 +6,7 @@ public class Vertex {
 	private int g = 0;
 	private Vertex parent;
 
-	public Vertex(int x, int y, Vertex parent) {
+	public Vertex(int x, int y) {
 
 		this.x = x;
 		this.y = y;

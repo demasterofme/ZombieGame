@@ -30,6 +30,17 @@ public class Inventory {
 
 	}
 
+	public boolean hasGunEquipped() {
+		switch (selected) {
+		case 1:
+		case 2:
+		case 3:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	public Gun getCurrentGun() {
 		switch (selected) {
 		case 1:
@@ -139,7 +150,7 @@ public class Inventory {
 		}
 
 	}
-	
+
 	public void cycleSelected(boolean right) {
 		if (right) {
 			selected++;

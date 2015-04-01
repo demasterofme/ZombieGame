@@ -188,7 +188,7 @@ public class GamePanel extends JPanel implements Runnable {
 		GamePanel.gameState = gameState;
 	}
 
-	// This rotatates and scales an image
+	// This rotates and scales an image
 	public static AffineTransform getAffineTransform(BufferedImage image,
 			int x, int y, double scale, double rotation) {
 
