@@ -11,4 +11,8 @@ public class Vector {
 		
 	}
 	
+	public boolean intersectsWIthVector(Vector v) {
+		return false;
+	}
+	
 }

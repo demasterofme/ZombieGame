@@ -62,5 +62,13 @@ public class Vertex {
 		
 		return null;
 	}
+	
+	public void resetValues() {
+		
+		parent = null;
+		g = Integer.MAX_VALUE;
+		h = Integer.MAX_VALUE;
+		
+	}
 
 }
