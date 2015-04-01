@@ -3,6 +3,7 @@ package entity.livingEntity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
@@ -216,7 +217,14 @@ public class Player extends LivingEntity {
 	}
 
 	public boolean checkCollisions(int dx, int dy) {
-		
+
+		Rectangle movementRect = new Rectangle(x + dx - 5, y + dy - 5, 5, 5);
+
+		for (GeneralPath p : Map.shapeList)
+
+			if (p.intersects(movementRect))
+				return true;
+
 		return false;
 	}
 
