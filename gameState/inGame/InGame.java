@@ -214,7 +214,9 @@ public class InGame extends GameState {
 						"Max Bullets: "
 								+ player.getInventory().getCurrentGun()
 										.getMaxBullets(), 20, updateY());
-				// System.out.println(map.getPathFinding().getVerticesList().get(0));
+				for (Vertex v : map.getPathFinding().getVerticesList()) {
+					v.draw(g);
+				}
 			}
 		}
 	}

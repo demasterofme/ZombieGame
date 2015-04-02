@@ -1,5 +1,7 @@
 package map;
 
+import gameState.inGame.InGame;
+
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -75,7 +77,6 @@ public class Vertex {
 	
 	public void draw(Graphics2D g) {
 		g.setColor(Color.ORANGE);
-		g.drawOval(x - 4, y - 4, 8, 8);
+		g.fillOval(x - 2 - InGame.map.getxOffset(), y - 2 - InGame.map.getyOffset(), 4, 4);
 	}
-
 }
