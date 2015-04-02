@@ -4,29 +4,30 @@ import gameState.inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
-import java.awt.geom.Line2D.Double;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+
+import map.pathFinding.PathFinding;
 
 public class Vertex {
 
 	private int x, y;
+
+	private PathFinding pathFinding;
 
 	private int g = Integer.MAX_VALUE;
 	private int h = Integer.MAX_VALUE;
 
 	private Vertex parent;
 
-	public Vertex(int x, int y) {
+	public Vertex(int x, int y, PathFinding pathFinding) {
 
 		this.x = x;
 		this.y = y;
+		this.pathFinding = pathFinding;
 
 	}
 
@@ -68,14 +69,14 @@ public class Vertex {
 		this.parent = parent;
 	}
 
-	public boolean hasLineOfSight(Vertex v1, Vertex v2) {
+	public boolean hasLineOfSight(Vertex v) {
 
-		Line2D.Double line = new Line2D.Double(v1.getX(), v1.getY(), v2.getX(),
-				v2.getY());
+		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
+				v.getY());
 
 		for (GeneralPath g : Map.shapeList) {
 			try {
-				if (!getIntersections(g, line).isEmpty())
+				if (intersects(g, line))
 					return false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -85,10 +86,10 @@ public class Vertex {
 		return true;
 	}
 
-	public Set<Point2D> getIntersections(final GeneralPath path,
-			final Line2D.Double line) throws Exception {
+	public boolean intersects(final GeneralPath path, final Line2D.Double line)
+			throws Exception {
 
-		final PathIterator polyIt = path.getPathIterator(null); // Getting an
+		final PathIterator pathIt = path.getPathIterator(null); // Getting an
 																// iterator
 																// along the
 																// polygon path
@@ -97,22 +98,28 @@ public class Vertex {
 		final double[] firstCoords = new double[2]; // First point (needed for
 													// closing polygon path)
 		final double[] lastCoords = new double[2]; // Previously visited point
-		final Set<Point2D> intersections = new HashSet<Point2D>(); // List to
-																	// hold
-																	// found
-																	// intersections
-		polyIt.currentSegment(firstCoords); // Getting the first coordinate pair
+		pathIt.currentSegment(firstCoords); // Getting the first coordinate pair
 		lastCoords[0] = firstCoords[0]; // Priming the previous coordinate pair
 		lastCoords[1] = firstCoords[1];
-		polyIt.next();
-		while (!polyIt.isDone()) {
-			final int type = polyIt.currentSegment(coords);
+		pathIt.next();
+		while (!pathIt.isDone()) {
+			final int type = pathIt.currentSegment(coords);
 			switch (type) {
 			case PathIterator.SEG_LINETO: {
 				final Line2D.Double currentLine = new Line2D.Double(
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
-				if (currentLine.intersectsLine(line))
-					intersections.add(getIntersection(currentLine, line));
+				if (currentLine.intersectsLine(line)) {
+					boolean valid = true;
+					for (Vertex v : pathFinding.getVerticesList()) {
+						if (getIntersection(currentLine, line).equals(
+								v.toPoint())) {
+							valid = false;
+							break;
+						}
+					}
+					if (valid)
+						return true;
+				}
 				lastCoords[0] = coords[0];
 				lastCoords[1] = coords[1];
 				break;
@@ -120,32 +127,33 @@ public class Vertex {
 			case PathIterator.SEG_CLOSE: {
 				final Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
-				if (currentLine.intersectsLine(line))
-					intersections.add(getIntersection(currentLine, line));
+				if (currentLine.intersectsLine(line)) {
+					boolean valid = true;
+					for (Vertex v : pathFinding.getVerticesList()) {
+						if (getIntersection(currentLine, line).equals(
+								v.toPoint())) {
+							valid = false;
+							break;
+						}
+					}
+					if (valid)
+						return true;
+				}
 				break;
 			}
 			default: {
 				throw new Exception("Unsupported PathIterator segment type.");
 			}
 			}
-			polyIt.next();
+			pathIt.next();
 		}
-		return intersections;
-
+		return false;
 	}
 
 	public Point2D getIntersection(final Line2D.Double line1,
 			final Line2D.Double line2) {
 
-		final double x1, y1, x2, y2, x3, y3, x4, y4;
-		x1 = line1.x1;
-		y1 = line1.y1;
-		x2 = line1.x2;
-		y2 = line1.y2;
-		x3 = line2.x1;
-		y3 = line2.y1;
-		x4 = line2.x2;
-		y4 = line2.y2;
+		final double x1 = line1.x1, y1 = line1.y1, x2 = line1.x2, y2 = line1.y2, x3 = line2.x1, y3 = line2.y1, x4 = line2.x2, y4 = line2.y2;
 		final double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3)
 				* (x1 * y2 - x2 * y1))
 				/ ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
@@ -168,6 +176,10 @@ public class Vertex {
 		g = Integer.MAX_VALUE;
 		h = Integer.MAX_VALUE;
 
+	}
+
+	public Point2D toPoint() {
+		return new Point2D.Double(x, y);
 	}
 
 	public void draw(Graphics2D g) {

@@ -15,7 +15,7 @@ public class PathFinding {
 	public PathFinding(ArrayList<GeneralPath> colissionMap) {
 
 		this.colissionMap = colissionMap;
-		vertices = getVertices();
+		vertices = makeVerticesList();
 
 	}
 
@@ -23,7 +23,7 @@ public class PathFinding {
 		return colissionMap;
 	}
 
-	private ArrayList<Vertex> getVertices() {
+	private ArrayList<Vertex> makeVerticesList() {
 
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 
@@ -34,7 +34,7 @@ public class PathFinding {
 
 			while (!it.isDone()) {
 				it.currentSegment(coords);
-				vertices.add(new Vertex((int) coords[0], (int) coords[1]));
+				vertices.add(new Vertex((int) coords[0], (int) coords[1], this));
 				it.next();
 			}
 

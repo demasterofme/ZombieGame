@@ -260,13 +260,6 @@ public class Player extends LivingEntity {
 			g.drawRect(x - InGame.map.getxOffset() - r,
 					y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
-
-		g.setColor(Color.YELLOW);
-		g.drawLine(x - InGame.map.getxOffset(), y - InGame.map.getyOffset(),
-				1600 - InGame.map.getxOffset(), 1600 - InGame.map.getyOffset());
-		Vertex v1 = new Vertex(x, y);
-		Vertex v2 = new Vertex(1600, 1600);
-		System.out.println(v1.hasLineOfSight(v1, v2));
 	}
 
 	public void resetKeys() {
