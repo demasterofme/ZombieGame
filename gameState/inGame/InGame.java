@@ -11,8 +11,13 @@ import gfx.Text;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Point;
+import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -227,6 +232,22 @@ public class InGame extends GameState {
 		return y;
 	}
 
+	private static GraphicsEnvironment env = GraphicsEnvironment
+			.getLocalGraphicsEnvironment();
+	private static GraphicsDevice device = env.getDefaultScreenDevice();
+	private static GraphicsConfiguration config = device
+			.getDefaultConfiguration();
+
+	private static BufferedImage loadCompatibleImage(BufferedImage rawTexture) {
+		BufferedImage texture = config.createCompatibleImage(
+				rawTexture.getWidth(), rawTexture.getHeight(),
+				Transparency.TRANSLUCENT);
+		Graphics g = texture.getGraphics();
+		g.drawImage(rawTexture, 0, 0, rawTexture.getWidth(), rawTexture.getHeight(), null);
+		g.dispose();
+		return texture;
+	}
+
 	private static boolean loadGuns() {
 		guns = new ArrayList<>();
 		SAXReader reader = new SAXReader();
@@ -250,8 +271,9 @@ public class InGame extends GameState {
 						"Maxbullets").getText());
 				int price = Integer.parseInt(gunElement.element("Price")
 						.getText());
-				BufferedImage texture = ImageIO.read(GamePanel.class
-						.getResource("/sprites/guns/" + name + ".png"));
+				BufferedImage texture = loadCompatibleImage(ImageIO
+						.read(GamePanel.class.getResource("/sprites/guns/"
+								+ name + ".png")));
 				guns.add(new Gun(name, damage, fireRate, reloadSpeed, clipSize,
 						maxBullets, price, texture));
 			}
@@ -268,16 +290,16 @@ public class InGame extends GameState {
 
 		try {
 
-			Player.texture_head = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-head.png"));
-			Player.texture_bottom = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-bottom.png"));
-			MuzzleFlash.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/MuzzleFlash2.png"));
-			Zombie.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/zombie-swarmer1.png"));
-			Map.texture = ImageIO.read(GamePanel.class
-					.getResource("/sprites/Map.png"));
+			Player.texture_head = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player-head.png")));
+			Player.texture_bottom = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player-bottom.png")));
+			MuzzleFlash.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/MuzzleFlash2.png")));
+			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/zombie-swarmer1.png")));
+			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/Map.png")));
 
 		} catch (Exception e) {
 			// e.printStackTrace();
