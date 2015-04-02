@@ -1,5 +1,7 @@
 package map;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 
 public class Vertex {
@@ -69,6 +71,11 @@ public class Vertex {
 		g = Integer.MAX_VALUE;
 		h = Integer.MAX_VALUE;
 		
+	}
+	
+	public void draw(Graphics2D g) {
+		g.setColor(Color.ORANGE);
+		g.drawOval(x - 4, y - 4, 8, 8);
 	}
 
 }

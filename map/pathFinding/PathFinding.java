@@ -1,6 +1,7 @@
 package map.pathFinding;
 
 import java.awt.geom.GeneralPath;
+import java.awt.geom.PathIterator;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -24,15 +25,28 @@ public class PathFinding {
 		return colissionMap;
 	}
 
-	public ArrayList<Vertex> getVertices() {
+	private ArrayList<Vertex> getVertices() {
 
 		ArrayList<Vertex> vertices = new ArrayList<Vertex>();
 
-		/*
-		 * for (Shape s : colissionMap) { for (Vertex v : s.getVerticies()) {
-		 * vertices.add(v); } }
-		 */
+		for (GeneralPath p : colissionMap) {
+			
+			PathIterator it = p.getPathIterator(null);
+			float[] coords = new float[2];
+			
+			while (!it.isDone()) {
+				it.currentSegment(coords);
+				vertices.add(new Vertex((int) coords[0], (int) coords[1]));
+				System.out.println(vertices.get(0).getX());
+				it.next();
+			}
+			
+		}
 
+		return vertices;
+	}
+	
+	public ArrayList<Vertex> getVerticesList() {
 		return vertices;
 	}
 

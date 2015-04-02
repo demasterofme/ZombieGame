@@ -22,6 +22,7 @@ import javax.imageio.ImageIO;
 
 import launcher.GamePanel;
 import map.Map;
+import map.Vertex;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -213,6 +214,7 @@ public class InGame extends GameState {
 						"Max Bullets: "
 								+ player.getInventory().getCurrentGun()
 										.getMaxBullets(), 20, updateY());
+				// System.out.println(map.getPathFinding().getVerticesList().get(0));
 			}
 		}
 	}

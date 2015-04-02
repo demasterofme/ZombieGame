@@ -49,6 +49,10 @@ public class Map {
 		yOffset = InGame.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
 
 	}
+	
+	public PathFinding getPathFinding() {
+		return pathFinding;
+	}
 
 	public int getxOffset() {
 		return xOffset;
