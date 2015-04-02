@@ -12,7 +12,7 @@ import gfx.Text;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
+import java.awt.Point;
 import java.awt.geom.GeneralPath;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -27,8 +27,6 @@ import map.Vertex;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
-
-import com.sun.javafx.geom.Shape;
 
 public class InGame extends GameState {
 

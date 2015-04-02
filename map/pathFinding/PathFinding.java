@@ -7,8 +7,6 @@ import java.util.Arrays;
 
 import map.Vertex;
 
-import com.sun.javafx.geom.Shape;
-
 public class PathFinding {
 
 	private ArrayList<GeneralPath> colissionMap;
