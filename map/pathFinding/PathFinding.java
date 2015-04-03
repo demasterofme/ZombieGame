@@ -49,6 +49,10 @@ public class PathFinding {
 
 	public ArrayList<Vertex> findPath(Vertex startVertex, Vertex goalVertex) {
 
+		ArrayList<Vertex> vertices = this.vertices;
+		vertices.add(startVertex);
+		vertices.add(goalVertex);
+		
 		// Reset values
 		for (Vertex v : vertices) {
 			v.resetValues();
@@ -65,33 +69,72 @@ public class PathFinding {
 		while (!found && !openList.isEmpty()) {
 
 			// Get the Vertex with the lowest F value
-			Vertex lowestVertex = openList.get(0);
+			Vertex cheapestVertex = openList.get(0);
 			for (Vertex v : vertices) {
-				if (v.getF() <= lowestVertex.getF())
-					lowestVertex = v;
+				if (v.getF() <= cheapestVertex.getF())
+					cheapestVertex = v;
 			}
 
 			// Check if the lowestVertex is the goal vertex, if so, we found a
 			// path
-			if (lowestVertex == goalVertex) {
+			if (cheapestVertex == goalVertex) {
 				found = true;
 				continue;
 			}
 
 			// Remove the lowestVertex from the openList and add it to the
 			// closedList
-			openList.remove(lowestVertex);
-			closedList.add(lowestVertex);
+			openList.remove(cheapestVertex);
+			closedList.add(cheapestVertex);
 
 			// Update the G, H and F values of the neighbour vertices
-			for (Vertex v : lowestVertex.getNeighbours()) {
-
+			for (Vertex v : cheapestVertex.getNeighbours()) {
+				
+				if (!closedList.contains(v)) {
+					
+					// G value (From cheapestVertex to neighbour)
+					int newG = (int) Math.sqrt(Math.pow(
+							cheapestVertex.getX() - v.getX(), 2)
+							+ Math.pow(cheapestVertex.getY() - v.getY(), 2))
+							+ cheapestVertex.getG();
+					
+					// H value (From neighbour vertex to goalVertex)
+					int newH = (int) Math.sqrt(Math.pow(v.getX()
+							- goalVertex.getX(), 2)
+							+ Math.pow(v.getY() - goalVertex.getY(), 2));
+					
+					if (!openList.contains(v)) {
+						openList.add(v);
+						v.setParent(cheapestVertex);
+						v.setG(newG);
+						v.setH(newH);
+					} else {
+						if (newG < v.getG()) {
+							v.setG(newG);
+							v.setParent(cheapestVertex);
+						}
+					}
+				}
 			}
-
-			return null;
 		}
 
-		return null;
+		if (found) {
+			Vertex currentVertex = goalVertex;
+			path.add(currentVertex);
+			
+			// System.out.println(currentVertex.getParent());
+			
+//			while (currentVertex != startVertex) {
+//				
+//				path.add(currentVertex.getParent());
+//				currentVertex = currentVertex.getParent();
+//				
+//			}
+			
+			return path;
+		} else {
+			return null;
+		}
 
 	}
 

@@ -8,6 +8,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
+import map.Vertex;
 import entity.Bullet;
 
 public class Zombie extends LivingEntity {
@@ -50,6 +51,13 @@ public class Zombie extends LivingEntity {
 	}
 
 	public void findPath() {
+
+		// InGame.map.getPathFinding().findPath(new Vertex(x, y), new
+		// Vertex(InGame.player.getx(), InGame.player.gety()));
+		InGame.map.getPathFinding().findPath(
+				new Vertex(InGame.player.getx(), InGame.player.gety(),
+						InGame.map.getPathFinding()),
+				new Vertex(1000, 1000, InGame.map.getPathFinding()));
 	}
 
 	public void damage(int damage) {

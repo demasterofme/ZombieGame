@@ -37,7 +37,7 @@ public class Endless extends InGame {
 		if (waveInitiating) {
 			double difference = (System.nanoTime() - waveStartTimer) / 1000000;
 
-			if (difference / (zombieIndex * 100) > 1
+			if (difference / (zombieIndex * 1000) > 1
 					&& difference / ((zombieIndex + 1) * 100) < 1) {
 				zombieIndex++;
 				// Temp position;

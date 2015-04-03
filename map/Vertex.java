@@ -16,17 +16,18 @@ public class Vertex {
 
 	private int x, y;
 
-	private PathFinding pathFinding;
-
 	private int g = Integer.MAX_VALUE;
 	private int h = Integer.MAX_VALUE;
 
 	private Vertex parent;
+	
+	private PathFinding pathFinding;
 
 	public Vertex(int x, int y, PathFinding pathFinding) {
 
 		this.x = x;
 		this.y = y;
+		
 		this.pathFinding = pathFinding;
 
 	}
@@ -110,7 +111,8 @@ public class Vertex {
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
 					boolean valid = true;
-					for (Vertex v : pathFinding.getVerticesList()) {
+					for (Vertex v : pathFinding
+							.getVerticesList()) {
 						if (getIntersection(currentLine, line).equals(
 								v.toPoint())) {
 							valid = false;
@@ -129,7 +131,8 @@ public class Vertex {
 						coords[1], firstCoords[0], firstCoords[1]);
 				if (currentLine.intersectsLine(line)) {
 					boolean valid = true;
-					for (Vertex v : pathFinding.getVerticesList()) {
+					for (Vertex v : pathFinding
+							.getVerticesList()) {
 						if (getIntersection(currentLine, line).equals(
 								v.toPoint())) {
 							valid = false;
@@ -166,8 +169,18 @@ public class Vertex {
 	}
 
 	public ArrayList<Vertex> getNeighbours() {
+		
+		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
 
-		return null;
+		// Forgot to add the zombie and player Vertices
+		for (Vertex v : pathFinding.getVerticesList()) {
+			
+			if (this.hasLineOfSight(v))
+				neighbours.add(v);
+			
+		}
+		
+		return neighbours;
 	}
 
 	public void resetValues() {
