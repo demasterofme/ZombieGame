@@ -49,7 +49,8 @@ public class PathFinding {
 
 	public ArrayList<Vertex> findPath(Vertex startVertex, Vertex goalVertex) {
 
-		ArrayList<Vertex> vertices = this.vertices;
+		@SuppressWarnings("unchecked")
+		ArrayList<Vertex> vertices = (ArrayList<Vertex>) this.vertices.clone();
 		vertices.add(startVertex);
 		vertices.add(goalVertex);
 		
@@ -110,7 +111,7 @@ public class PathFinding {
 						v.setH(newH);
 					} else {
 						if (newG < v.getG()) {
-							v.setG(newG);
+							v.setG(newG);	
 							v.setParent(cheapestVertex);
 						}
 					}
@@ -122,8 +123,8 @@ public class PathFinding {
 			Vertex currentVertex = goalVertex;
 			path.add(currentVertex);
 			
-			// System.out.println(currentVertex.getParent());
-			
+//			System.out.println(currentVertex.getParent());
+//			
 //			while (currentVertex != startVertex) {
 //				
 //				path.add(currentVertex.getParent());
@@ -132,9 +133,9 @@ public class PathFinding {
 //			}
 			
 			return path;
-		} else {
+ 		} else {
 			return null;
-		}
+ 		}
 
 	}
 

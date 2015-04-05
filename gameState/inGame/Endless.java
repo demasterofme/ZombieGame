@@ -21,10 +21,13 @@ public class Endless extends InGame {
 
 	public Endless() {
 		super();
+		
+		zombies.add(new Zombie(ZombieType.SWARMER, 1024, 1024));
 	}
 
 	public void update() {
 		super.update();
+		/*
 		if (zombies.size() == 0 && !waveInitiating && !waveText) {
 			startWave(++waveNumber);
 			waveStartTimer = System.nanoTime();
@@ -37,7 +40,7 @@ public class Endless extends InGame {
 		if (waveInitiating) {
 			double difference = (System.nanoTime() - waveStartTimer) / 1000000;
 
-			if (difference / (zombieIndex * 1000) > 1
+			if (difference / (zombieIndex * 100) > 1
 					&& difference / ((zombieIndex + 1) * 100) < 1) {
 				zombieIndex++;
 				// Temp position;
@@ -49,7 +52,7 @@ public class Endless extends InGame {
 				zombieIndex = 0;
 				waveInitiating = false;
 			}
-		}
+		}*/
 
 	}
 
