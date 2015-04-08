@@ -1,15 +1,15 @@
 package entity.livingEntity;
 
+import entity.Bullet;
 import gameState.inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
 import map.Vertex;
-import entity.Bullet;
+import map.pathFinding.Path;
 
 public class Zombie extends LivingEntity {
 
@@ -27,12 +27,29 @@ public class Zombie extends LivingEntity {
 
 	}
 
+	Vertex next;
+
 	public boolean update() {
 
 		findPath();
 
+		next = path.next();
+
+		int vertexX = next.getX();
+		int vertexY = next.getY();
+		double angle = Math.acos((vertexX - x)
+				/ (Math.sqrt(Math.pow(vertexX - x, 2)
+						+ Math.pow(vertexY - y, 2))));
+		if (vertexY < y)
+			angle =  2 *Math.PI - angle;
+		
+		dx = (int) Math.round(Math.cos(angle) * speed);
+		dy = (int) Math.round(Math.sin(angle) * speed);
+
 		x += dx;
 		y += dy;
+		
+		//System.out.println("Angle: " + angle + " dx: " + dx + " dy: " + dy + " x: " + x + " y: " + y + " vertexX: " + vertexX + " vertexY: " + vertexY + " playerX: " + InGame.player.getx() + " playerY: " + InGame.player.gety());
 
 		for (int i = 0; i < InGame.bullets.size(); i++) {
 
@@ -50,10 +67,14 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
+	Path path;
+
 	public void findPath() {
 
-		InGame.map.getPathFinding().findPath(new Vertex(x, y, InGame.map.getPathFinding()), new
-		Vertex(InGame.player.getx(), InGame.player.gety(), InGame.map.getPathFinding()));
+		path = InGame.map.getPathFinding().findPath(
+				new Vertex(x, y, InGame.map.getPathFinding()),
+				new Vertex(InGame.player.getx(), InGame.player.gety(),
+						InGame.map.getPathFinding()));
 	}
 
 	public void damage(int damage) {

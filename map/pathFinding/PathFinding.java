@@ -47,7 +47,7 @@ public class PathFinding {
 		return vertices;
 	}
 
-	public ArrayList<Vertex> findPath(Vertex startVertex, Vertex goalVertex) {
+	public Path findPath(Vertex startVertex, Vertex goalVertex) {
 
 		@SuppressWarnings("unchecked")
 		ArrayList<Vertex> vertices = (ArrayList<Vertex>) this.vertices.clone();
@@ -64,7 +64,7 @@ public class PathFinding {
 		ArrayList<Vertex> openList = new ArrayList<Vertex>(
 				Arrays.asList(startVertex));
 		ArrayList<Vertex> closedList = new ArrayList<Vertex>();
-		ArrayList<Vertex> path = new ArrayList<Vertex>();
+		Path path = new Path();
 		boolean found = false;
 
 		while (!found && !openList.isEmpty()) {
@@ -93,13 +93,13 @@ public class PathFinding {
 				
 				if (!closedList.contains(v)) {
 					
-					// G value (From cheapestVertex to neighbour)
+					// G value (From cheapestVertex to neighbor)
 					int newG = (int) Math.sqrt(Math.pow(
 							cheapestVertex.getX() - v.getX(), 2)
 							+ Math.pow(cheapestVertex.getY() - v.getY(), 2))
 							+ cheapestVertex.getG();
 					
-					// H value (From neighbour vertex to goalVertex)
+					// H value (From neighbor vertex to goalVertex)
 					int newH = (int) Math.sqrt(Math.pow(v.getX()
 							- goalVertex.getX(), 2)
 							+ Math.pow(v.getY() - goalVertex.getY(), 2));
