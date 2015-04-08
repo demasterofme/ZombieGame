@@ -64,13 +64,10 @@ public class Zombie extends LivingEntity {
 
 	public void findPath() {
 
-		Vertex vertex;
+		Vertex directionVertex;
 		
-		// Zombie vertex
-		Vertex start = new Vertex(x, y, InGame.map.getPathFinding());
-		
-		vertex = InGame.map.getPathFinding().findPath(
-				start,
+		directionVertex = InGame.map.getPathFinding().findPath(
+				new Vertex(x, y, InGame.map.getPathFinding()),
 				new Vertex(InGame.player.getx(), InGame.player.gety(),
 						InGame.map.getPathFinding()));
 	}

@@ -125,9 +125,6 @@ public class PathFinding {
 		if (found) {
 			Vertex currentVertex = goalVertex;
 			
-			// System.out.println(currentVertex.getParent());
-			System.out.println("testerono");
-//			
 //			while (currentVertex != startVertex) {
 //				
 //				path.add(currentVertex.getParent());
@@ -135,7 +132,7 @@ public class PathFinding {
 //				
 //			}
 			
-			return null;
+			return new Vertex(1100, 1100, InGame.map.getPathFinding());
  		} else {
 			return null;
  		}

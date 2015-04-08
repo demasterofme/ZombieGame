@@ -299,7 +299,7 @@ public class InGame extends GameState {
 			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/zombie-swarmer1.png")));
 			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/Map.png")));
+					.getResource("/sprites/map versie 1.png")));
 
 		} catch (Exception e) {
 			// e.printStackTrace();
