@@ -1,5 +1,7 @@
 package map.pathFinding;
 
+import gameState.inGame.InGame;
+
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
@@ -61,6 +63,7 @@ public class PathFinding {
 
 		// Initialize
 		startVertex.setG(0);
+		startVertex.setH(0);
 		ArrayList<Vertex> openList = new ArrayList<Vertex>(
 				Arrays.asList(startVertex));
 		ArrayList<Vertex> closedList = new ArrayList<Vertex>();
@@ -71,14 +74,14 @@ public class PathFinding {
 			// Get the Vertex with the lowest F value
 			Vertex cheapestVertex = openList.get(0);
 			
-			for (Vertex v : vertices) {
+			for (Vertex v : openList) {
 				if (v.getF() <= cheapestVertex.getF())
 					cheapestVertex = v;
 			}
 
 			// Check if the lowestVertex is the goal vertex, if so, we found a
 			// path
-			if (cheapestVertex.equals(goalVertex)) {
+			if (cheapestVertex.equalsVertex(goalVertex)) {
 				found = true;
 				continue;
 			}
@@ -89,9 +92,7 @@ public class PathFinding {
 			closedList.add(cheapestVertex);
 
 			// Update the G, H and F values of the neighbour vertices
-			for (Vertex v : cheapestVertex.getNeighbours()) {
-				
-				// System.out.println(cheapestVertex.getNeighbours().size());
+			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
 				
 				if (!closedList.contains(v)) {
 					
@@ -125,7 +126,7 @@ public class PathFinding {
 			Vertex currentVertex = goalVertex;
 			
 			// System.out.println(currentVertex.getParent());
-			// System.out.println("test");
+			System.out.println("testerono");
 //			
 //			while (currentVertex != startVertex) {
 //				

@@ -16,8 +16,8 @@ public class Vertex {
 
 	private int x, y;
 
-	private int g = Integer.MAX_VALUE;
-	private int h = Integer.MAX_VALUE;
+	private int g = 100000;
+	private int h = 100000;
 
 	private Vertex parent;
 	
@@ -49,9 +49,7 @@ public class Vertex {
 	}
 
 	public int getF() {
-		if (!(g == Integer.MAX_VALUE && h == Integer.MAX_VALUE))
-			return g + h;
-		return Integer.MAX_VALUE;
+		return g + h;
 	}
 
 	public int getH() {
@@ -168,12 +166,20 @@ public class Vertex {
 
 	}
 
-	public ArrayList<Vertex> getNeighbours() {
+	public ArrayList<Vertex> getNeighbours(Vertex goalVertex) {
 		
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<Vertex> verticesList = (ArrayList<Vertex>) pathFinding.getVerticesList().clone();
+		
+		if (!goalVertex.equalsVertex(new Vertex(InGame.player.getx(), InGame.player.gety(), pathFinding))) {
+			verticesList.add(new Vertex(InGame.player.getx(), InGame.player.gety(), pathFinding));
+		} else {
+			verticesList.add(goalVertex);
+		}
 
-		// Forgot to add the zombie and player Vertices
-		for (Vertex v : pathFinding.getVerticesList()) {
+		for (Vertex v : verticesList) {
 			
 			if (this.hasLineOfSight(v))
 				neighbours.add(v);
@@ -186,9 +192,15 @@ public class Vertex {
 	public void resetValues() {
 
 		parent = null;
-		g = Integer.MAX_VALUE;
-		h = Integer.MAX_VALUE;
+		g = 100000;
+		h = 100000;
 
+	}
+	
+	public boolean equalsVertex(Vertex v) {
+		if (this.getX() == v.getX() && this.getY() == v.getY())
+			return true;
+		return false;
 	}
 
 	public Point2D toPoint() {
