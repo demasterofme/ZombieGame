@@ -47,7 +47,7 @@ public class PathFinding {
 		return vertices;
 	}
 
-	public Path findPath(Vertex startVertex, Vertex goalVertex) {
+	public Vertex findPath(Vertex startVertex, Vertex goalVertex) {
 
 		@SuppressWarnings("unchecked")
 		ArrayList<Vertex> vertices = (ArrayList<Vertex>) this.vertices.clone();
@@ -64,13 +64,13 @@ public class PathFinding {
 		ArrayList<Vertex> openList = new ArrayList<Vertex>(
 				Arrays.asList(startVertex));
 		ArrayList<Vertex> closedList = new ArrayList<Vertex>();
-		Path path = new Path();
 		boolean found = false;
 
 		while (!found && !openList.isEmpty()) {
 
 			// Get the Vertex with the lowest F value
 			Vertex cheapestVertex = openList.get(0);
+			
 			for (Vertex v : vertices) {
 				if (v.getF() <= cheapestVertex.getF())
 					cheapestVertex = v;
@@ -78,11 +78,11 @@ public class PathFinding {
 
 			// Check if the lowestVertex is the goal vertex, if so, we found a
 			// path
-			if (cheapestVertex == goalVertex) {
+			if (cheapestVertex.equals(goalVertex)) {
 				found = true;
 				continue;
 			}
-
+			
 			// Remove the lowestVertex from the openList and add it to the
 			// closedList
 			openList.remove(cheapestVertex);
@@ -90,6 +90,8 @@ public class PathFinding {
 
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours()) {
+				
+				// System.out.println(cheapestVertex.getNeighbours().size());
 				
 				if (!closedList.contains(v)) {
 					
@@ -121,9 +123,9 @@ public class PathFinding {
 
 		if (found) {
 			Vertex currentVertex = goalVertex;
-			path.add(currentVertex);
 			
-//			System.out.println(currentVertex.getParent());
+			// System.out.println(currentVertex.getParent());
+			// System.out.println("test");
 //			
 //			while (currentVertex != startVertex) {
 //				
@@ -132,7 +134,7 @@ public class PathFinding {
 //				
 //			}
 			
-			return path;
+			return null;
  		} else {
 			return null;
  		}

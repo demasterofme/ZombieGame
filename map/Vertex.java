@@ -49,9 +49,9 @@ public class Vertex {
 	}
 
 	public int getF() {
-		if (!(g == Integer.MAX_VALUE || h == Integer.MAX_VALUE))
+		if (!(g == Integer.MAX_VALUE && h == Integer.MAX_VALUE))
 			return g + h;
-		return 0;
+		return Integer.MAX_VALUE;
 	}
 
 	public int getH() {

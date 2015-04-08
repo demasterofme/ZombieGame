@@ -9,7 +9,6 @@ import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
 import map.Vertex;
-import map.pathFinding.Path;
 
 public class Zombie extends LivingEntity {
 
@@ -27,24 +26,20 @@ public class Zombie extends LivingEntity {
 
 	}
 
-	Vertex next;
-
 	public boolean update() {
 
 		findPath();
 
-		next = path.next();
-
-		int vertexX = next.getX();
-		int vertexY = next.getY();
-		double angle = Math.acos((vertexX - x)
-				/ (Math.sqrt(Math.pow(vertexX - x, 2)
-						+ Math.pow(vertexY - y, 2))));
-		if (vertexY < y)
-			angle =  2 *Math.PI - angle;
-		
-		dx = (int) Math.round(Math.cos(angle) * speed);
-		dy = (int) Math.round(Math.sin(angle) * speed);
+//		int vertexX = next.getX();
+//		int vertexY = next.getY();
+//		double angle = Math.acos((vertexX - x)
+//				/ (Math.sqrt(Math.pow(vertexX - x, 2)
+//						+ Math.pow(vertexY - y, 2))));
+//		if (vertexY < y)
+//			angle =  2 *Math.PI - angle;
+//		
+//		dx = (int) Math.round(Math.cos(angle) * speed);
+//		dy = (int) Math.round(Math.sin(angle) * speed);
 
 		x += dx;
 		y += dy;
@@ -67,11 +62,11 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
-	Path path;
-
 	public void findPath() {
 
-		path = InGame.map.getPathFinding().findPath(
+		Vertex vertex;
+		
+		vertex = InGame.map.getPathFinding().findPath(
 				new Vertex(x, y, InGame.map.getPathFinding()),
 				new Vertex(InGame.player.getx(), InGame.player.gety(),
 						InGame.map.getPathFinding()));
