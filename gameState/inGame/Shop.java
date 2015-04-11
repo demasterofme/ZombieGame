@@ -17,8 +17,12 @@ public class Shop extends GameState {
 	private InGame oldState;
 
 	private ArrayList<Button> buttons;
-	private ArrayList<Button> buyButtons;
+	private ArrayList<Button> gunButtons;
 	private Button button_back;
+	private Button button_previous;
+	private Button button_next;
+
+	private int page = 1;
 
 	private boolean available;
 
@@ -34,7 +38,7 @@ public class Shop extends GameState {
 		this.available = available;
 
 		buttons = new ArrayList<>();
-		buyButtons = new ArrayList<>();
+		gunButtons = new ArrayList<>();
 		texts = new ArrayList<>();
 
 		button_back = new Button(
@@ -43,7 +47,19 @@ public class Shop extends GameState {
 				"BACK", new Font("Century Gothic", Font.PLAIN, 24), new Font(
 						"Century Gothic", Font.BOLD, 24));
 
+		button_previous = new Button((int) (sx * 0.11) + 20,
+				(int) (sy * 0.45) + 20, "<<", new Font("Century Gothic",
+						Font.PLAIN, 26), new Font("Century Gothic", Font.BOLD,
+						26));
+
+		button_next = new Button((int) (sx * 0.855) + 20,
+				(int) (sy * 0.45) + 20, ">>", new Font("Century Gothic",
+						Font.PLAIN, 26), new Font("Century Gothic", Font.BOLD,
+						26));
+
 		buttons.add(button_back);
+		buttons.add(button_previous);
+		buttons.add(button_next);
 
 		int x = 1, y = 1;
 
@@ -56,7 +72,7 @@ public class Shop extends GameState {
 			Font font = new Font("Century Gothic", Font.PLAIN, 20);
 			String text = gun.getName() + ": " + gun.getPrice() + "$";
 
-			buyButtons
+			gunButtons
 					.add(new Button(
 							(int) (sx * 0.16 * x++)
 									+ (int) (gun.getTexture().getWidth() * 0.1 + 40)
@@ -66,8 +82,9 @@ public class Shop extends GameState {
 							(int) (sy * 0.2 * y + gun.getTexture().getHeight() * 0.1)
 									+ 45
 									+ GamePanel.g.getFontMetrics(font)
-											.getHeight(), text, font, new Font(
-									"Century Gothic", Font.BOLD, 20)));
+											.getHeight(), text, font,
+							available ? new Font("Century Gothic", Font.BOLD,
+									20) : font));
 
 		}
 
@@ -82,7 +99,7 @@ public class Shop extends GameState {
 		for (Button b : buttons)
 			b.update();
 
-		for (Button b : buyButtons) {
+		for (Button b : gunButtons) {
 			b.update();
 			if (b.isPressed()) {
 				String name = b.getText().split(":")[0];
@@ -117,6 +134,18 @@ public class Shop extends GameState {
 		if (button_back.isPressed())
 			GamePanel.changeGameState(oldState);
 
+		if (button_next.isPressed())
+			page++;
+
+		if (button_previous.isPressed())
+			page--;
+
+		if (page > 2)
+			page = 1;
+
+		if (page < 1)
+			page = 2;
+
 	}
 
 	public void render(Graphics2D g) {
@@ -130,31 +159,49 @@ public class Shop extends GameState {
 
 		g.setColor(Color.WHITE);
 
-		Font font = new Font("Century Gothic", Font.PLAIN, 48);
-
-		g.setFont(font);
-		g.drawString("SHOP", GamePanel.WINDOW_WIDTH / 2
-				- g.getFontMetrics(font).stringWidth("SHOP") / 2, 150);
-
 		for (Button b : buttons)
 			b.draw(g);
 
-		for (Button b : buyButtons)
-			b.draw(g);
+		Font font = new Font("Century Gothic", Font.PLAIN, 48);
 
-		int x = 1, y = 1;
+		g.setFont(font);
 
-		for (Gun gun : InGame.guns) {
-			if (x == 6) {
-				x = 1;
-				y++;
+		if (page == 1) {
+
+			g.drawString("SHOP - GUNS", GamePanel.WINDOW_WIDTH / 2
+					- g.getFontMetrics(font).stringWidth("SHOP - GUNS") / 2,
+					150);
+
+			if (!available)
+				g.setColor(Color.GRAY);
+
+			for (Button b : gunButtons)
+				b.draw(g);
+
+			int x = 1, y = 1;
+
+			for (Gun gun : InGame.guns) {
+				if (x == 6) {
+					x = 1;
+					y++;
+				}
+				g.drawRenderedImage(gun.getTexture(), GamePanel
+						.getAffineTransform(gun.getTexture(),
+								(int) (sx * 0.16 * x) + 20,
+								(int) (sy * 0.2 * y) + 20, 0.1, 0));
+				g.drawRect((int) (sx * 0.16 * x++), (int) (sy * 0.2 * y),
+						(int) (gun.getTexture().getWidth() * 0.1) + 40,
+						(int) (gun.getTexture().getHeight() * 0.1) + 40);
 			}
-			g.drawRenderedImage(gun.getTexture(), GamePanel.getAffineTransform(
-					gun.getTexture(), (int) (sx * 0.16 * x) + 20,
-					(int) (sy * 0.2 * y) + 20, 0.1, 0));
-			g.drawRect((int) (sx * 0.16 * x++), (int) (sy * 0.2 * y),
-					(int) (gun.getTexture().getWidth() * 0.1) + 40, (int) (gun
-							.getTexture().getHeight() * 0.1) + 40);
+
+		} else if (page == 2) {
+			g.drawString("SHOP - UTILITIES", GamePanel.WINDOW_WIDTH / 2
+					- g.getFontMetrics(font).stringWidth("SHOP - UTILITIES") / 2,
+					150);
+
+			if (!available)
+				g.setColor(Color.GRAY);
+			
 		}
 
 		for (Text t : texts)
@@ -165,7 +212,7 @@ public class Shop extends GameState {
 	public ArrayList<Button> getButtons() {
 		@SuppressWarnings("unchecked")
 		ArrayList<Button> toReturn = (ArrayList<Button>) buttons.clone();
-		toReturn.addAll(buyButtons);
+		toReturn.addAll(gunButtons);
 		return toReturn;
 	}
 

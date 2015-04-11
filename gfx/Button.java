@@ -110,7 +110,7 @@ public class Button {
 
 	public void draw(Graphics2D g) {
 		if (hover)
-			g.setFont(new Font(font.getFamily(), Font.BOLD, font.getSize()));
+			g.setFont(font_hover);
 		else
 			g.setFont(font);
 		g.drawString(text, x, y);
