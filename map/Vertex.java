@@ -20,14 +20,14 @@ public class Vertex {
 	private int h = 100000;
 
 	private Vertex parent;
-	
+
 	private PathFinding pathFinding;
 
 	public Vertex(int x, int y, PathFinding pathFinding) {
 
 		this.x = x;
 		this.y = y;
-		
+
 		this.pathFinding = pathFinding;
 
 	}
@@ -108,18 +108,16 @@ public class Vertex {
 				final Line2D.Double currentLine = new Line2D.Double(
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
-					/*
-					 * boolean valid = true; for (Vertex v : pathFinding
-					 * .getVerticesList()) { if (getIntersection(currentLine,
-					 * line).equals( v.toPoint())) { valid = false; break; } }
-					 * if (valid)
-					 */
-					
-					 boolean valid = true; for (Vertex v : pathFinding
-							 .getVerticesList()) { if (getIntersection(currentLine,
-							 line).equals( v.toPoint())) { valid = false; break; } }
-							 if (valid)
-					
+
+					boolean valid = true;
+					for (Vertex v : pathFinding.getVerticesList()) {
+						if (getIntersection(currentLine, line).equals(
+								v.toPoint())) {
+							valid = false;
+							break;
+						}
+					}
+					if (valid)
 						return true;
 				}
 				lastCoords[0] = coords[0];
@@ -130,18 +128,16 @@ public class Vertex {
 				final Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
 				if (currentLine.intersectsLine(line)) {
-					/*
-					 * boolean valid = true; for (Vertex v : pathFinding
-					 * .getVerticesList()) { if (getIntersection(currentLine,
-					 * line).equals( v.toPoint())) { valid = false; break; } }
-					 * if (valid)
-					 */
-					
-					boolean valid = true; for (Vertex v : pathFinding
-							 .getVerticesList()) { if (getIntersection(currentLine,
-							 line).equals( v.toPoint())) { valid = false; break; } }
-							 if (valid)
-					
+
+					boolean valid = true;
+					for (Vertex v : pathFinding.getVerticesList()) {
+						if (getIntersection(currentLine, line).equals(
+								v.toPoint())) {
+							valid = false;
+							break;
+						}
+					}
+					if (valid)
 						return true;
 				}
 				break;
@@ -171,25 +167,28 @@ public class Vertex {
 	}
 
 	public ArrayList<Vertex> getNeighbours(Vertex goalVertex) {
-		
+
 		ArrayList<Vertex> neighbours = new ArrayList<Vertex>();
-		
+
 		@SuppressWarnings("unchecked")
-		ArrayList<Vertex> verticesList = (ArrayList<Vertex>) pathFinding.getVerticesList().clone();
-		
-		if (!goalVertex.equalsVertex(new Vertex(InGame.player.getx(), InGame.player.gety(), pathFinding))) {
-			verticesList.add(new Vertex(InGame.player.getx(), InGame.player.gety(), pathFinding));
+		ArrayList<Vertex> verticesList = (ArrayList<Vertex>) pathFinding
+				.getVerticesList().clone();
+
+		if (!goalVertex.equalsVertex(new Vertex(InGame.player.getx(),
+				InGame.player.gety(), pathFinding))) {
+			verticesList.add(new Vertex(InGame.player.getx(), InGame.player
+					.gety(), pathFinding));
 		} else {
 			verticesList.add(goalVertex);
 		}
 
 		for (Vertex v : verticesList) {
-			
+
 			if (this.hasLineOfSight(v))
 				neighbours.add(v);
-			
+
 		}
-		
+
 		return neighbours;
 	}
 
@@ -200,7 +199,7 @@ public class Vertex {
 		h = 100000;
 
 	}
-	
+
 	public boolean equalsVertex(Vertex v) {
 		if (this.getX() == v.getX() && this.getY() == v.getY())
 			return true;
