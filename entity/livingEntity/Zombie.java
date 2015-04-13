@@ -6,6 +6,7 @@ import gameState.inGame.InGame;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import launcher.GamePanel;
 import map.Vertex;
@@ -28,23 +29,14 @@ public class Zombie extends LivingEntity {
 
 	public boolean update() {
 
-		findPath();
+		dx = 0;
+		dy = 0;
 
-//		int vertexX = next.getX();
-//		int vertexY = next.getY();
-//		double angle = Math.acos((vertexX - x)
-//				/ (Math.sqrt(Math.pow(vertexX - x, 2)
-//						+ Math.pow(vertexY - y, 2))));
-//		if (vertexY < y)
-//			angle =  2 *Math.PI - angle;
-//		
-//		dx = (int) Math.round(Math.cos(angle) * speed);
-//		dy = (int) Math.round(Math.sin(angle) * speed);
+		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
+			findPath();
 
 		x += dx;
 		y += dy;
-		
-		//System.out.println("Angle: " + angle + " dx: " + dx + " dy: " + dy + " x: " + x + " y: " + y + " vertexX: " + vertexX + " vertexY: " + vertexY + " playerX: " + InGame.player.getx() + " playerY: " + InGame.player.gety());
 
 		for (int i = 0; i < InGame.bullets.size(); i++) {
 
@@ -62,14 +54,31 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
+	private ArrayList<Vertex> path;
+
 	public void findPath() {
 
-		Vertex directionVertex;
-		
-		directionVertex = InGame.map.getPathFinding().findPath(
+		path = InGame.map.getPathFinding().findPath(
 				new Vertex(x, y, InGame.map.getPathFinding()),
 				new Vertex(InGame.player.getx(), InGame.player.gety(),
 						InGame.map.getPathFinding()));
+
+		if (path != null) {
+
+			int vertexX = path.get(1).getX();
+			int vertexY = path.get(1).getY();
+
+			double angle = Math.acos((vertexX - x)
+					/ (Math.sqrt(Math.pow(vertexX - x, 2)
+							+ Math.pow(vertexY - y, 2))));
+			if (vertexY < y)
+				angle = 2 * Math.PI - angle;
+
+			dx = (int) Math.round(Math.cos(angle) * speed);
+			dy = (int) Math.round(Math.sin(angle) * speed);
+
+			System.out.println("Angle: " + angle + " dx: " + dx + " dy: " + dy);
+		}
 	}
 
 	public void damage(int damage) {
@@ -102,6 +111,16 @@ public class Zombie extends LivingEntity {
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
+
+				for (Vertex v : path) {
+					g.setColor(Color.cyan);
+					try {
+						g.drawLine(v.getX(), v.getY(),
+								path.get(path.indexOf(v) + 1).getX(),
+								path.get(path.indexOf(v) + 1).getY());
+					} catch (Exception e) {
+					}
+				}
 			}
 		}
 	}

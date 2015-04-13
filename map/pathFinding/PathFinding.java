@@ -49,7 +49,7 @@ public class PathFinding {
 		return vertices;
 	}
 
-	public Vertex findPath(Vertex startVertex, Vertex goalVertex) {
+	public ArrayList<Vertex> findPath(Vertex startVertex, Vertex goalVertex) {
 
 		@SuppressWarnings("unchecked")
 		ArrayList<Vertex> vertices = (ArrayList<Vertex>) this.vertices.clone();
@@ -124,16 +124,19 @@ public class PathFinding {
 
 		if (found) {
 			Vertex currentVertex = goalVertex;
+			ArrayList<Vertex> path = new ArrayList<Vertex>();
 			
-//			while (currentVertex != startVertex) {
-//				
-//				path.add(currentVertex.getParent());
-//				currentVertex = currentVertex.getParent();
-//				
-//			}
+			while (currentVertex != startVertex) {
+				
+				path.add(currentVertex);
+				currentVertex = currentVertex.getParent();
+				
+			}
 			
-			return new Vertex(1100, 1100, InGame.map.getPathFinding());
+			path.add(startVertex);
+			return path;
  		} else {
+ 			System.out.println("false");
 			return null;
  		}
 

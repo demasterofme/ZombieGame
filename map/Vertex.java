@@ -108,16 +108,12 @@ public class Vertex {
 				final Line2D.Double currentLine = new Line2D.Double(
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
-					boolean valid = true;
-					for (Vertex v : pathFinding
-							.getVerticesList()) {
-						if (getIntersection(currentLine, line).equals(
-								v.toPoint())) {
-							valid = false;
-							break;
-						}
-					}
-					if (valid)
+					/*
+					 * boolean valid = true; for (Vertex v : pathFinding
+					 * .getVerticesList()) { if (getIntersection(currentLine,
+					 * line).equals( v.toPoint())) { valid = false; break; } }
+					 * if (valid)
+					 */
 						return true;
 				}
 				lastCoords[0] = coords[0];
@@ -128,16 +124,12 @@ public class Vertex {
 				final Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
 				if (currentLine.intersectsLine(line)) {
-					boolean valid = true;
-					for (Vertex v : pathFinding
-							.getVerticesList()) {
-						if (getIntersection(currentLine, line).equals(
-								v.toPoint())) {
-							valid = false;
-							break;
-						}
-					}
-					if (valid)
+					/*
+					 * boolean valid = true; for (Vertex v : pathFinding
+					 * .getVerticesList()) { if (getIntersection(currentLine,
+					 * line).equals( v.toPoint())) { valid = false; break; } }
+					 * if (valid)
+					 */
 						return true;
 				}
 				break;
