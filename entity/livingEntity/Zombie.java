@@ -51,6 +51,12 @@ public class Zombie extends LivingEntity {
 
 		}
 
+		// int index = 0;
+		// for (Vertex v : path) {
+		// System.out.println("index: " + index++ + "x: " + v.getX() + ", y: " +
+		// v.getY());
+		// }
+
 		return false;
 	}
 
@@ -65,19 +71,57 @@ public class Zombie extends LivingEntity {
 
 		if (path != null) {
 
-			int vertexX = path.get(1).getX();
-			int vertexY = path.get(1).getY();
+			int index;
+			if (path.size() > 2) {
+				index = 1;
+			} else {
+				index = 0;
+			}
+
+			int vertexX = path.get(index).getX();
+			int vertexY = path.get(index).getY();
 
 			double angle = Math.acos((vertexX - x)
 					/ (Math.sqrt(Math.pow(vertexX - x, 2)
 							+ Math.pow(vertexY - y, 2))));
 			if (vertexY < y)
 				angle = 2 * Math.PI - angle;
+			
+			this.rotation = (int) Math.toDegrees(angle) + 90;
 
 			dx = (int) Math.round(Math.cos(angle) * speed);
 			dy = (int) Math.round(Math.sin(angle) * speed);
+			// System.out.println("Angle: " + angle + " dx: " + dx + " dy: " +
+			// dy);
+		} else {
+			// The zombie is probably stuck on a vertex, so we check surrounding
+			// coordinates for a path
+			Vertex player = new Vertex(InGame.player.getx(),
+					InGame.player.gety(), InGame.map.getPathFinding());
 
-			System.out.println("Angle: " + angle + " dx: " + dx + " dy: " + dy);
+			Vertex v1 = new Vertex(x - 5, y - 5, InGame.map.getPathFinding());
+			if (InGame.map.getPathFinding().findPath(v1, player) != null) {
+				x -= 5;
+				y -= 5;
+			}
+
+			Vertex v2 = new Vertex(x + 5, y - 5, InGame.map.getPathFinding());
+			if (InGame.map.getPathFinding().findPath(v2, player) != null) {
+				x += 5;
+				y -= 5;
+			}
+
+			Vertex v3 = new Vertex(x + 5, y + 5, InGame.map.getPathFinding());
+			if (InGame.map.getPathFinding().findPath(v3, player) != null) {
+				x += 5;
+				y += 5;
+			}
+
+			Vertex v4 = new Vertex(x - 5, y + 5, InGame.map.getPathFinding());
+			if (InGame.map.getPathFinding().findPath(v4, player) != null) {
+				x -= 5;
+				y += 5;
+			}
 		}
 	}
 
@@ -112,14 +156,17 @@ public class Zombie extends LivingEntity {
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
 
-				for (Vertex v : path) {
-					g.setColor(Color.cyan);
-					try {
+				try {
+					for (Vertex v : path) {
+						g.setColor(Color.yellow);
+
 						g.drawLine(v.getX(), v.getY(),
 								path.get(path.indexOf(v) + 1).getX(),
 								path.get(path.indexOf(v) + 1).getY());
-					} catch (Exception e) {
+
 					}
+				} catch (Exception e) {
+
 				}
 			}
 		}

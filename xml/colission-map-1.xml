@@ -1,10 +1,4 @@
 <map>
-	<!-- <rectangle>
-		<xPos>1500</xPos>
-		<yPos>800</yPos>
-		<width>200</width>
-		<height>300</height>
-	</rectangle> -->
 	<shape>
 		<x1>1200</x1>
 		<y1>1200</y1>

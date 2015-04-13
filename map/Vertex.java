@@ -114,6 +114,12 @@ public class Vertex {
 					 * line).equals( v.toPoint())) { valid = false; break; } }
 					 * if (valid)
 					 */
+					
+					 boolean valid = true; for (Vertex v : pathFinding
+							 .getVerticesList()) { if (getIntersection(currentLine,
+							 line).equals( v.toPoint())) { valid = false; break; } }
+							 if (valid)
+					
 						return true;
 				}
 				lastCoords[0] = coords[0];
@@ -130,6 +136,12 @@ public class Vertex {
 					 * line).equals( v.toPoint())) { valid = false; break; } }
 					 * if (valid)
 					 */
+					
+					boolean valid = true; for (Vertex v : pathFinding
+							 .getVerticesList()) { if (getIntersection(currentLine,
+							 line).equals( v.toPoint())) { valid = false; break; } }
+							 if (valid)
+					
 						return true;
 				}
 				break;

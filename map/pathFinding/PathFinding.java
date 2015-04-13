@@ -91,8 +91,11 @@ public class PathFinding {
 			openList.remove(cheapestVertex);
 			closedList.add(cheapestVertex);
 
+			int index = 0;
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
+				
+				// System.out.println(index++ + " " + v.getX() + ", " + v.getY());
 				
 				if (!closedList.contains(v)) {
 					
