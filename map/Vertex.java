@@ -75,7 +75,7 @@ public class Vertex {
 
 		for (GeneralPath g : Map.shapeList) {
 			try {
-				if (intersects(g, line))
+				if (intersects(g, line, v))
 					return false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -85,8 +85,8 @@ public class Vertex {
 		return true;
 	}
 
-	public boolean intersects(final GeneralPath path, final Line2D.Double line)
-			throws Exception {
+	public boolean intersects(final GeneralPath path, final Line2D.Double line,
+			Vertex v) throws Exception {
 
 		final PathIterator pathIt = path.getPathIterator(null); // Getting an
 																// iterator
@@ -109,16 +109,31 @@ public class Vertex {
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
 
-					boolean valid = true;
-					for (Vertex v : pathFinding.getVerticesList()) {
-						if (getIntersection(currentLine, line).equals(
-								v.toPoint())) {
-							valid = false;
-							break;
-						}
-					}
-					if (valid)
+					System.out.println("Test: " + v.toPoint().getX() + " "
+							+ v.toPoint().getY() + " " + currentLine.getX1()
+							+ " " + currentLine.getY2() + " "
+							+ currentLine.getX2() + " " + currentLine.getY2()
+							+ " " + currentLine.contains(v.toPoint()));
+
+					if (!currentLine.contains(v.toPoint())
+							&& !(Math.abs(currentLine.getX2()
+									- currentLine.getX1())
+									/ Math.abs(line.getX2() - line.getX1())
+									* Math.abs(line.getY2() - line.getY1()) == Math
+									.abs(currentLine.getY2()
+											- currentLine.getY1())))
 						return true;
+
+					// boolean valid = true;
+					// for (Vertex v : pathFinding.getVerticesList()) {
+					// if (getIntersection(currentLine, line).equals(
+					// v.toPoint())) {
+					// valid = false;
+					// break;
+					// }
+					// }
+					// if (valid)
+					// return true;
 				}
 				lastCoords[0] = coords[0];
 				lastCoords[1] = coords[1];
@@ -129,16 +144,30 @@ public class Vertex {
 						coords[1], firstCoords[0], firstCoords[1]);
 				if (currentLine.intersectsLine(line)) {
 
-					boolean valid = true;
-					for (Vertex v : pathFinding.getVerticesList()) {
-						if (getIntersection(currentLine, line).equals(
-								v.toPoint())) {
-							valid = false;
-							break;
-						}
-					}
-					if (valid)
+					System.out.println("Test: " + v.toPoint().getX() + " "
+							+ v.toPoint().getY() + " " + currentLine.getX1()
+							+ " " + currentLine.getY2() + " "
+							+ currentLine.getX2() + " " + currentLine.getY2());
+
+					if (!currentLine.contains(v.toPoint())
+							&& !(Math.abs(currentLine.getX2()
+									- currentLine.getX1())
+									/ Math.abs(line.getX2() - line.getX1())
+									* Math.abs(line.getY2() - line.getY1()) == Math
+									.abs(currentLine.getY2()
+											- currentLine.getY1())))
 						return true;
+
+					// boolean valid = true;
+					// for (Vertex v : pathFinding.getVerticesList()) {
+					// if (getIntersection(currentLine, line).equals(
+					// v.toPoint())) {
+					// valid = false;
+					// break;
+					// }
+					// }
+					// if (valid)
+					// return true;
 				}
 				break;
 			}

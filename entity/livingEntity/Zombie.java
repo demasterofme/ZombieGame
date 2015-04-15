@@ -93,35 +93,6 @@ public class Zombie extends LivingEntity {
 			dy = (int) Math.round(Math.sin(angle) * speed);
 			// System.out.println("Angle: " + angle + " dx: " + dx + " dy: " +
 			// dy);
-		} else {
-			// The zombie is probably stuck on a vertex, so we check surrounding
-			// coordinates for a path
-			Vertex player = new Vertex(InGame.player.getx(),
-					InGame.player.gety(), InGame.map.getPathFinding());
-
-			Vertex v1 = new Vertex(x - 5, y - 5, InGame.map.getPathFinding());
-			if (InGame.map.getPathFinding().findPath(v1, player) != null) {
-				x -= 5;
-				y -= 5;
-			}
-
-			Vertex v2 = new Vertex(x + 5, y - 5, InGame.map.getPathFinding());
-			if (InGame.map.getPathFinding().findPath(v2, player) != null) {
-				x += 5;
-				y -= 5;
-			}
-
-			Vertex v3 = new Vertex(x + 5, y + 5, InGame.map.getPathFinding());
-			if (InGame.map.getPathFinding().findPath(v3, player) != null) {
-				x += 5;
-				y += 5;
-			}
-
-			Vertex v4 = new Vertex(x - 5, y + 5, InGame.map.getPathFinding());
-			if (InGame.map.getPathFinding().findPath(v4, player) != null) {
-				x -= 5;
-				y += 5;
-			}
 		}
 	}
 
