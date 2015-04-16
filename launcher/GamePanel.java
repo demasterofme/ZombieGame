@@ -2,8 +2,6 @@ package launcher;
 
 import gameState.GameState;
 import gameState.TitleScreen.TitleScreen;
-import gameState.inGame.Endless;
-import gfx.Button;
 import input.KeyListener;
 import input.MouseListener;
 import input.MouseMotionListener;
@@ -17,7 +15,6 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;

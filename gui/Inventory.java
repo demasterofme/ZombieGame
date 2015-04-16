@@ -1,12 +1,10 @@
 package gui;
 
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import entity.Gun;
 import entity.utility.Grenade;
-import entity.utility.MedKit;
 import entity.utility.Utility;
 
 public class Inventory {

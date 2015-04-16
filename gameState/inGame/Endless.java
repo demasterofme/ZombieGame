@@ -4,10 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
-import launcher.GamePanel;
 import entity.livingEntity.Zombie;
-import entity.livingEntity.Zombie.ZombieType;
-import gfx.Text;
 
 public class Endless extends InGame {
 

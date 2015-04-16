@@ -1,10 +1,6 @@
 package input;
 
-import gameState.PauseMenu;
-import gameState.TitleScreen.Settings;
-import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
-import gameState.inGame.Shop;
 import gfx.Button;
 
 import java.awt.event.MouseEvent;

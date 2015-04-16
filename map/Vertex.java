@@ -85,30 +85,31 @@ public class Vertex {
 		return true;
 	}
 
-	public boolean intersects(final GeneralPath path, final Line2D.Double line,
+	public boolean intersects(GeneralPath path, Line2D.Double line,
 			Vertex v) throws Exception {
 
-		final PathIterator pathIt = path.getPathIterator(null); // Getting an
+		PathIterator pathIt = path.getPathIterator(null); // Getting an
 																// iterator
 																// along the
 																// polygon path
-		final double[] coords = new double[6]; // Double array with length 6
+		double[] coords = new double[6]; // Double array with length 6
 												// needed by iterator
-		final double[] firstCoords = new double[2]; // First point (needed for
+		double[] firstCoords = new double[2]; // First point (needed for
 													// closing polygon path)
-		final double[] lastCoords = new double[2]; // Previously visited point
+		double[] lastCoords = new double[2]; // Previously visited point
 		pathIt.currentSegment(firstCoords); // Getting the first coordinate pair
 		lastCoords[0] = firstCoords[0]; // Priming the previous coordinate pair
 		lastCoords[1] = firstCoords[1];
 		pathIt.next();
+		
 		while (!pathIt.isDone()) {
-			final int type = pathIt.currentSegment(coords);
+			int type = pathIt.currentSegment(coords);
 			switch (type) {
 			case PathIterator.SEG_LINETO: {
-				final Line2D.Double currentLine = new Line2D.Double(
+				Line2D.Double currentLine = new Line2D.Double(
 						lastCoords[0], lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
-
+					
 					System.out.println("Test: " + v.toPoint().getX() + " "
 							+ v.toPoint().getY() + " " + currentLine.getX1()
 							+ " " + currentLine.getY2() + " "
@@ -140,7 +141,7 @@ public class Vertex {
 				break;
 			}
 			case PathIterator.SEG_CLOSE: {
-				final Line2D.Double currentLine = new Line2D.Double(coords[0],
+				Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
 				if (currentLine.intersectsLine(line)) {
 
@@ -180,14 +181,14 @@ public class Vertex {
 		return false;
 	}
 
-	public Point2D getIntersection(final Line2D.Double line1,
-			final Line2D.Double line2) {
+	public Point2D getIntersection(Line2D.Double line1,
+			Line2D.Double line2) {
 
-		final double x1 = line1.x1, y1 = line1.y1, x2 = line1.x2, y2 = line1.y2, x3 = line2.x1, y3 = line2.y1, x4 = line2.x2, y4 = line2.y2;
-		final double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3)
+		double x1 = line1.x1, y1 = line1.y1, x2 = line1.x2, y2 = line1.y2, x3 = line2.x1, y3 = line2.y1, x4 = line2.x2, y4 = line2.y2;
+		double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3)
 				* (x1 * y2 - x2 * y1))
 				/ ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
-		final double y = ((y3 - y4) * (x1 * y2 - x2 * y1) - (y1 - y2)
+		double y = ((y3 - y4) * (x1 * y2 - x2 * y1) - (y1 - y2)
 				* (x3 * y4 - x4 * y3))
 				/ ((x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4));
 

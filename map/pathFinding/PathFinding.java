@@ -1,7 +1,5 @@
 package map.pathFinding;
 
-import gameState.inGame.InGame;
-
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
@@ -91,11 +89,8 @@ public class PathFinding {
 			openList.remove(cheapestVertex);
 			closedList.add(cheapestVertex);
 
-			int index = 0;
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
-				
-				// System.out.println(index++ + " " + v.getX() + ", " + v.getY());
 				
 				if (!closedList.contains(v)) {
 					
@@ -139,7 +134,6 @@ public class PathFinding {
 			path.add(startVertex);
 			return path;
  		} else {
- 			System.out.println("false");
 			return null;
  		}
 

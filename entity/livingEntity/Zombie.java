@@ -32,8 +32,12 @@ public class Zombie extends LivingEntity {
 		dx = 0;
 		dy = 0;
 
-		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
-			findPath();
+//		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
+//			findPath();
+		
+		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
+		Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
+		System.out.println(v1.hasLineOfSight(v2));
 
 		x += dx;
 		y += dy;
@@ -50,12 +54,6 @@ public class Zombie extends LivingEntity {
 			}
 
 		}
-
-		// int index = 0;
-		// for (Vertex v : path) {
-		// System.out.println("index: " + index++ + "x: " + v.getX() + ", y: " +
-		// v.getY());
-		// }
 
 		return false;
 	}
@@ -91,8 +89,6 @@ public class Zombie extends LivingEntity {
 
 			dx = (int) Math.round(Math.cos(angle) * speed);
 			dy = (int) Math.round(Math.sin(angle) * speed);
-			// System.out.println("Angle: " + angle + " dx: " + dx + " dy: " +
-			// dy);
 		}
 	}
 
@@ -126,19 +122,6 @@ public class Zombie extends LivingEntity {
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
-
-				try {
-					for (Vertex v : path) {
-						g.setColor(Color.yellow);
-
-						g.drawLine(v.getX(), v.getY(),
-								path.get(path.indexOf(v) + 1).getX(),
-								path.get(path.indexOf(v) + 1).getY());
-
-					}
-				} catch (Exception e) {
-
-				}
 			}
 		}
 	}
