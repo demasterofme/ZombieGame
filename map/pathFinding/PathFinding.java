@@ -37,6 +37,8 @@ public class PathFinding {
 				vertices.add(new Vertex((int) coords[0], (int) coords[1], this));
 				it.next();
 			}
+			
+			vertices.remove(vertices.size() - 1);
 
 		}
 
@@ -89,6 +91,8 @@ public class PathFinding {
 			openList.remove(cheapestVertex);
 			closedList.add(cheapestVertex);
 
+			System.out.println("New neighbors check");
+			
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
 				
@@ -132,8 +136,10 @@ public class PathFinding {
 			}
 			
 			path.add(startVertex);
+			System.out.println("Path found");
 			return path;
  		} else {
+ 			System.out.println("No path");
 			return null;
  		}
 

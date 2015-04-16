@@ -32,12 +32,14 @@ public class Zombie extends LivingEntity {
 		dx = 0;
 		dy = 0;
 
-//		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
-//			findPath();
+		System.out.println("Pathfinding");
 		
-		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
-		Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
-		System.out.println(v1.hasLineOfSight(v2));
+		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
+			findPath();
+		
+//		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
+//		Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
+//		System.out.println(v1.hasLineOfSight(v2));
 
 		x += dx;
 		y += dy;
