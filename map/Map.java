@@ -2,6 +2,7 @@ package map;
 
 import gameState.inGame.InGame;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
@@ -30,13 +31,11 @@ public class Map {
 
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
+		pathFinding = new PathFinding(shapeList);
+		System.out.println("LineDinges: " + new Vertex(1300, 1300, pathFinding).hasLineOfSight(new Vertex(1400, 1400, pathFinding)));
 
 	}
 	
-	public void creatPathFinding(Graphics2D g) {
-		this.pathFinding = new PathFinding(shapeList, g);
-	}
-
 	public int getWidth() {
 		return WIDTH;
 	}
@@ -71,6 +70,7 @@ public class Map {
 
 		// Draw collision rectangles
 		if (GamePanel.debugMode) {
+			g.setStroke(new BasicStroke(1));
 			g.setColor(Color.GREEN);
 			for (GeneralPath p : shapeList) {
 				PathIterator iterator = p.getPathIterator(null);

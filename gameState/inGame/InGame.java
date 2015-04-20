@@ -217,10 +217,10 @@ public class InGame extends GameState {
 						"Max Bullets: "
 								+ player.getInventory().getCurrentGun()
 										.getMaxBullets(), 20, updateY());
-				for (Vertex v : map.getPathFinding().getVerticesList()) {
-					v.draw(g);
-				}
 			}
+			
+			map.getPathFinding().draw(g);
+			
 		}
 	}
 
@@ -243,7 +243,8 @@ public class InGame extends GameState {
 				rawTexture.getWidth(), rawTexture.getHeight(),
 				Transparency.TRANSLUCENT);
 		Graphics g = texture.getGraphics();
-		g.drawImage(rawTexture, 0, 0, rawTexture.getWidth(), rawTexture.getHeight(), null);
+		g.drawImage(rawTexture, 0, 0, rawTexture.getWidth(),
+				rawTexture.getHeight(), null);
 		g.dispose();
 		return texture;
 	}
@@ -290,12 +291,15 @@ public class InGame extends GameState {
 
 		try {
 
-			Player.texture_head = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-head.png")));
-			Player.texture_bottom = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player-bottom.png")));
-			MuzzleFlash.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/MuzzleFlash2.png")));
+			Player.texture_head = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Player-head.png")));
+			Player.texture_bottom = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Player-bottom.png")));
+			MuzzleFlash.texture = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/MuzzleFlash2.png")));
 			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/zombie-swarmer1.png")));
 			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
