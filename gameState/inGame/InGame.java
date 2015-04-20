@@ -57,7 +57,7 @@ public class InGame extends GameState {
 
 		map = new Map();
 
-		player = new Player(1100, 1100);
+		player = new Player(1600, 1600);
 
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();

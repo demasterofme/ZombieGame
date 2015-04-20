@@ -31,8 +31,10 @@ public class Map {
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 
-		pathFinding = new PathFinding(shapeList);
-
+	}
+	
+	public void creatPathFinding(Graphics2D g) {
+		this.pathFinding = new PathFinding(shapeList, g);
 	}
 
 	public int getWidth() {

@@ -1,5 +1,8 @@
 package map.pathFinding;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
 import java.util.ArrayList;
@@ -11,11 +14,13 @@ public class PathFinding {
 
 	private ArrayList<GeneralPath> colissionMap;
 	private ArrayList<Vertex> vertices;
+	private Graphics2D g;
 
-	public PathFinding(ArrayList<GeneralPath> colissionMap) {
+	public PathFinding(ArrayList<GeneralPath> colissionMap, Graphics2D g) {
 
 		this.colissionMap = colissionMap;
 		vertices = makeVerticesList();
+		this.g = g;
 
 	}
 
@@ -95,6 +100,10 @@ public class PathFinding {
 			
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
+				
+				g.setStroke(new BasicStroke(2));
+				g.setColor(Color.CYAN);
+				g.drawLine(v.getX(), v.getY(), cheapestVertex.getX(), cheapestVertex.getY());
 				
 				if (!closedList.contains(v)) {
 					

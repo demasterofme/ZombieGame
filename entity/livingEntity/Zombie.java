@@ -26,16 +26,20 @@ public class Zombie extends LivingEntity {
 		speed = 1;
 
 	}
+	
+	int z = 0;
 
 	public boolean update() {
 
 		dx = 0;
 		dy = 0;
 
-		System.out.println("Pathfinding");
 		
-		if (!(x == InGame.player.getx() && y == InGame.player.gety()))
+		if (z == 0 && !(x == InGame.player.getx() && y == InGame.player.gety())) {
+			System.out.println("Pathfinding");
 			findPath();
+			z++;
+		}
 		
 //		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
 //		Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
@@ -64,10 +68,11 @@ public class Zombie extends LivingEntity {
 
 	public void findPath() {
 
-		path = InGame.map.getPathFinding().findPath(
-				new Vertex(x, y, InGame.map.getPathFinding()),
-				new Vertex(InGame.player.getx(), InGame.player.gety(),
-						InGame.map.getPathFinding()));
+		if (InGame.map.getPathFinding() != null)
+			path = InGame.map.getPathFinding().findPath(
+					new Vertex(x, y, InGame.map.getPathFinding()),
+					new Vertex(InGame.player.getx(), InGame.player.gety(),
+							InGame.map.getPathFinding()));
 
 		if (path != null) {
 
@@ -103,6 +108,9 @@ public class Zombie extends LivingEntity {
 	}
 
 	public void draw(Graphics2D g) {
+		
+		if (z == 0)
+			InGame.map.creatPathFinding(g);
 
 		int relativeX = x - InGame.map.getxOffset();
 		int relativeY = y - InGame.map.getyOffset();
