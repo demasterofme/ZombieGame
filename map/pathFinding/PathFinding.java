@@ -106,15 +106,12 @@ public class PathFinding {
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
 
-				if (z < 10) {
-					if (v.hasLineOfSight(cheapestVertex, true))
-						lineOfSight.add(new Line2D.Double(v.getX(), v.getY(),
-								cheapestVertex.getX(), cheapestVertex.getY()));
-					else
-						noLineOfSight.add(new Line2D.Double(v.getX(), v.getY(),
-								cheapestVertex.getX(), cheapestVertex.getY()));
-					z++;
-				}
+				if (v.hasLineOfSight(cheapestVertex, true))
+					lineOfSight.add(new Line2D.Double(v.getX(), v.getY(),
+							cheapestVertex.getX(), cheapestVertex.getY()));
+				else
+					noLineOfSight.add(new Line2D.Double(v.getX(), v.getY(),
+							cheapestVertex.getX(), cheapestVertex.getY()));
 
 				if (!closedList.contains(v)) {
 

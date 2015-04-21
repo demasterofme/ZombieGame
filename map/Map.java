@@ -32,7 +32,7 @@ public class Map {
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 		pathFinding = new PathFinding(shapeList);
-		System.out.println("LineDinges: " + new Vertex(1300, 1300, pathFinding).hasLineOfSight(new Vertex(1400, 1400, pathFinding)));
+		System.out.println("LineDinges: " + new Vertex(1000, 1000, pathFinding).hasLineOfSight(new Vertex(1200, 1200, pathFinding)));
 
 	}
 	

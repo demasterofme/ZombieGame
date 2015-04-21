@@ -75,7 +75,7 @@ public class Vertex {
 
 		for (GeneralPath g : Map.shapeList) {
 			try {
-				if (intersects(g, line, v, false))
+				if (intersects(g, line, v))
 					return false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -92,7 +92,7 @@ public class Vertex {
 
 		for (GeneralPath g : Map.shapeList) {
 			try {
-				if (intersects(g, line, v, true))
+				if (intersects(g, line, v))
 					return false;
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -126,8 +126,8 @@ public class Vertex {
 	// return !pathArea.isEmpty();
 	// }
 
-	public boolean intersects(GeneralPath path, Line2D.Double line, Vertex v,
-			boolean output) throws Exception {
+	public boolean intersects(GeneralPath path, Line2D.Double line, Vertex v)
+			throws Exception {
 
 		PathIterator pathIt = path.getPathIterator(null); // Getting an
 															// iterator
@@ -163,19 +163,43 @@ public class Vertex {
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
-					if (output)
-						System.out.println("CurrentLine: {"
-								+ currentLine.getX1() + ", "
-								+ currentLine.getY1() + ", "
-								+ currentLine.getX2() + ", "
-								+ currentLine.getY2() + "}, Line: {"
-								+ line.getX1() + ", " + line.getY1() + ", "
-								+ line.getX2() + ", " + line.getY2() + "} V: {"
-								+ v.getX() + ", " + v.getY() + "}");
+					Point2D.Double endCurrentLine = new Point2D.Double(
+							currentLine.getX2(), currentLine.getY2());
+					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
+							line.getY1());
+					Point2D.Double endLine = new Point2D.Double(line.getX2(),
+							line.getY2());
+					Point2D.Double intersection = (Point2D.Double) getIntersection(
+							currentLine, line);
 
-					if (!((currentLine.getX1() == v.getX() && currentLine
-							.getY1() == v.getY()) || (currentLine.getX2() == v
-							.getX() && currentLine.getY2() == v.getY()))
+					System.out
+							.println("CurrentLine: {"
+									+ currentLine.getX1()
+									+ ", "
+									+ currentLine.getY1()
+									+ ", "
+									+ currentLine.getX2()
+									+ ", "
+									+ currentLine.getY2()
+									+ "}, Line: {"
+									+ line.getX1()
+									+ ", "
+									+ line.getY1()
+									+ ", "
+									+ line.getX2()
+									+ ", "
+									+ line.getY2()
+									+ "} V: {"
+									+ v.getX()
+									+ ", "
+									+ v.getY()
+									+ "} Statement 1: "
+									+ (!endCurrentLine.equals(beginLine) && !endCurrentLine
+											.equals(endLine)));
+
+					if (!endCurrentLine.equals(beginLine)
+							&& !endCurrentLine.equals(endLine)
+							&& !intersection.equals(endLine)
 							&& currentLineTemp != lineTemp
 							&& !((Double.isInfinite(currentLineTemp) && Double
 									.isNaN(lineTemp)) || (Double
@@ -214,19 +238,43 @@ public class Vertex {
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
-					if (output)
-						System.out.println("CurrentLine: {"
-								+ currentLine.getX1() + ", "
-								+ currentLine.getY1() + ", "
-								+ currentLine.getX2() + ", "
-								+ currentLine.getY2() + "}, Line: {"
-								+ line.getX1() + ", " + line.getY1() + ", "
-								+ line.getX2() + ", " + line.getY2() + "} V: {"
-								+ v.getX() + ", " + v.getY() + "}");
+					Point2D.Double endCurrentLine = new Point2D.Double(
+							currentLine.getX2(), currentLine.getY2());
+					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
+							line.getY1());
+					Point2D.Double endLine = new Point2D.Double(line.getX2(),
+							line.getY2());
+					Point2D.Double intersection = (Point2D.Double) getIntersection(
+							currentLine, line);
 
-					if (!((currentLine.getX1() == v.getX() && currentLine
-							.getY1() == v.getY()) || (currentLine.getX2() == v
-							.getX() && currentLine.getY2() == v.getY()))
+					System.out
+							.println("CurrentLine: {"
+									+ currentLine.getX1()
+									+ ", "
+									+ currentLine.getY1()
+									+ ", "
+									+ currentLine.getX2()
+									+ ", "
+									+ currentLine.getY2()
+									+ "}, Line: {"
+									+ line.getX1()
+									+ ", "
+									+ line.getY1()
+									+ ", "
+									+ line.getX2()
+									+ ", "
+									+ line.getY2()
+									+ "} V: {"
+									+ v.getX()
+									+ ", "
+									+ v.getY()
+									+ "} Statement 1: "
+									+ (!endCurrentLine.equals(beginLine) && !endCurrentLine
+											.equals(endLine)));
+
+					if (!endCurrentLine.equals(beginLine)
+							&& !endCurrentLine.equals(endLine)
+							&& !intersection.equals(endLine)
 							&& currentLineTemp != lineTemp
 							&& !((Double.isInfinite(currentLineTemp) && Double
 									.isNaN(lineTemp)) || (Double
