@@ -143,7 +143,8 @@ public class Vertex {
 		lastCoords[1] = firstCoords[1];
 		pathIt.next();
 
-		int x = 0;
+		boolean intersects = false;
+		int endLineIntersections = 0;
 
 		while (!pathIt.isDone()) {
 			x++;
@@ -155,14 +156,16 @@ public class Vertex {
 				System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					double currentLineTemp = (((double) Math.abs(currentLine
+					double currentLineSlope = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
 							.abs(line.getY2() - line.getY1())));
 
-					double lineTemp = (((double) Math.abs(line.getX2()
+					double lineSlope = (((double) Math.abs(line.getX2()
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
+					Point2D.Double beginCurrentLine = new Point2D.Double(
+							currentLine.getX1(), line.getY1());
 					Point2D.Double endCurrentLine = new Point2D.Double(
 							currentLine.getX2(), currentLine.getY2());
 					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
@@ -172,53 +175,26 @@ public class Vertex {
 					Point2D.Double intersection = (Point2D.Double) getIntersection(
 							currentLine, line);
 
-					System.out
-							.println("CurrentLine: {"
-									+ currentLine.getX1()
-									+ ", "
-									+ currentLine.getY1()
-									+ ", "
-									+ currentLine.getX2()
-									+ ", "
-									+ currentLine.getY2()
-									+ "}, Line: {"
-									+ line.getX1()
-									+ ", "
-									+ line.getY1()
-									+ ", "
-									+ line.getX2()
-									+ ", "
-									+ line.getY2()
-									+ "} V: {"
-									+ v.getX()
-									+ ", "
-									+ v.getY()
-									+ "} Statement 1: "
-									+ (!endCurrentLine.equals(beginLine) && !endCurrentLine
-											.equals(endLine)));
+					System.out.println("Currentline: " + currentLine.getX1()
+							+ ";" + currentLine.getY1() + ", "
+							+ currentLine.getX2() + ";" + currentLine.getY2()
+							+ " Line: " + line.getX1() + ";" + line.getY1()
+							+ ", " + line.getX2() + ";" + line.getY2());
 
-					if (!endCurrentLine.equals(beginLine)
-							&& !endCurrentLine.equals(endLine)
-							&& !intersection.equals(endLine)
-							&& currentLineTemp != lineTemp
-							&& !((Double.isInfinite(currentLineTemp) && Double
-									.isNaN(lineTemp)) || (Double
-									.isInfinite(lineTemp) && Double
-									.isNaN(currentLineTemp)))) {
-						System.out.println("Intersection" + x);
-						return true;
+					if (currentLineSlope == lineSlope) {
+						System.out.println("No intersection slope case");
+						return false;
 					}
 
-					// boolean valid = true;
-					// for (Vertex v : pathFinding.getVerticesList()) {
-					// if (getIntersection(currentLine, line).equals(
-					// v.toPoint())) {
-					// valid = false;
-					// break;
-					// }
-					// }
-					// if (valid)
-					// return true;
+					if (!(intersection.equals(endCurrentLine) || intersection
+							.equals(beginCurrentLine))) {
+						intersects = true;
+						if (intersection.equals(beginLine)
+								|| intersection.equals(endLine))
+							if (!(++endLineIntersections > 1))
+								intersects = false;
+					}
+
 				}
 				lastCoords[0] = coords[0];
 				lastCoords[1] = coords[1];
@@ -230,14 +206,16 @@ public class Vertex {
 				System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					double currentLineTemp = (((double) Math.abs(currentLine
+					double currentLineSlope = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
 							.abs(line.getY2() - line.getY1())));
 
-					double lineTemp = (((double) Math.abs(line.getX2()
+					double lineSlope = (((double) Math.abs(line.getX2()
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
+					Point2D.Double beginCurrentLine = new Point2D.Double(
+							currentLine.getX1(), line.getY1());
 					Point2D.Double endCurrentLine = new Point2D.Double(
 							currentLine.getX2(), currentLine.getY2());
 					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
@@ -247,53 +225,26 @@ public class Vertex {
 					Point2D.Double intersection = (Point2D.Double) getIntersection(
 							currentLine, line);
 
-					System.out
-							.println("CurrentLine: {"
-									+ currentLine.getX1()
-									+ ", "
-									+ currentLine.getY1()
-									+ ", "
-									+ currentLine.getX2()
-									+ ", "
-									+ currentLine.getY2()
-									+ "}, Line: {"
-									+ line.getX1()
-									+ ", "
-									+ line.getY1()
-									+ ", "
-									+ line.getX2()
-									+ ", "
-									+ line.getY2()
-									+ "} V: {"
-									+ v.getX()
-									+ ", "
-									+ v.getY()
-									+ "} Statement 1: "
-									+ (!endCurrentLine.equals(beginLine) && !endCurrentLine
-											.equals(endLine)));
+					System.out.println("Currentline: " + currentLine.getX1()
+							+ ";" + currentLine.getY1() + ", "
+							+ currentLine.getX2() + ";" + currentLine.getY2()
+							+ " Line: " + line.getX1() + ";" + line.getY1()
+							+ ", " + line.getX2() + ";" + line.getY2());
 
-					if (!endCurrentLine.equals(beginLine)
-							&& !endCurrentLine.equals(endLine)
-							&& !intersection.equals(endLine)
-							&& currentLineTemp != lineTemp
-							&& !((Double.isInfinite(currentLineTemp) && Double
-									.isNaN(lineTemp)) || (Double
-									.isInfinite(lineTemp) && Double
-									.isNaN(currentLineTemp)))) {
-						System.out.println("Intersection" + x);
-						return true;
+					if (currentLineSlope == lineSlope) {
+						System.out.println("No intersection slope case");
+						return false;
 					}
 
-					// boolean valid = true;
-					// for (Vertex v : pathFinding.getVerticesList()) {
-					// if (getIntersection(currentLine, line).equals(
-					// v.toPoint())) {
-					// valid = false;
-					// break;
-					// }
-					// }
-					// if (valid)
-					// return true;
+					if (!(intersection.equals(endCurrentLine) || intersection
+							.equals(beginCurrentLine))) {
+						intersects = true;
+						if (intersection.equals(beginLine)
+								|| intersection.equals(endLine))
+							if (!(++endLineIntersections > 1))
+								intersects = false;
+					}
+
 				}
 				break;
 			}
@@ -303,8 +254,8 @@ public class Vertex {
 			}
 			pathIt.next();
 		}
-		System.out.println("No intersection" + x);
-		return false;
+		System.out.println((intersects ? "" : "No ") + "Intersection");
+		return intersects;
 	}
 
 	public Point2D getIntersection(Line2D.Double line1, Line2D.Double line2) {

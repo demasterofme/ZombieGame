@@ -35,7 +35,7 @@ public class Zombie extends LivingEntity {
 		dy = 0;
 
 		
-		if (z == 0 && !(x == InGame.player.getx() && y == InGame.player.gety())) {
+		if (z == 1 && !(x == InGame.player.getx() && y == InGame.player.gety())) {
 			System.out.println("Pathfinding");
 			findPath();
 			z++;
