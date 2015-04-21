@@ -4,8 +4,6 @@ import gameState.inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.awt.geom.Area;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Line2D;
 import java.awt.geom.PathIterator;
@@ -147,8 +145,6 @@ public class Vertex {
 
 		int x = 0;
 
-		int intersections = 0;
-
 		while (!pathIt.isDone()) {
 			x++;
 			int type = pathIt.currentSegment(coords);
@@ -159,8 +155,6 @@ public class Vertex {
 				System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					intersections++;
-
 					double currentLineTemp = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
 							.abs(line.getY2() - line.getY1())));
@@ -170,67 +164,23 @@ public class Vertex {
 							- line.getY1())));
 
 					if (output)
-						System.out
-								.println("CurrentLine: {"
-										+ currentLine.getX1()
-										+ ", "
-										+ currentLine.getY1()
-										+ ", "
-										+ currentLine.getX2()
-										+ ", "
-										+ currentLine.getY2()
-										+ "}, Line: {"
-										+ line.getX1()
-										+ ", "
-										+ line.getY1()
-										+ ", "
-										+ line.getX2()
-										+ ", "
-										+ line.getY2()
-										+ "} V: {"
-										+ v.getX()
-										+ ", "
-										+ v.getY()
-										+ "} Intersections: "
-										+ intersections
-										+ " Statement 1: "
-										+ (!((currentLine.getX1() == line
-												.getX1() && currentLine.getY1() == line
-												.getY1())
-												|| (currentLine.getX1() == line
-														.getX2() && currentLine
-														.getY1() == line
-														.getY2())
-												|| (currentLine.getX2() == line
-														.getX1() && currentLine
-														.getY2() == line
-														.getY1()) || (currentLine
-												.getX2() == line.getX2() && currentLine
-												.getY2() == line.getY2())))
-										+ " Statement 2: "
-										+ ((currentLineTemp != lineTemp && !((Double
-												.isInfinite(currentLineTemp) && Double
-												.isNaN(lineTemp)) || (Double
-												.isInfinite(lineTemp) && Double
-												.isNaN(currentLineTemp)))) && intersections > 3));
+						System.out.println("CurrentLine: {"
+								+ currentLine.getX1() + ", "
+								+ currentLine.getY1() + ", "
+								+ currentLine.getX2() + ", "
+								+ currentLine.getY2() + "}, Line: {"
+								+ line.getX1() + ", " + line.getY1() + ", "
+								+ line.getX2() + ", " + line.getY2() + "} V: {"
+								+ v.getX() + ", " + v.getY() + "}");
 
-					if ((intersections > 2 && (currentLineTemp != lineTemp && !((Double
-							.isInfinite(currentLineTemp) && Double
-							.isNaN(lineTemp)) || (Double.isInfinite(lineTemp) && Double
-							.isNaN(currentLineTemp)))))
-							|| ((currentLineTemp != lineTemp && !((Double
-									.isInfinite(currentLineTemp) && Double
+					if (!((currentLine.getX1() == v.getX() && currentLine
+							.getY1() == v.getY()) || (currentLine.getX2() == v
+							.getX() && currentLine.getY2() == v.getY()))
+							&& currentLineTemp != lineTemp
+							&& !((Double.isInfinite(currentLineTemp) && Double
 									.isNaN(lineTemp)) || (Double
 									.isInfinite(lineTemp) && Double
-									.isNaN(currentLineTemp)))) && !((currentLine
-									.getX1() == line.getX1() && currentLine
-									.getY1() == line.getY1())
-									|| (currentLine.getX1() == line.getX2() && currentLine
-											.getY1() == line.getY2())
-									|| (currentLine.getX2() == line.getX1() && currentLine
-											.getY2() == line.getY1()) || (currentLine
-									.getX2() == line.getX2() && currentLine
-									.getY2() == line.getY2())))) {
+									.isNaN(currentLineTemp)))) {
 						System.out.println("Intersection" + x);
 						return true;
 					}
@@ -256,8 +206,6 @@ public class Vertex {
 				System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					intersections++;
-
 					double currentLineTemp = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
 							.abs(line.getY2() - line.getY1())));
@@ -267,67 +215,23 @@ public class Vertex {
 							- line.getY1())));
 
 					if (output)
-						System.out
-								.println("CurrentLine: {"
-										+ currentLine.getX1()
-										+ ", "
-										+ currentLine.getY1()
-										+ ", "
-										+ currentLine.getX2()
-										+ ", "
-										+ currentLine.getY2()
-										+ "}, Line: {"
-										+ line.getX1()
-										+ ", "
-										+ line.getY1()
-										+ ", "
-										+ line.getX2()
-										+ ", "
-										+ line.getY2()
-										+ "} V: {"
-										+ v.getX()
-										+ ", "
-										+ v.getY()
-										+ "} Intersections: "
-										+ intersections
-										+ " Statement 1: "
-										+ (!((currentLine.getX1() == line
-												.getX1() && currentLine.getY1() == line
-												.getY1())
-												|| (currentLine.getX1() == line
-														.getX2() && currentLine
-														.getY1() == line
-														.getY2())
-												|| (currentLine.getX2() == line
-														.getX1() && currentLine
-														.getY2() == line
-														.getY1()) || (currentLine
-												.getX2() == line.getX2() && currentLine
-												.getY2() == line.getY2())))
-										+ " Statement 2: "
-										+ ((currentLineTemp != lineTemp && !((Double
-												.isInfinite(currentLineTemp) && Double
-												.isNaN(lineTemp)) || (Double
-												.isInfinite(lineTemp) && Double
-												.isNaN(currentLineTemp)))) && intersections > 3));
+						System.out.println("CurrentLine: {"
+								+ currentLine.getX1() + ", "
+								+ currentLine.getY1() + ", "
+								+ currentLine.getX2() + ", "
+								+ currentLine.getY2() + "}, Line: {"
+								+ line.getX1() + ", " + line.getY1() + ", "
+								+ line.getX2() + ", " + line.getY2() + "} V: {"
+								+ v.getX() + ", " + v.getY() + "}");
 
-					if ((intersections > 2 && (currentLineTemp != lineTemp && !((Double
-							.isInfinite(currentLineTemp) && Double
-							.isNaN(lineTemp)) || (Double.isInfinite(lineTemp) && Double
-							.isNaN(currentLineTemp)))))
-							|| ((currentLineTemp != lineTemp && !((Double
-									.isInfinite(currentLineTemp) && Double
+					if (!((currentLine.getX1() == v.getX() && currentLine
+							.getY1() == v.getY()) || (currentLine.getX2() == v
+							.getX() && currentLine.getY2() == v.getY()))
+							&& currentLineTemp != lineTemp
+							&& !((Double.isInfinite(currentLineTemp) && Double
 									.isNaN(lineTemp)) || (Double
 									.isInfinite(lineTemp) && Double
-									.isNaN(currentLineTemp)))) && !((currentLine
-									.getX1() == line.getX1() && currentLine
-									.getY1() == line.getY1())
-									|| (currentLine.getX1() == line.getX2() && currentLine
-											.getY1() == line.getY2())
-									|| (currentLine.getX2() == line.getX1() && currentLine
-											.getY2() == line.getY1()) || (currentLine
-									.getX2() == line.getX2() && currentLine
-									.getY2() == line.getY2())))) {
+									.isNaN(currentLineTemp)))) {
 						System.out.println("Intersection" + x);
 						return true;
 					}
