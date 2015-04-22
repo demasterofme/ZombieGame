@@ -69,7 +69,7 @@ public class Vertex {
 	}
 
 	public boolean hasLineOfSight(Vertex v) {
-
+		
 		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
 				v.getY());
 

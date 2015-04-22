@@ -24,15 +24,15 @@ public class Zombie extends LivingEntity {
 		r = 30;
 		health = 1000;
 		speed = 1;
-		
+
 		Vertex v1 = new Vertex(1600, 1200, InGame.map.getPathFinding());
 		Vertex v2 = new Vertex(1200, 1500, InGame.map.getPathFinding());
-		
+
 		System.out.println(v1.hasLineOfSight(v2));
-		
-//		for (Vertex v : v2.getNeighbours(v1)) {
-//			System.out.println(v.getX() + ", " + v.getY());
-//		}
+
+		// for (Vertex v : v2.getNeighbours(v1)) {
+		// System.out.println(v.getX() + ", " + v.getY());
+		// }
 
 	}
 
@@ -41,14 +41,13 @@ public class Zombie extends LivingEntity {
 		dx = 0;
 		dy = 0;
 
-		
 		if (!(x == InGame.player.getx() && y == InGame.player.gety())) {
 			findPath();
 		}
-		
-//		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
-//		Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
-//		System.out.println(v1.hasLineOfSight(v2));
+
+		// Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
+		// Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
+		// System.out.println(v1.hasLineOfSight(v2));
 
 		x += dx;
 		y += dy;
@@ -89,7 +88,7 @@ public class Zombie extends LivingEntity {
 							+ Math.pow(vertexY - y, 2))));
 			if (vertexY < y)
 				angle = 2 * Math.PI - angle;
-			
+
 			this.rotation = (int) Math.toDegrees(angle) + 90;
 
 			dx = (int) Math.round(Math.cos(angle) * speed);
@@ -106,7 +105,7 @@ public class Zombie extends LivingEntity {
 	}
 
 	public void draw(Graphics2D g) {
-		
+
 		int relativeX = x - InGame.map.getxOffset();
 		int relativeY = y - InGame.map.getyOffset();
 
@@ -123,6 +122,16 @@ public class Zombie extends LivingEntity {
 					texture,
 					GamePanel.getAffineTransform(texture, x, y, scale,
 							Math.toRadians(rotation)));
+
+			if (path != null) {
+				for (int i = 0; i < path.size() - 1; i++) {
+					g.setColor(Color.ORANGE);
+					g.drawLine(path.get(i).getX() - InGame.map.getxOffset(), path
+							.get(i).getY() - InGame.map.getyOffset(),
+							path.get(i + 1).getX() - InGame.map.getxOffset(), path
+									.get(i + 1).getY() - InGame.map.getyOffset());
+				}
+		}
 
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);

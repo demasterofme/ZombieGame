@@ -107,10 +107,9 @@ public class PathFinding {
 			System.out.println("New neighbors check");
 
 			// Update the G, H and F values of the neighbour vertices
-			// for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
-			for (Vertex v : localVerticesList) {
+			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
 
-				if (!closedList.contains(v) && v.hasLineOfSight(cheapestVertex)) {
+				if (!closedList.contains(v)) {
 
 					// G value (From cheapestVertex to neighbor)
 					int newG = (int) Math.sqrt(Math.pow(cheapestVertex.getX()
@@ -157,35 +156,6 @@ public class PathFinding {
 			return null;
 		}
 
-	}
-
-	public void draw(Graphics2D g) {
-		int number = 1;
-		g.setStroke(new BasicStroke(2));
-		for (Line2D draw : lineOfSight) {
-			g.setColor(Color.BLACK);
-			int relativeX1 = (int) (draw.getX1() - InGame.map.getxOffset());
-			int relativeY1 = (int) (draw.getY1() - InGame.map.getyOffset());
-			int relativeX2 = (int) (draw.getX2() - InGame.map.getxOffset());
-			int relativeY2 = (int) (draw.getY2() - InGame.map.getyOffset());
-
-			g.draw(new Line2D.Double(relativeX1, relativeY1, relativeX2,
-					relativeY2));
-			g.drawString(number++ + "", Math.abs(relativeX2 - relativeX1),
-					Math.abs(relativeY2 - relativeY1));
-		}
-		for (Line2D draw : noLineOfSight) {
-			g.setColor(Color.RED);
-			int relativeX1 = (int) (draw.getX1() - InGame.map.getxOffset());
-			int relativeY1 = (int) (draw.getY1() - InGame.map.getyOffset());
-			int relativeX2 = (int) (draw.getX2() - InGame.map.getxOffset());
-			int relativeY2 = (int) (draw.getY2() - InGame.map.getyOffset());
-
-			g.draw(new Line2D.Double(relativeX1, relativeY1, relativeX2,
-					relativeY2));
-			g.drawString(number++ + "", Math.abs(relativeX2 - relativeX1),
-					Math.abs(relativeY2 - relativeY1));
-		}
 	}
 
 }

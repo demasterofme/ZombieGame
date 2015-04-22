@@ -219,8 +219,6 @@ public class InGame extends GameState {
 										.getMaxBullets(), 20, updateY());
 			}
 			
-			map.getPathFinding().draw(g);
-			
 		}
 	}
 
