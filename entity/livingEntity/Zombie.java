@@ -24,10 +24,17 @@ public class Zombie extends LivingEntity {
 		r = 30;
 		health = 1000;
 		speed = 1;
+		
+		Vertex v1 = new Vertex(1600, 1200, InGame.map.getPathFinding());
+		Vertex v2 = new Vertex(1200, 1500, InGame.map.getPathFinding());
+		
+		System.out.println(v1.hasLineOfSight(v2));
+		
+//		for (Vertex v : v2.getNeighbours(v1)) {
+//			System.out.println(v.getX() + ", " + v.getY());
+//		}
 
 	}
-	
-	int z = 0;
 
 	public boolean update() {
 
@@ -35,10 +42,8 @@ public class Zombie extends LivingEntity {
 		dy = 0;
 
 		
-		if (z == 1 && !(x == InGame.player.getx() && y == InGame.player.gety())) {
-			System.out.println("Pathfinding");
+		if (!(x == InGame.player.getx() && y == InGame.player.gety())) {
 			findPath();
-			z++;
 		}
 		
 //		Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
@@ -76,15 +81,8 @@ public class Zombie extends LivingEntity {
 
 		if (path != null) {
 
-			int index;
-			if (path.size() > 2) {
-				index = 1;
-			} else {
-				index = 0;
-			}
-
-			int vertexX = path.get(index).getX();
-			int vertexY = path.get(index).getY();
+			int vertexX = path.get(path.size() - 2).getX();
+			int vertexY = path.get(path.size() - 2).getY();
 
 			double angle = Math.acos((vertexX - x)
 					/ (Math.sqrt(Math.pow(vertexX - x, 2)

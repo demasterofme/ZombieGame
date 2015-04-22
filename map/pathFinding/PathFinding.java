@@ -77,6 +77,9 @@ public class PathFinding {
 		ArrayList<Vertex> openList = new ArrayList<Vertex>(
 				Arrays.asList(startVertex));
 		ArrayList<Vertex> closedList = new ArrayList<Vertex>();
+		@SuppressWarnings("unchecked")
+		ArrayList<Vertex> localVerticesList = (ArrayList<Vertex>) getVerticesList().clone();
+		localVerticesList.add(goalVertex);
 		boolean found = false;
 
 		while (!found && !openList.isEmpty()) {
@@ -104,9 +107,10 @@ public class PathFinding {
 			System.out.println("New neighbors check");
 
 			// Update the G, H and F values of the neighbour vertices
-			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
+			// for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
+			for (Vertex v : localVerticesList) {
 
-				if (!closedList.contains(v)) {
+				if (!closedList.contains(v) && v.hasLineOfSight(cheapestVertex)) {
 
 					// G value (From cheapestVertex to neighbor)
 					int newG = (int) Math.sqrt(Math.pow(cheapestVertex.getX()
