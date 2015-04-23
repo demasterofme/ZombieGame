@@ -32,7 +32,7 @@ public class Map {
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 		pathFinding = new PathFinding(shapeList);
-		System.out.println("LoS Check: " + new Vertex(1024, 1024, pathFinding).hasLineOfSight(new Vertex(1600, 1600, pathFinding)));
+		System.out.println("LoS Check: " + new Vertex(1400, 1200, pathFinding).hasLineOfSight(new Vertex(1500, 1500, pathFinding)));
 
 	}
 	
