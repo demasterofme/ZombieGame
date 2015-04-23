@@ -219,8 +219,6 @@ public class InGame extends GameState {
 										.getMaxBullets(), 20, updateY());
 			}
 			
-			map.getPathFinding().draw(g);
-			
 		}
 	}
 
@@ -326,8 +324,8 @@ public class InGame extends GameState {
 			@SuppressWarnings("unchecked")
 			List<Element> shapeElements = root.elements("shape");
 
-			GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
 			for (Element shapeElement : shapeElements) {
+				GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
 				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
 					int x = Integer.parseInt(shapeElement.element("x" + index)

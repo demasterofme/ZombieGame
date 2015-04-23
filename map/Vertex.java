@@ -69,7 +69,7 @@ public class Vertex {
 	}
 
 	public boolean hasLineOfSight(Vertex v) {
-
+		
 		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
 				v.getY());
 
@@ -147,7 +147,6 @@ public class Vertex {
 		int endLineIntersections = 0;
 
 		while (!pathIt.isDone()) {
-			x++;
 			int type = pathIt.currentSegment(coords);
 			switch (type) {
 			case PathIterator.SEG_LINETO: {
