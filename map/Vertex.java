@@ -69,7 +69,7 @@ public class Vertex {
 	}
 
 	public boolean hasLineOfSight(Vertex v) {
-		
+
 		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
 				v.getY());
 
@@ -157,14 +157,14 @@ public class Vertex {
 
 					double currentLineSlope = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
-							.abs(line.getY2() - line.getY1())));
+							.abs(currentLine.getY2() - currentLine.getY1())));
 
 					double lineSlope = (((double) Math.abs(line.getX2()
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
 					Point2D.Double beginCurrentLine = new Point2D.Double(
-							currentLine.getX1(), line.getY1());
+							currentLine.getX1(), currentLine.getY1());
 					Point2D.Double endCurrentLine = new Point2D.Double(
 							currentLine.getX2(), currentLine.getY2());
 					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
@@ -180,7 +180,11 @@ public class Vertex {
 							+ " Line: " + line.getX1() + ";" + line.getY1()
 							+ ", " + line.getX2() + ";" + line.getY2());
 
-					if (currentLineSlope == lineSlope) {
+					if (currentLineSlope == lineSlope
+							|| (Double.isInfinite(currentLineSlope) && Double
+									.isNaN(lineSlope))
+							|| (Double.isInfinite(lineSlope) && Double
+									.isNaN(currentLineSlope))) {
 						System.out.println("No intersection slope case");
 						return false;
 					}
@@ -207,14 +211,14 @@ public class Vertex {
 
 					double currentLineSlope = (((double) Math.abs(currentLine
 							.getX2() - currentLine.getX1())) / ((double) Math
-							.abs(line.getY2() - line.getY1())));
+							.abs(currentLine.getY2() - currentLine.getY1())));
 
 					double lineSlope = (((double) Math.abs(line.getX2()
 							- line.getX1())) / ((double) Math.abs(line.getY2()
 							- line.getY1())));
 
 					Point2D.Double beginCurrentLine = new Point2D.Double(
-							currentLine.getX1(), line.getY1());
+							currentLine.getX1(), currentLine.getY1());
 					Point2D.Double endCurrentLine = new Point2D.Double(
 							currentLine.getX2(), currentLine.getY2());
 					Point2D.Double beginLine = new Point2D.Double(line.getX1(),
@@ -230,7 +234,11 @@ public class Vertex {
 							+ " Line: " + line.getX1() + ";" + line.getY1()
 							+ ", " + line.getX2() + ";" + line.getY2());
 
-					if (currentLineSlope == lineSlope) {
+					if (currentLineSlope == lineSlope
+							|| (Double.isInfinite(currentLineSlope) && Double
+									.isNaN(lineSlope))
+							|| (Double.isInfinite(lineSlope) && Double
+									.isNaN(currentLineSlope))) {
 						System.out.println("No intersection slope case");
 						return false;
 					}
