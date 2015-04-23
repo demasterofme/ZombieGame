@@ -32,10 +32,9 @@ public class Map {
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 		pathFinding = new PathFinding(shapeList);
-		System.out.println("LoS Check: " + new Vertex(1400, 1200, pathFinding).hasLineOfSight(new Vertex(1500, 1500, pathFinding)));
 
 	}
-	
+
 	public int getWidth() {
 		return WIDTH;
 	}
@@ -50,7 +49,7 @@ public class Map {
 		yOffset = InGame.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
 
 	}
-	
+
 	public PathFinding getPathFinding() {
 		return pathFinding;
 	}
@@ -84,8 +83,10 @@ public class Map {
 					if (previousX != -1 && previousY != -1) {
 						g.drawLine(previousX - InGame.map.getxOffset(),
 								previousY - InGame.map.getyOffset(),
-								(int) (coords[0] == 0 ? startX : coords[0]) - InGame.map.getxOffset(),
-								(int)  (coords[1] == 0 ? startY : coords[1]) - InGame.map.getyOffset());
+								(int) (coords[0] == 0 ? startX : coords[0])
+										- InGame.map.getxOffset(),
+								(int) (coords[1] == 0 ? startY : coords[1])
+										- InGame.map.getyOffset());
 					} else {
 						startX = (int) coords[0];
 						startY = (int) coords[1];

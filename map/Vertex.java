@@ -152,18 +152,31 @@ public class Vertex {
 			case PathIterator.SEG_LINETO: {
 				Line2D.Double currentLine = new Line2D.Double(lastCoords[0],
 						lastCoords[1], coords[0], coords[1]);
-				// System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
-					
+
 					System.out.println("Initial intersect");
 
-					double currentLineSlope = (((double) Math.abs(currentLine
-							.getX2() - currentLine.getX1())) / ((double) Math
-							.abs(currentLine.getY2() - currentLine.getY1())));
+					double currentLineSlope;
 
-					double lineSlope = (((double) Math.abs(line.getX2()
-							- line.getX1())) / ((double) Math.abs(line.getY2()
-							- line.getY1())));
+					if (currentLine.getX1() < currentLine.getX2()) {
+						currentLineSlope = (currentLine.getY2() - currentLine
+								.getY1())
+								/ (currentLine.getX2() - currentLine.getX1());
+					} else {
+						currentLineSlope = (currentLine.getY1() - currentLine
+								.getY2())
+								/ (currentLine.getX1() - currentLine.getX2());
+					}
+					
+					double lineSlope;
+
+					if (line.getX1() < line.getX2()) {
+						lineSlope = (line.getY2() - line.getY1())
+								/ (line.getX2() - line.getX1());
+					} else {
+						lineSlope = (line.getY1() - line.getY2())
+								/ (line.getX1() - line.getX2());
+					}
 
 					Point2D.Double beginCurrentLine = new Point2D.Double(
 							currentLine.getX1(), currentLine.getY1());
@@ -175,12 +188,6 @@ public class Vertex {
 							line.getY2());
 					Point2D.Double intersection = (Point2D.Double) getIntersection(
 							currentLine, line);
-
-					// System.out.println("Currentline: " + currentLine.getX1()
-					// + ";" + currentLine.getY1() + ", "
-					// + currentLine.getX2() + ";" + currentLine.getY2()
-					// + " Line: " + line.getX1() + ";" + line.getY1()
-					// + ", " + line.getX2() + ";" + line.getY2());
 
 					if (currentLineSlope == lineSlope
 							|| (Double.isInfinite(currentLineSlope) && Double
@@ -209,7 +216,7 @@ public class Vertex {
 					// if (!(++endLineIntersections > 1))
 					// intersects = false;
 					// }
-					
+
 					System.out.println("Intersections: " + intersections);
 
 				}
@@ -222,16 +229,30 @@ public class Vertex {
 						coords[1], firstCoords[0], firstCoords[1]);
 				// System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
-					
+
 					System.out.println("Initial intersect");
 
-					double currentLineSlope = (((double) Math.abs(currentLine
-							.getX2() - currentLine.getX1())) / ((double) Math
-							.abs(currentLine.getY2() - currentLine.getY1())));
+					double currentLineSlope;
 
-					double lineSlope = (((double) Math.abs(line.getX2()
-							- line.getX1())) / ((double) Math.abs(line.getY2()
-							- line.getY1())));
+					if (currentLine.getX1() < currentLine.getX2()) {
+						currentLineSlope = (currentLine.getY2() - currentLine
+								.getY1())
+								/ (currentLine.getX2() - currentLine.getX1());
+					} else {
+						currentLineSlope = (currentLine.getY1() - currentLine
+								.getY2())
+								/ (currentLine.getX1() - currentLine.getX2());
+					}
+
+					double lineSlope;
+
+					if (line.getX1() < line.getX2()) {
+						lineSlope = (line.getY2() - line.getY1())
+								/ (line.getX2() - line.getX1());
+					} else {
+						lineSlope = (line.getY1() - line.getY2())
+								/ (line.getX1() - line.getX2());
+					}
 
 					Point2D.Double beginCurrentLine = new Point2D.Double(
 							currentLine.getX1(), currentLine.getY1());
@@ -243,13 +264,6 @@ public class Vertex {
 							line.getY2());
 					Point2D.Double intersection = (Point2D.Double) getIntersection(
 							currentLine, line);
-
-					// System.out.println("Currentline: " +
-					// currentLine.getX1()
-					// + ";" + currentLine.getY1() + ", "
-					// + currentLine.getX2() + ";" + currentLine.getY2()
-					// + " Line: " + line.getX1() + ";" + line.getY1()
-					// + ", " + line.getX2() + ";" + line.getY2());
 
 					if (currentLineSlope == lineSlope
 							|| (Double.isInfinite(currentLineSlope) && Double
@@ -278,7 +292,7 @@ public class Vertex {
 					// if (!(++endLineIntersections > 1))
 					// intersects = false;
 					// }
-					
+
 					System.out.println("Intersections: " + intersections);
 
 				}

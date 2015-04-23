@@ -16,6 +16,8 @@ public class Zombie extends LivingEntity {
 	private ZombieType type;
 
 	public static BufferedImage texture;
+	
+	private int findPathTimer = 0;
 
 	public Zombie(ZombieType type, int x, int y) {
 
@@ -33,16 +35,17 @@ public class Zombie extends LivingEntity {
 
 	public boolean update() {
 
-		dx = 0;
-		dy = 0;
-
+		findPathTimer++;
+		
 		if (!(x == InGame.player.getx() && y == InGame.player.gety())) {
-			//findPath();
+			if (findPathTimer > 30) {
+				findPath();
+				findPathTimer = 0;
+			}
+		} else {
+			dx = 0; 
+			dy = 0;
 		}
-
-		// Vertex v1 = new Vertex(1000, 1000, InGame.map.getPathFinding());
-		// Vertex v2 = new Vertex(1200, 1200, InGame.map.getPathFinding());
-		// System.out.println(v1.hasLineOfSight(v2));
 
 		x += dx;
 		y += dy;
