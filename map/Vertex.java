@@ -147,7 +147,6 @@ public class Vertex {
 		int endLineIntersections = 0;
 
 		while (!pathIt.isDone()) {
-			x++;
 			int type = pathIt.currentSegment(coords);
 			switch (type) {
 			case PathIterator.SEG_LINETO: {
