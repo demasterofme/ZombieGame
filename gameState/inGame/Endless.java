@@ -19,9 +19,9 @@ public class Endless extends InGame {
 	public Endless() {
 		super();
 		
-		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1024, 1024));
-		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1050, 1024));
-		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1100, 1024));
+		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1000, 1024));
+		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1700, 1024));
+		zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1100, 1600));
 	}
 
 	public void update() {

@@ -16,7 +16,8 @@ public class Zombie extends LivingEntity {
 	private ZombieType type;
 
 	public static BufferedImage texture;
-	
+
+	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
 
 	public Zombie(ZombieType type, int x, int y) {
@@ -27,23 +28,56 @@ public class Zombie extends LivingEntity {
 		health = 1000;
 		speed = 1;
 
-		// for (Vertex v : v2.getNeighbours(v1)) {
-		// System.out.println(v.getX() + ", " + v.getY());
-		// }
-
 	}
 
 	public boolean update() {
 
 		findPathTimer++;
-		
-		if (!(x == InGame.player.getx() && y == InGame.player.gety())) {
+
+		int distanceToPlayer = (int) Math.sqrt(Math.pow(
+				x - InGame.player.getx(), 2)
+				+ Math.pow(y - InGame.player.gety(), 2));
+
+		// int shortestDistanceToOtherZombie = Integer.MAX_VALUE;
+		// for (Zombie z : InGame.zombies) {
+		// if (z.equals(this))
+		// continue;
+		// int distanceToZombie = (int) Math.sqrt(Math.pow(x + dx - z.getx(),
+		// 2) + Math.pow(y + dy - z.gety(), 2));
+		// if (distanceToZombie < shortestDistanceToOtherZombie) {
+		// shortestDistanceToOtherZombie = distanceToZombie;
+		// }
+		// }
+
+		// if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer
+		// && shortestDistanceToOtherZombie > 2 * r * 0.7) {
+		if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer) {
+
 			if (findPathTimer > 30) {
-				findPath();
+				path = findPath();
 				findPathTimer = 0;
 			}
+
+			if (path != null) {
+
+				int vertexX = path.get(path.size() - 2).getX();
+				int vertexY = path.get(path.size() - 2).getY();
+
+				double angle = Math.acos((vertexX - x)
+						/ (Math.sqrt(Math.pow(vertexX - x, 2)
+								+ Math.pow(vertexY - y, 2))));
+				if (vertexY < y)
+					angle = 2 * Math.PI - angle;
+
+				this.rotation = (int) Math.toDegrees(angle) + 90;
+
+				dx = (int) Math.round(Math.cos(angle) * speed);
+				dy = (int) Math.round(Math.sin(angle) * speed);
+
+			}
+
 		} else {
-			dx = 0; 
+			dx = 0;
 			dy = 0;
 		}
 
@@ -66,32 +100,14 @@ public class Zombie extends LivingEntity {
 		return false;
 	}
 
-	private ArrayList<Vertex> path;
-
-	public void findPath() {
+	public ArrayList<Vertex> findPath() {
 
 		if (InGame.map.getPathFinding() != null)
-			path = InGame.map.getPathFinding().findPath(
+			return InGame.map.getPathFinding().findPath(
 					new Vertex(x, y, InGame.map.getPathFinding()),
 					new Vertex(InGame.player.getx(), InGame.player.gety(),
 							InGame.map.getPathFinding()));
-
-		if (path != null) {
-
-			int vertexX = path.get(path.size() - 2).getX();
-			int vertexY = path.get(path.size() - 2).getY();
-
-			double angle = Math.acos((vertexX - x)
-					/ (Math.sqrt(Math.pow(vertexX - x, 2)
-							+ Math.pow(vertexY - y, 2))));
-			if (vertexY < y)
-				angle = 2 * Math.PI - angle;
-
-			this.rotation = (int) Math.toDegrees(angle) + 90;
-
-			dx = (int) Math.round(Math.cos(angle) * speed);
-			dy = (int) Math.round(Math.sin(angle) * speed);
-		}
+		return null;
 	}
 
 	public void damage(int damage) {
@@ -124,12 +140,12 @@ public class Zombie extends LivingEntity {
 			if (path != null) {
 				for (int i = 0; i < path.size() - 1; i++) {
 					g.setColor(Color.ORANGE);
-					g.drawLine(path.get(i).getX() - InGame.map.getxOffset(), path
-							.get(i).getY() - InGame.map.getyOffset(),
-							path.get(i + 1).getX() - InGame.map.getxOffset(), path
-									.get(i + 1).getY() - InGame.map.getyOffset());
+					g.drawLine(path.get(i).getX() - InGame.map.getxOffset(),
+							path.get(i).getY() - InGame.map.getyOffset(),
+							path.get(i + 1).getX() - InGame.map.getxOffset(),
+							path.get(i + 1).getY() - InGame.map.getyOffset());
 				}
-		}
+			}
 
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
