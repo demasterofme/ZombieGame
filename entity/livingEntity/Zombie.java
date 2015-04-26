@@ -20,7 +20,7 @@ public class Zombie extends LivingEntity {
 	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
 
-	public Zombie(ZombieType type, int x, int y) {
+	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
 		this.type = type;
@@ -61,8 +61,8 @@ public class Zombie extends LivingEntity {
 
 			if (path != null) {
 
-				float vertexX = path.get(path.size() - 2).getX();
-				float vertexY = path.get(path.size() - 2).getY();
+				double vertexX = path.get(path.size() - 2).getX();
+				double vertexY = path.get(path.size() - 2).getY();
 
 				double angle = Math.acos((vertexX - x)
 						/ (Math.sqrt(Math.pow(vertexX - x, 2)
@@ -70,14 +70,14 @@ public class Zombie extends LivingEntity {
 				if (vertexY < y)
 					angle = 2 * Math.PI - angle;
 
-				int rotation = (int) Math.toDegrees(angle) + 90;
+				double rotation = Math.toDegrees(angle) + 90;
 				if (rotation >= 360)
 					rotation -= 360;
-				
+
 				this.rotation = rotation;
-				
-				dx = (int) Math.round(Math.cos(angle) * speed);
-				dy = (int) Math.round(Math.sin(angle) * speed);
+
+				dx = Math.cos(angle) * speed;
+				dy = Math.sin(angle) * speed;
 
 			}
 
@@ -109,7 +109,7 @@ public class Zombie extends LivingEntity {
 
 		if (InGame.map.getPathFinding() != null)
 			return InGame.map.getPathFinding().findPath(
-					new Vertex((int) x, (int) y, InGame.map.getPathFinding()),
+					new Vertex(x, y, InGame.map.getPathFinding()),
 					new Vertex(InGame.player.getx(), InGame.player.gety(),
 							InGame.map.getPathFinding()));
 		return null;
@@ -145,10 +145,13 @@ public class Zombie extends LivingEntity {
 			if (path != null) {
 				for (int i = 0; i < path.size() - 1; i++) {
 					g.setColor(Color.ORANGE);
-					g.drawLine((int) path.get(i).getX() - InGame.map.getxOffset(),
+					g.drawLine(
+							(int) path.get(i).getX() - InGame.map.getxOffset(),
 							(int) path.get(i).getY() - InGame.map.getyOffset(),
-							(int) path.get(i + 1).getX() - InGame.map.getxOffset(),
-							(int) path.get(i + 1).getY() - InGame.map.getyOffset());
+							(int) path.get(i + 1).getX()
+									- InGame.map.getxOffset(),
+							(int) path.get(i + 1).getY()
+									- InGame.map.getyOffset());
 				}
 			}
 

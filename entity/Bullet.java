@@ -13,7 +13,7 @@ public class Bullet extends Entity {
 	private double dx, dy;
 	private int damage;
 
-	public Bullet(float x, float y, int angle, int damage) {
+	public Bullet(double x, double y, int angle, int damage) {
 		super(x, y);
 		rad = Math.toRadians(angle);
 

@@ -14,7 +14,7 @@ import map.pathFinding.PathFinding;
 
 public class Vertex {
 
-	private float x, y;
+	private double x, y;
 
 	private int g = 100000;
 	private int h = 100000;
@@ -23,20 +23,20 @@ public class Vertex {
 
 	private PathFinding pathFinding;
 
-	public Vertex(float f, float g2, PathFinding pathFinding) {
+	public Vertex(double d, double e, PathFinding pathFinding) {
 
-		this.x = f;
-		this.y = g2;
+		this.x = d;
+		this.y = e;
 
 		this.pathFinding = pathFinding;
 
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
@@ -128,7 +128,7 @@ public class Vertex {
 
 		float intersections = 0;
 
-		//System.out.println("Shape");
+		System.out.println("Shape");
 		while (!pathIt.isDone()) {
 			int type = pathIt.currentSegment(coords);
 			switch (type) {
@@ -137,7 +137,7 @@ public class Vertex {
 						lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
 
-					//System.out.println("Initial intersect");
+					System.out.println("Initial intersect");
 
 					double currentLineSlope;
 
@@ -169,7 +169,7 @@ public class Vertex {
 							line.getY1());
 					Point2D.Double endLine = new Point2D.Double(line.getX2(),
 							line.getY2());
-					Point2D.Double intersection = (Point2D.Double) getIntersection(
+					Point2D.Double intersection = getIntersection(
 							currentLine, line);
 
 					if (currentLineSlope == lineSlope
@@ -177,7 +177,7 @@ public class Vertex {
 									.isNaN(lineSlope))
 							|| (Double.isInfinite(lineSlope) && Double
 									.isNaN(currentLineSlope))) {
-						//System.out.println("No intersection slope case");
+						System.out.println("No intersection slope case");
 						return false;
 					}
 
@@ -191,16 +191,7 @@ public class Vertex {
 					} else
 						intersections += 2;
 
-					// if (!(intersection.equals(endCurrentLine) || intersection
-					// .equals(beginCurrentLine))) {
-					// intersects = true;
-					// if (intersection.equals(beginLine)
-					// || intersection.equals(endLine))
-					// if (!(++endLineIntersections > 1))
-					// intersects = false;
-					// }
-
-					//System.out.println("Intersections: " + intersections);
+					System.out.println("Intersections: " + intersections);
 
 				}
 				lastCoords[0] = coords[0];
@@ -210,10 +201,10 @@ public class Vertex {
 			case PathIterator.SEG_CLOSE: {
 				Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
-				// System.out.println("Line check");
+				System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					//System.out.println("Initial intersect");
+					System.out.println("Initial intersect");
 
 					double currentLineSlope;
 
@@ -245,7 +236,7 @@ public class Vertex {
 							line.getY1());
 					Point2D.Double endLine = new Point2D.Double(line.getX2(),
 							line.getY2());
-					Point2D.Double intersection = (Point2D.Double) getIntersection(
+					Point2D.Double intersection = getIntersection(
 							currentLine, line);
 
 					if (currentLineSlope == lineSlope
@@ -267,16 +258,7 @@ public class Vertex {
 					} else
 						intersections += 2;
 
-					// if (!(intersection.equals(endCurrentLine) || intersection
-					// .equals(beginCurrentLine))) {
-					// intersects = true;
-					// if (intersection.equals(beginLine)
-					// || intersection.equals(endLine))
-					// if (!(++endLineIntersections > 1))
-					// intersects = false;
-					// }
-
-					//System.out.println("Intersections: " + intersections);
+					System.out.println("Intersections: " + intersections);
 
 				}
 				break;
@@ -287,14 +269,13 @@ public class Vertex {
 			}
 			pathIt.next();
 		}
-		//System.out.println(intersections);
+		System.out.println(intersections);
 		if (intersections >= 1.5)
 			return true;
-		// System.out.println((intersects ? "" : "No ") + "Intersection");
 		return false;
 	}
 
-	public Point2D getIntersection(Line2D.Double line1, Line2D.Double line2) {
+	public Point2D.Double getIntersection(Line2D.Double line1, Line2D.Double line2) {
 
 		double x1 = line1.x1, y1 = line1.y1, x2 = line1.x2, y2 = line1.y2, x3 = line2.x1, y3 = line2.y1, x4 = line2.x2, y4 = line2.y2;
 		double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3)

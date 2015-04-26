@@ -40,9 +40,9 @@ public class Player extends LivingEntity {
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
 
-	public Player(int x, int y) {
+	public Player(float x, float y) {
 		super(x, y);
-		speed = 2;
+		speed = 4;
 		r = 30;
 		health = 20;
 		inventory = new Inventory(InGame.guns.get(0));
@@ -111,8 +111,8 @@ public class Player extends LivingEntity {
 				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
 				int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
 				InGame.muzzleFlashes.add(new MuzzleFlash(GamePanel.WINDOW_WIDTH
-						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1, rotation));
-				InGame.bullets.add(new Bullet(x, y, rotation, gun.getDamage()));
+						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
+				InGame.bullets.add(new Bullet(x, y, (int) rotation, gun.getDamage()));
 
 				gun.setCurrentBullets(gun.getCurrentBullets() - 1);
 
@@ -218,7 +218,7 @@ public class Player extends LivingEntity {
 		down = false;
 	}
 
-	public boolean checkCollisions(float dx, float dy) {
+	public boolean checkCollisions(double dx, double dy) {
 
 		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y + (int) dy - 5, 5, 5);
 

@@ -14,8 +14,8 @@ public class DeadZombie extends Entity {
 	private int alpha;
 	private int timer;
 
-	public DeadZombie(float f, float g) {
-		super(f, g);
+	public DeadZombie(double d, double e) {
+		super(d, e);
 		died = System.nanoTime();
 		timer = 3000;
 		r = 60;

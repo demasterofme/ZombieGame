@@ -5,12 +5,12 @@ import entity.Entity;
 public class LivingEntity extends Entity {
 
 	protected int health;
-	protected int rotation;
+	protected double rotation;
 	protected int speed;
 
 	protected boolean dead;
 
-	public LivingEntity(int x, int y) {
+	public LivingEntity(double x, double y) {
 		super(x, y);
 		dead = false;
 	}
@@ -23,7 +23,7 @@ public class LivingEntity extends Entity {
 		return dead;
 	}
 
-	public int getRotation() {
+	public double getRotation() {
 		return rotation;
 	}
 

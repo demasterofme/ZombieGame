@@ -36,11 +36,11 @@ public class PathFinding {
 		for (GeneralPath p : colissionMap) {
 
 			PathIterator it = p.getPathIterator(null);
-			float[] coords = new float[2];
+			double[] coords = new double[2];
 
 			while (!it.isDone()) {
 				it.currentSegment(coords);
-				vertices.add(new Vertex((int) coords[0], (int) coords[1], this));
+				vertices.add(new Vertex(coords[0], coords[1], this));
 				it.next();
 			}
 

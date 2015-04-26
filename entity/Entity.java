@@ -3,11 +3,11 @@ package entity;
 
 public class Entity {
 
-	protected float x, y;
-	protected float dx, dy;
+	protected double x, y;
+	protected double dx, dy;
 	protected int r;
 
-	public Entity(float x, float y) {
+	public Entity(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
@@ -16,11 +16,11 @@ public class Entity {
 		return false;
 	}
 	
-	public float getx() {
+	public double getx() {
 		return x;
 	}
 	
-	public float gety() {
+	public double gety() {
 		return y;
 	}
 	
