@@ -70,8 +70,7 @@ public class Vertex {
 
 	public boolean hasLineOfSight(Vertex v) {
 
-		Line2D.Double line = new Line2D.Double(x, y, v.getX(),
-				v.getY());
+		Line2D.Double line = new Line2D.Double(x, y, v.getX(), v.getY());
 
 		for (GeneralPath g : Map.shapeList) {
 			try {
@@ -139,6 +138,16 @@ public class Vertex {
 
 					System.out.println("Initial intersect");
 
+					// Revert to less precision
+					currentLine = new Line2D.Double(
+							(float) currentLine.getX1(),
+							(float) currentLine.getY1(),
+							(float) currentLine.getX2(),
+							(float) currentLine.getY2());
+					line = new Line2D.Double((float) line.getX1(),
+							(float) line.getY1(), (float) line.getX2(),
+							(float) line.getY2());
+
 					double currentLineSlope;
 
 					if (currentLine.getX1() < currentLine.getX2()) {
@@ -150,7 +159,7 @@ public class Vertex {
 								.getY2())
 								/ (currentLine.getX1() - currentLine.getX2());
 					}
-					
+
 					double lineSlope;
 
 					if (line.getX1() < line.getX2()) {
@@ -169,8 +178,8 @@ public class Vertex {
 							line.getY1());
 					Point2D.Double endLine = new Point2D.Double(line.getX2(),
 							line.getY2());
-					Point2D.Double intersection = getIntersection(
-							currentLine, line);
+					Point2D.Double intersection = getIntersection(currentLine,
+							line);
 
 					if (currentLineSlope == lineSlope
 							|| (Double.isInfinite(currentLineSlope) && Double
@@ -206,6 +215,17 @@ public class Vertex {
 
 					System.out.println("Initial intersect");
 
+					// Revert to less precision
+					currentLine = new Line2D.Double(
+							(float) currentLine.getX1(),
+							(float) currentLine.getY1(),
+							(float) currentLine.getX2(),
+							(float) currentLine.getY2());
+					line = new Line2D.Double((float) line.getX1(),
+							(float) line.getY1(), (float) line.getX2(),
+							(float) line.getY2());
+
+					
 					double currentLineSlope;
 
 					if (currentLine.getX1() < currentLine.getX2()) {
@@ -236,15 +256,15 @@ public class Vertex {
 							line.getY1());
 					Point2D.Double endLine = new Point2D.Double(line.getX2(),
 							line.getY2());
-					Point2D.Double intersection = getIntersection(
-							currentLine, line);
+					Point2D.Double intersection = getIntersection(currentLine,
+							line);
 
 					if (currentLineSlope == lineSlope
 							|| (Double.isInfinite(currentLineSlope) && Double
 									.isNaN(lineSlope))
 							|| (Double.isInfinite(lineSlope) && Double
 									.isNaN(currentLineSlope))) {
-						//System.out.println("No intersection slope case");
+						// System.out.println("No intersection slope case");
 						return false;
 					}
 
@@ -275,7 +295,8 @@ public class Vertex {
 		return false;
 	}
 
-	public Point2D.Double getIntersection(Line2D.Double line1, Line2D.Double line2) {
+	public Point2D.Double getIntersection(Line2D.Double line1,
+			Line2D.Double line2) {
 
 		double x1 = line1.x1, y1 = line1.y1, x2 = line1.x2, y2 = line1.y2, x3 = line2.x1, y3 = line2.y1, x4 = line2.x2, y4 = line2.y2;
 		double x = ((x2 - x1) * (x3 * y4 - x4 * y3) - (x4 - x3)
@@ -335,7 +356,7 @@ public class Vertex {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.ORANGE);
-		g.fillOval((int) x - 2 - InGame.map.getxOffset(),
-				(int) y - 2 - InGame.map.getyOffset(), 4, 4);
+		g.fillOval((int) x - 2 - InGame.map.getxOffset(), (int) y - 2
+				- InGame.map.getyOffset(), 4, 4);
 	}
 }
