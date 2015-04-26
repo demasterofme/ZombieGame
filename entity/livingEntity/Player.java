@@ -218,9 +218,9 @@ public class Player extends LivingEntity {
 		down = false;
 	}
 
-	public boolean checkCollisions(int dx, int dy) {
+	public boolean checkCollisions(float dx, float dy) {
 
-		Rectangle movementRect = new Rectangle(x + dx - 5, y + dy - 5, 5, 5);
+		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y + (int) dy - 5, 5, 5);
 
 		for (GeneralPath p : Map.shapeList)
 
@@ -257,8 +257,8 @@ public class Player extends LivingEntity {
 			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
 					/ 2 - r, r * 2, r * 2);
 			g.setColor(Color.YELLOW);
-			g.drawRect(x - InGame.map.getxOffset() - r,
-					y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
+			g.drawRect((int) x - InGame.map.getxOffset() - r,
+					(int) y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 

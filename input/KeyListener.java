@@ -1,5 +1,6 @@
 package input;
 
+import gameState.AlertBox;
 import gameState.PauseMenu;
 import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
@@ -65,6 +66,9 @@ public class KeyListener implements java.awt.event.KeyListener {
 			case KeyEvent.VK_SPACE:
 				GamePanel.changeGameState(new Shop((InGame) GamePanel
 						.getGameState(), false));
+				break;
+			case KeyEvent.VK_U:
+				GamePanel.changeGameState(new AlertBox((InGame) GamePanel.getGameState(), 900, 400, "Hello world"));
 				break;
 			}
 		else if (GamePanel.getGameState() instanceof Shop)

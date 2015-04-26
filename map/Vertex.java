@@ -14,7 +14,7 @@ import map.pathFinding.PathFinding;
 
 public class Vertex {
 
-	private int x, y;
+	private float x, y;
 
 	private int g = 100000;
 	private int h = 100000;
@@ -23,20 +23,20 @@ public class Vertex {
 
 	private PathFinding pathFinding;
 
-	public Vertex(int x, int y, PathFinding pathFinding) {
+	public Vertex(float f, float g2, PathFinding pathFinding) {
 
-		this.x = x;
-		this.y = y;
+		this.x = f;
+		this.y = g2;
 
 		this.pathFinding = pathFinding;
 
 	}
 
-	public int getX() {
+	public float getX() {
 		return x;
 	}
 
-	public int getY() {
+	public float getY() {
 		return y;
 	}
 
@@ -70,24 +70,7 @@ public class Vertex {
 
 	public boolean hasLineOfSight(Vertex v) {
 
-		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
-				v.getY());
-
-		for (GeneralPath g : Map.shapeList) {
-			try {
-				if (intersects(g, line, v))
-					return false;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		return true;
-	}
-
-	public boolean hasLineOfSight(Vertex v, boolean output) {
-
-		Line2D.Double line = new Line2D.Double(getX(), getY(), v.getX(),
+		Line2D.Double line = new Line2D.Double(x, y, v.getX(),
 				v.getY());
 
 		for (GeneralPath g : Map.shapeList) {
@@ -145,7 +128,7 @@ public class Vertex {
 
 		float intersections = 0;
 
-		System.out.println("Shape");
+		//System.out.println("Shape");
 		while (!pathIt.isDone()) {
 			int type = pathIt.currentSegment(coords);
 			switch (type) {
@@ -154,7 +137,7 @@ public class Vertex {
 						lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
 
-					System.out.println("Initial intersect");
+					//System.out.println("Initial intersect");
 
 					double currentLineSlope;
 
@@ -194,7 +177,7 @@ public class Vertex {
 									.isNaN(lineSlope))
 							|| (Double.isInfinite(lineSlope) && Double
 									.isNaN(currentLineSlope))) {
-						System.out.println("No intersection slope case");
+						//System.out.println("No intersection slope case");
 						return false;
 					}
 
@@ -217,7 +200,7 @@ public class Vertex {
 					// intersects = false;
 					// }
 
-					System.out.println("Intersections: " + intersections);
+					//System.out.println("Intersections: " + intersections);
 
 				}
 				lastCoords[0] = coords[0];
@@ -230,7 +213,7 @@ public class Vertex {
 				// System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					System.out.println("Initial intersect");
+					//System.out.println("Initial intersect");
 
 					double currentLineSlope;
 
@@ -270,7 +253,7 @@ public class Vertex {
 									.isNaN(lineSlope))
 							|| (Double.isInfinite(lineSlope) && Double
 									.isNaN(currentLineSlope))) {
-						System.out.println("No intersection slope case");
+						//System.out.println("No intersection slope case");
 						return false;
 					}
 
@@ -293,7 +276,7 @@ public class Vertex {
 					// intersects = false;
 					// }
 
-					System.out.println("Intersections: " + intersections);
+					//System.out.println("Intersections: " + intersections);
 
 				}
 				break;
@@ -304,7 +287,7 @@ public class Vertex {
 			}
 			pathIt.next();
 		}
-		System.out.println(intersections);
+		//System.out.println(intersections);
 		if (intersections >= 1.5)
 			return true;
 		// System.out.println((intersects ? "" : "No ") + "Intersection");
@@ -371,7 +354,7 @@ public class Vertex {
 
 	public void draw(Graphics2D g) {
 		g.setColor(Color.ORANGE);
-		g.fillOval(x - 2 - InGame.map.getxOffset(),
-				y - 2 - InGame.map.getyOffset(), 4, 4);
+		g.fillOval((int) x - 2 - InGame.map.getxOffset(),
+				(int) y - 2 - InGame.map.getyOffset(), 4, 4);
 	}
 }

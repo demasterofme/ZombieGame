@@ -13,7 +13,7 @@ public class Bullet extends Entity {
 	private double dx, dy;
 	private int damage;
 
-	public Bullet(int x, int y, int angle, int damage) {
+	public Bullet(float x, float y, int angle, int damage) {
 		super(x, y);
 		rad = Math.toRadians(angle);
 
@@ -47,8 +47,8 @@ public class Bullet extends Entity {
 	// For debugging only
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - InGame.map.getxOffset();
-		int relativeY = y - InGame.map.getyOffset();
+		int relativeX = (int) x - InGame.map.getxOffset();
+		int relativeY = (int) y - InGame.map.getyOffset();
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {

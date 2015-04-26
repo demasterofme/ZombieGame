@@ -45,8 +45,8 @@ public class Map {
 
 	public void update() {
 
-		xOffset = InGame.player.getx() - GamePanel.WINDOW_WIDTH / 2;
-		yOffset = InGame.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
+		xOffset = (int) InGame.player.getx() - GamePanel.WINDOW_WIDTH / 2;
+		yOffset = (int) InGame.player.gety() - GamePanel.WINDOW_HEIGHT / 2;
 
 	}
 

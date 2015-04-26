@@ -14,8 +14,8 @@ public class DeadZombie extends Entity {
 	private int alpha;
 	private int timer;
 
-	public DeadZombie(int x, int y) {
-		super(x, y);
+	public DeadZombie(float f, float g) {
+		super(f, g);
 		died = System.nanoTime();
 		timer = 3000;
 		r = 60;
@@ -35,8 +35,8 @@ public class DeadZombie extends Entity {
 
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - InGame.map.getxOffset();
-		int relativeY = y - InGame.map.getyOffset();
+		int relativeX = (int) x - InGame.map.getxOffset();
+		int relativeY = (int) y - InGame.map.getyOffset();
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {

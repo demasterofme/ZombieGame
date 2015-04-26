@@ -51,6 +51,7 @@ public class Zombie extends LivingEntity {
 
 		// if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer
 		// && shortestDistanceToOtherZombie > 2 * r * 0.7) {
+
 		if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer) {
 
 			if (findPathTimer > 30) {
@@ -60,8 +61,8 @@ public class Zombie extends LivingEntity {
 
 			if (path != null) {
 
-				int vertexX = path.get(path.size() - 2).getX();
-				int vertexY = path.get(path.size() - 2).getY();
+				float vertexX = path.get(path.size() - 2).getX();
+				float vertexY = path.get(path.size() - 2).getY();
 
 				double angle = Math.acos((vertexX - x)
 						/ (Math.sqrt(Math.pow(vertexX - x, 2)
@@ -69,8 +70,12 @@ public class Zombie extends LivingEntity {
 				if (vertexY < y)
 					angle = 2 * Math.PI - angle;
 
-				this.rotation = (int) Math.toDegrees(angle) + 90;
-
+				int rotation = (int) Math.toDegrees(angle) + 90;
+				if (rotation >= 360)
+					rotation -= 360;
+				
+				this.rotation = rotation;
+				
 				dx = (int) Math.round(Math.cos(angle) * speed);
 				dy = (int) Math.round(Math.sin(angle) * speed);
 
@@ -104,7 +109,7 @@ public class Zombie extends LivingEntity {
 
 		if (InGame.map.getPathFinding() != null)
 			return InGame.map.getPathFinding().findPath(
-					new Vertex(x, y, InGame.map.getPathFinding()),
+					new Vertex((int) x, (int) y, InGame.map.getPathFinding()),
 					new Vertex(InGame.player.getx(), InGame.player.gety(),
 							InGame.map.getPathFinding()));
 		return null;
@@ -120,8 +125,8 @@ public class Zombie extends LivingEntity {
 
 	public void draw(Graphics2D g) {
 
-		int relativeX = x - InGame.map.getxOffset();
-		int relativeY = y - InGame.map.getyOffset();
+		int relativeX = (int) x - InGame.map.getxOffset();
+		int relativeY = (int) y - InGame.map.getyOffset();
 
 		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
 				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
@@ -140,10 +145,10 @@ public class Zombie extends LivingEntity {
 			if (path != null) {
 				for (int i = 0; i < path.size() - 1; i++) {
 					g.setColor(Color.ORANGE);
-					g.drawLine(path.get(i).getX() - InGame.map.getxOffset(),
-							path.get(i).getY() - InGame.map.getyOffset(),
-							path.get(i + 1).getX() - InGame.map.getxOffset(),
-							path.get(i + 1).getY() - InGame.map.getyOffset());
+					g.drawLine((int) path.get(i).getX() - InGame.map.getxOffset(),
+							(int) path.get(i).getY() - InGame.map.getyOffset(),
+							(int) path.get(i + 1).getX() - InGame.map.getxOffset(),
+							(int) path.get(i + 1).getY() - InGame.map.getyOffset());
 				}
 			}
 
