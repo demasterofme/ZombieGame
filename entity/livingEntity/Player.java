@@ -2,6 +2,8 @@ package entity.livingEntity;
 
 import entity.Bullet;
 import entity.Gun;
+import gameState.AlertBox;
+import gameState.GameState;
 import gameState.PauseMenu;
 import gameState.inGame.InGame;
 import gfx.MuzzleFlash;
@@ -42,7 +44,7 @@ public class Player extends LivingEntity {
 
 	public Player(float x, float y) {
 		super(x, y);
-		speed = 4;
+		speed = 3;
 		r = 30;
 		health = 20;
 		inventory = new Inventory(InGame.guns.get(0));
@@ -111,8 +113,10 @@ public class Player extends LivingEntity {
 				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
 				int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
 				InGame.muzzleFlashes.add(new MuzzleFlash(GamePanel.WINDOW_WIDTH
-						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
-				InGame.bullets.add(new Bullet(x, y, (int) rotation, gun.getDamage()));
+						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1,
+						(int) rotation));
+				InGame.bullets.add(new Bullet(x, y, (int) rotation, gun
+						.getDamage()));
 
 				gun.setCurrentBullets(gun.getCurrentBullets() - 1);
 
@@ -207,11 +211,16 @@ public class Player extends LivingEntity {
 		return inventory;
 	}
 
-	public void resume() {
-		reloadTimer += System.nanoTime()
-				- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
-		reloadTimer += System.nanoTime()
-				- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
+	public void resume(GameState previousState) {
+		
+		if (previousState instanceof PauseMenu) {
+			reloadTimer += System.nanoTime()
+					- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
+		} else if (previousState instanceof AlertBox) {
+			reloadTimer += System.nanoTime()
+					- ((AlertBox) GamePanel.getGameState()).getPauseTimer();
+		}
+		
 		right = false;
 		left = false;
 		up = false;
@@ -220,7 +229,8 @@ public class Player extends LivingEntity {
 
 	public boolean checkCollisions(double dx, double dy) {
 
-		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y + (int) dy - 5, 5, 5);
+		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
+				+ (int) dy - 5, 5, 5);
 
 		for (GeneralPath p : Map.shapeList)
 
@@ -257,8 +267,8 @@ public class Player extends LivingEntity {
 			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
 					/ 2 - r, r * 2, r * 2);
 			g.setColor(Color.YELLOW);
-			g.drawRect((int) x - InGame.map.getxOffset() - r,
-					(int) y - InGame.map.getyOffset() - r, 2 * r, 2 * r);
+			g.drawRect((int) x - InGame.map.getxOffset() - r, (int) y
+					- InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 

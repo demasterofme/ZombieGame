@@ -31,8 +31,8 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 			for (Button b : GamePanel.getGameState().getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
-						&& event.getY() >= b.gety() - b.getHeight()
-						&& event.getY() <= b.gety())
+						&& event.getY() <= b.gety() + b.getHeight()
+						&& event.getY() >= b.gety())
 					b.setHover(true);
 				else
 					b.setHover(false);
@@ -62,8 +62,8 @@ public class MouseMotionListener implements java.awt.event.MouseMotionListener {
 			for (Button b : GamePanel.getGameState().getButtons()) {
 				if (event.getX() >= b.getx()
 						&& event.getX() <= b.getx() + b.getWidth()
-						&& event.getY() >= b.gety() - b.getHeight()
-						&& event.getY() <= b.gety())
+						&& event.getY() <= b.gety() + b.getHeight()
+						&& event.getY() >= b.gety())
 					b.setHover(true);
 				else
 					b.setHover(false);

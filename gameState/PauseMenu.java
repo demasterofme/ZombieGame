@@ -54,7 +54,7 @@ public class PauseMenu extends GameState {
 
 		if (button_resume.isPressed()) {
 
-			oldState.getPlayer().resume();
+			oldState.getPlayer().resume(this);
 			GamePanel.changeGameState(oldState);
 
 		}

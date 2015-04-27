@@ -1,5 +1,6 @@
 package gfx;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
@@ -23,8 +24,8 @@ public class Button {
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
-		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text);
-		this.height = GamePanel.g.getFontMetrics(font).getHeight();
+		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text) + 20;
+		this.height = GamePanel.g.getFontMetrics(font).getHeight() + 10;
 	}
 
 	public Button(boolean centerX, int y, String text, Font font,
@@ -35,8 +36,9 @@ public class Button {
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
-		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text);
-		this.height = GamePanel.g.getFontMetrics(font).getHeight();
+		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text) + 20;
+		this.height = GamePanel.g.getFontMetrics(font).getHeight() + 10;
+
 		if (centerX)
 			x = GamePanel.WINDOW_WIDTH / 2 - width / 2;
 		else
@@ -51,8 +53,8 @@ public class Button {
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
-		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text);
-		this.height = GamePanel.g.getFontMetrics(font).getHeight();
+		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text) + 20;
+		this.height = GamePanel.g.getFontMetrics(font).getHeight() + 10;
 		if (centerY)
 			y = GamePanel.WINDOW_HEIGHT / 2 - height / 2;
 		else
@@ -108,11 +110,23 @@ public class Button {
 	}
 
 	public void draw(Graphics2D g) {
+
 		if (hover)
-			g.setFont(font_hover);
+			g.setColor(new Color(150, 0, 0, 240));
 		else
-			g.setFont(font);
-		g.drawString(text, x, y);
+			g.setColor(new Color(24, 24, 24, 240));
+		
+		g.fillRect(x, y, width, height);
+
+		g.setColor(new Color(150, 0, 0, 255));
+		g.drawRect(x + 2, y + 2, width - 4, height - 4);
+
+		g.setColor(Color.white);
+		g.setFont(font);
+
+		g.drawString(text, x + 10, y
+				+ (int) (GamePanel.g.getFontMetrics(font).getHeight() * 0.9));
+
 	}
 
 }

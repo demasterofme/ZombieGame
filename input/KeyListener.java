@@ -67,9 +67,6 @@ public class KeyListener implements java.awt.event.KeyListener {
 				GamePanel.changeGameState(new Shop((InGame) GamePanel
 						.getGameState(), false));
 				break;
-			case KeyEvent.VK_U:
-				GamePanel.changeGameState(new AlertBox((InGame) GamePanel.getGameState(), 900, 400, "Hello world"));
-				break;
 			}
 		else if (GamePanel.getGameState() instanceof Shop)
 			switch (event.getKeyCode()) {
@@ -83,7 +80,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_ESCAPE:
 				((PauseMenu) GamePanel.getGameState()).getOldState()
-						.getPlayer().resume();
+						.getPlayer().resume(GamePanel.getGameState());
 				GamePanel
 						.changeGameState(((PauseMenu) GamePanel.getGameState())
 								.getOldState());

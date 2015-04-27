@@ -1,5 +1,6 @@
 package input;
 
+import gameState.AlertBox;
 import gameState.PauseMenu;
 import gameState.TitleScreen.Settings;
 import gameState.TitleScreen.TitleScreen;
@@ -25,14 +26,15 @@ public class MouseListener implements java.awt.event.MouseListener,
 		if (GamePanel.getGameState() instanceof TitleScreen
 				|| GamePanel.getGameState() instanceof Settings
 				|| GamePanel.getGameState() instanceof Shop
-				|| GamePanel.getGameState() instanceof PauseMenu)
+				|| GamePanel.getGameState() instanceof PauseMenu
+				|| GamePanel.getGameState() instanceof AlertBox)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : GamePanel.getGameState().getButtons()) {
 					if (event.getX() >= b.getx()
 							&& event.getX() <= b.getx() + b.getWidth()
-							&& event.getY() >= b.gety() - b.getHeight()
-							&& event.getY() <= b.gety())
+							&& event.getY() <= b.gety() + b.getHeight()
+							&& event.getY() >= b.gety())
 						b.setPressed(true);
 				}
 			}

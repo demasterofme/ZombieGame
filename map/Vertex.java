@@ -84,30 +84,6 @@ public class Vertex {
 		return true;
 	}
 
-	// public boolean intersects(GeneralPath path, Line2D.Double line) {
-	// int[] xPoints = { (int) line.getX1(), (int) line.getX2() };
-	// int[] yPoints = { (int) line.getY1(), (int) line.getY2() };
-	// Polygon linePolygon = new Polygon(xPoints, yPoints, 2);
-	// PathIterator pathIt = path.getPathIterator(null);
-	// double[] coords = new double[6];
-	// pathIt.currentSegment(coords);
-	// xPoints = new int[1000];
-	// yPoints = new int[1000];
-	// int xPointsIndex = 0;
-	// int yPointsIndex = 0;
-	// while (!pathIt.isDone()) {
-	// pathIt.currentSegment(coords);
-	// xPoints[xPointsIndex++] = (int) coords[0];
-	// yPoints[yPointsIndex++] = (int) coords[1];
-	// pathIt.next();
-	// }
-	// Polygon pathPolygon = new Polygon(xPoints, yPoints, xPoints.length);
-	// Area pathArea = new Area(pathPolygon);
-	// pathArea.intersect(new Area(linePolygon));
-	// System.out.println("Empty: " + new Area(linePolygon).isEmpty());
-	// return !pathArea.isEmpty();
-	// }
-
 	public boolean intersects(GeneralPath path, Line2D.Double line, Vertex v)
 			throws Exception {
 
@@ -127,7 +103,7 @@ public class Vertex {
 
 		float intersections = 0;
 
-		System.out.println("Shape");
+		//System.out.println("Shape");
 		while (!pathIt.isDone()) {
 			int type = pathIt.currentSegment(coords);
 			switch (type) {
@@ -136,7 +112,7 @@ public class Vertex {
 						lastCoords[1], coords[0], coords[1]);
 				if (currentLine.intersectsLine(line)) {
 
-					System.out.println("Initial intersect");
+					//System.out.println("Initial intersect");
 
 					// Revert to less precision
 					currentLine = new Line2D.Double(
@@ -186,7 +162,7 @@ public class Vertex {
 									.isNaN(lineSlope))
 							|| (Double.isInfinite(lineSlope) && Double
 									.isNaN(currentLineSlope))) {
-						System.out.println("No intersection slope case");
+						//System.out.println("No intersection slope case");
 						return false;
 					}
 
@@ -200,7 +176,7 @@ public class Vertex {
 					} else
 						intersections += 2;
 
-					System.out.println("Intersections: " + intersections);
+					//System.out.println("Intersections: " + intersections);
 
 				}
 				lastCoords[0] = coords[0];
@@ -210,10 +186,10 @@ public class Vertex {
 			case PathIterator.SEG_CLOSE: {
 				Line2D.Double currentLine = new Line2D.Double(coords[0],
 						coords[1], firstCoords[0], firstCoords[1]);
-				System.out.println("Line check");
+				//System.out.println("Line check");
 				if (currentLine.intersectsLine(line)) {
 
-					System.out.println("Initial intersect");
+					//System.out.println("Initial intersect");
 
 					// Revert to less precision
 					currentLine = new Line2D.Double(
@@ -278,7 +254,7 @@ public class Vertex {
 					} else
 						intersections += 2;
 
-					System.out.println("Intersections: " + intersections);
+					//System.out.println("Intersections: " + intersections);
 
 				}
 				break;
@@ -289,7 +265,7 @@ public class Vertex {
 			}
 			pathIt.next();
 		}
-		System.out.println(intersections);
+		//System.out.println(intersections);
 		if (intersections >= 1.5)
 			return true;
 		return false;

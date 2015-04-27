@@ -4,8 +4,11 @@ import gameState.inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
+import java.awt.geom.GeneralPath;
 
 import launcher.GamePanel;
+import map.Map;
 
 public class Bullet extends Entity {
 
@@ -33,7 +36,7 @@ public class Bullet extends Entity {
 		y += dy;
 
 		if (x < -r || x > InGame.map.getWidth() + r || y < -r
-				|| y > InGame.map.getHeight() + r) {
+				|| y > InGame.map.getHeight() + r || checkCollisions(dx, 0) || checkCollisions(0, dy)) {
 			return true;
 		}
 
@@ -42,6 +45,19 @@ public class Bullet extends Entity {
 
 	public int getDamage() {
 		return damage;
+	}
+	
+	public boolean checkCollisions(double dx, double dy) {
+
+		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
+				+ (int) dy - 5, 5, 5);
+
+		for (GeneralPath p : Map.shapeList)
+
+			if (p.intersects(movementRect))
+				return true;
+
+		return false;
 	}
 
 	// For debugging only
