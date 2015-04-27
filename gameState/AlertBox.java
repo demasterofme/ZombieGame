@@ -44,8 +44,7 @@ public class AlertBox extends GameState {
 		buttons = new ArrayList<>();
 
 		buttonClose = new Button(x + width - 100, y + height - 50, "Close",
-				new Font("Century Gothic", Font.PLAIN, 24), new Font(
-						"Century Gothic", Font.BOLD, 24));
+				new Font("Century Gothic", Font.PLAIN, 24));
 
 		buttons.add(buttonClose);
 

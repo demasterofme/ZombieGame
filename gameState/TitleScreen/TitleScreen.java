@@ -2,7 +2,6 @@ package gameState.TitleScreen;
 
 import gameState.GameState;
 import gameState.inGame.Endless;
-import gameState.inGame.InGame;
 import gfx.Button;
 
 import java.awt.Color;
@@ -19,7 +18,6 @@ public class TitleScreen extends GameState {
 
 	public static ArrayList<Button> buttons;
 	private Button button_start;
-	private Button button_settings;
 	private Button button_quit;
 
 	private BufferedImage backgroundImage;
@@ -29,16 +27,13 @@ public class TitleScreen extends GameState {
 		buttons = new ArrayList<>();
 
 		Font font = new Font("Century Gothic", Font.PLAIN, 42);
-		Font font_hover = new Font("Century Gothic", Font.BOLD, 42);
 
 		// Add buttons to the screen, will be perfected later
 
-		button_start = new Button(true, 200, "Start Game", font, font_hover);
-		button_settings = new Button(true, 300, "Options", font, font_hover);
-		button_quit = new Button(true, 400, "Quit", font, font_hover);
+		button_start = new Button(true, 250, "Start Game", font);
+		button_quit = new Button(true, 350, "Quit", font);
 
 		buttons.add(button_start);
-		buttons.add(button_settings);
 		buttons.add(button_quit);
 
 		// For testing
@@ -57,10 +52,6 @@ public class TitleScreen extends GameState {
 
 		if (button_start.isPressed()) {
 			GamePanel.changeGameState(new Endless());
-		}
-		if (button_settings.isPressed()) {
-			GamePanel.changeGameState(new Settings(this));
-			button_settings.setPressed(false);
 		}
 		if (button_quit.isPressed()) {
 			GamePanel.running = false;

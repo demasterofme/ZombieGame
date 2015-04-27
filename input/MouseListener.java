@@ -77,10 +77,10 @@ public class MouseListener implements java.awt.event.MouseListener,
 		if (GamePanel.getGameState() instanceof InGame && InGame.player != null)
 			if (event.getWheelRotation() < 0)
 				for (int x = 0; x < -event.getWheelRotation(); x++)
-					InGame.player.getInventory().cycleSelected(false);
+					InGame.player.getInventory().cycleSelectedSlot(false);
 			else
 				for (int x = 0; x < event.getWheelRotation(); x++)
-					InGame.player.getInventory().cycleSelected(true);
+					InGame.player.getInventory().cycleSelectedSlot(true);
 	}
 
 	public void mouseClicked(MouseEvent arg0) {

@@ -87,7 +87,7 @@ public class Endless extends InGame {
 			g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 			String s = "- W A V E   " + waveNumber + "   -";
 			g.setColor(Color.WHITE);
-			g.drawString(s, 50, 50);
+			//g.drawString(s, 50, 50);
 		}
 	}
 

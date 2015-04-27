@@ -14,13 +14,11 @@ public class Button {
 	private int width, height;
 	private String text;
 	private Font font;
-	private Font font_hover;
 
-	public Button(int x, int y, String text, Font font, Font font_hover) {
+	public Button(int x, int y, String text, Font font) {
 		this.x = x;
 		this.y = y;
 		this.font = font;
-		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -28,11 +26,9 @@ public class Button {
 		this.height = GamePanel.g.getFontMetrics(font).getHeight() + 10;
 	}
 
-	public Button(boolean centerX, int y, String text, Font font,
-			Font font_hover) {
+	public Button(boolean centerX, int y, String text, Font font) {
 		this.y = y;
 		this.font = font;
-		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;
@@ -45,11 +41,9 @@ public class Button {
 			x = 0;
 	}
 
-	public Button(int x, boolean centerY, String text, Font font,
-			Font font_hover) {
+	public Button(int x, boolean centerY, String text, Font font) {
 		this.x = x;
 		this.font = font;
-		this.font_hover = font_hover;
 		this.text = text;
 		this.hover = false;
 		this.pressed = false;

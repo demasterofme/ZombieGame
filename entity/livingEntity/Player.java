@@ -241,6 +241,9 @@ public class Player extends LivingEntity {
 	}
 
 	public void draw(Graphics2D g) {
+		
+		// Draw inventory
+		inventory.draw(g);
 
 		// Combine the player with the gun
 		BufferedImage tempImage;

@@ -1,5 +1,7 @@
 package gui;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
@@ -16,7 +18,7 @@ public class Inventory {
 	private HashMap<Utility, Integer> slot4;
 	private HashMap<Utility, Integer> slot5;
 
-	private int selected = 1;
+	private int selectedSlot = 1;
 
 	public Inventory(Gun startGun) {
 
@@ -29,7 +31,7 @@ public class Inventory {
 	}
 
 	public boolean hasGunEquipped() {
-		switch (selected) {
+		switch (selectedSlot) {
 		case 1:
 		case 2:
 		case 3:
@@ -40,7 +42,7 @@ public class Inventory {
 	}
 
 	public Gun getCurrentGun() {
-		switch (selected) {
+		switch (selectedSlot) {
 		case 1:
 			return slot1;
 		case 2:
@@ -149,20 +151,32 @@ public class Inventory {
 
 	}
 
-	public void cycleSelected(boolean right) {
+	public void cycleSelectedSlot(boolean right) {
 		if (right) {
-			selected++;
-			if (selected == 6)
-				selected = 1;
+			selectedSlot++;
+			if (selectedSlot == 6)
+				selectedSlot = 1;
 		} else {
-			selected--;
-			if (selected == 0)
-				selected = 5;
+			selectedSlot--;
+			if (selectedSlot == 0)
+				selectedSlot = 5;
 		}
 	}
 
 	public void draw(Graphics2D g) {
-
+		
+		g.setStroke(new BasicStroke(2));
+		
+		for (int i = 0; i < 5; i++) {
+			if (i + 1 == selectedSlot) {
+				g.setColor(Color.YELLOW);
+				g.drawRect(20 + i * 70, 20, 50, 50);
+				continue;
+			}
+			g.setColor(Color.white);
+			g.drawRect(20 + i * (70), 20, 50, 50);
+		}		
+		
 	}
 
 }

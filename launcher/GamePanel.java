@@ -46,13 +46,16 @@ public class GamePanel extends JPanel implements Runnable {
 
 		super();
 		setVisible(true);
+		
 		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
 		Rectangle maximumWindowBounds = graphicsEnvironment
 				.getMaximumWindowBounds();
 		setBounds(maximumWindowBounds);
+		
 		WINDOW_WIDTH = (int) maximumWindowBounds.getWidth();
 		WINDOW_HEIGHT = (int) maximumWindowBounds.getHeight();
+		
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
 		requestFocus();

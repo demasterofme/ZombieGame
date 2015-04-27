@@ -3,6 +3,7 @@ package entity.livingEntity;
 import entity.Bullet;
 import gameState.inGame.InGame;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -142,6 +143,7 @@ public class Zombie extends LivingEntity {
 					GamePanel.getAffineTransform(texture, x, y, scale,
 							Math.toRadians(rotation)));
 
+			g.setStroke(new BasicStroke(1));
 			if (path != null) {
 				for (int i = 0; i < path.size() - 1; i++) {
 					g.setColor(Color.ORANGE);

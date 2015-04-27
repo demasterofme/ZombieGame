@@ -12,6 +12,7 @@ public class Launcher {
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setUndecorated(true);
 		window.setContentPane(new GamePanel());
+		window.setResizable(false);
 		
 		window.pack();
 		window.setVisible(true);

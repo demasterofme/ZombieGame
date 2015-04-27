@@ -69,8 +69,7 @@ public class Settings extends GameState {
 		buttons = new ArrayList<>();
 
 		button_back = new Button(true, 300, "Options", new Font(
-				"Century Gothic", Font.BOLD, 43), new Font("Century Gothic",
-				Font.PLAIN, 43));
+				"Century Gothic", Font.BOLD, 43));
 
 		buttons.add(button_back);
 

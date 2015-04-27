@@ -32,14 +32,13 @@ public class PauseMenu extends GameState {
 		button_resume = new Button(
 				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
-				"Resume", new Font("Century Gothic", Font.PLAIN, 24), new Font(
-						"Century Gothic", Font.BOLD, 24));
+				"Resume", new Font("Century Gothic", Font.PLAIN, 24));
 
 		button_back = new Button(
 				(int) (GamePanel.WINDOW_WIDTH * 0.2),
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
 				"Back to Titlescreen", new Font("Century Gothic", Font.PLAIN,
-						24), new Font("Century Gothic", Font.BOLD, 24));
+						24));
 
 		buttons.add(button_resume);
 		buttons.add(button_back);

@@ -44,18 +44,15 @@ public class Shop extends GameState {
 		button_back = new Button(
 				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
-				"BACK", new Font("Century Gothic", Font.PLAIN, 24), new Font(
-						"Century Gothic", Font.BOLD, 24));
+				"BACK", new Font("Century Gothic", Font.PLAIN, 24));
 
 		button_previous = new Button((int) (sx * 0.11) + 20,
 				(int) (sy * 0.45) + 20, "<<", new Font("Century Gothic",
-						Font.PLAIN, 26), new Font("Century Gothic", Font.BOLD,
-						26));
+						Font.PLAIN, 26));
 
 		button_next = new Button((int) (sx * 0.855) + 20,
 				(int) (sy * 0.45) + 20, ">>", new Font("Century Gothic",
-						Font.PLAIN, 26), new Font("Century Gothic", Font.BOLD,
-						26));
+						Font.PLAIN, 26));
 
 		buttons.add(button_back);
 		buttons.add(button_previous);
@@ -82,9 +79,7 @@ public class Shop extends GameState {
 							(int) (sy * 0.2 * y + gun.getTexture().getHeight() * 0.1)
 									+ 45
 									+ GamePanel.g.getFontMetrics(font)
-											.getHeight(), text, font,
-							available ? new Font("Century Gothic", Font.BOLD,
-									20) : font));
+											.getHeight(), text, font));
 
 		}
 
