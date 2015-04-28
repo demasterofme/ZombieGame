@@ -25,9 +25,10 @@ public class AlertBox extends GameState {
 	private Button buttonClose;
 
 	private long pauseTimer;
-
+	
 	public AlertBox(GameState previousGameState, String message) {
 
+		
 		this.pauseTimer = System.nanoTime();
 
 		this.previousGameState = previousGameState;
@@ -40,14 +41,14 @@ public class AlertBox extends GameState {
 		
 		this.x = GamePanel.WINDOW_WIDTH / 2 - width / 2;
 		this.y = GamePanel.WINDOW_HEIGHT / 2 - height / 2;
-
+		
 		buttons = new ArrayList<>();
 
 		buttonClose = new Button(x + width - 100, y + height - 50, "Close",
 				new Font("Century Gothic", Font.PLAIN, 24));
-
+		
 		buttons.add(buttonClose);
-
+		
 	}
 
 	public void update() {
@@ -59,7 +60,7 @@ public class AlertBox extends GameState {
 
 			if (previousGameState instanceof InGame)
 				((InGame) previousGameState).getPlayer().resume(this);
-
+			
 			GamePanel.changeGameState(previousGameState);
 		}
 

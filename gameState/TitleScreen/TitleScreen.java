@@ -1,5 +1,6 @@
 package gameState.TitleScreen;
 
+import gameState.AlertBox;
 import gameState.GameState;
 import gameState.inGame.Endless;
 import gfx.Button;
@@ -51,7 +52,11 @@ public class TitleScreen extends GameState {
 			b.update();
 
 		if (button_start.isPressed()) {
-			GamePanel.changeGameState(new Endless());
+			Endless endless = new Endless();
+			AlertBox alertBox = new AlertBox(
+					endless,
+					"Welcome to zombie game version 1.0. We hope that you won't encounter any bugs what so ever. But, we are aware that it could happen. Please bare with us");
+			GamePanel.changeGameState(alertBox);
 		}
 		if (button_quit.isPressed()) {
 			GamePanel.running = false;

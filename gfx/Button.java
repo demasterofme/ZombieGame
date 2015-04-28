@@ -105,15 +105,16 @@ public class Button {
 
 	public void draw(Graphics2D g) {
 
-		if (hover)
-			g.setColor(new Color(150, 0, 0, 240));
-		else
-			g.setColor(new Color(24, 24, 24, 240));
-		
+		Color primary = (hover ? new Color(150, 0, 0, 240) : new Color(24, 24,
+				24, 240));
+		Color secondary = (hover ? new Color(24, 24, 24, 240) : new Color(150,
+				0, 0, 240));
+
+		g.setColor(primary);
 		g.fillRect(x, y, width, height);
 
-		g.setColor(new Color(150, 0, 0, 255));
-		g.drawRect(x + 2, y + 2, width - 4, height - 4);
+		g.setColor(secondary);
+		g.drawRect(x + 1, y + 1, width - 3, height - 3);
 
 		g.setColor(Color.white);
 		g.setFont(font);
@@ -122,5 +123,4 @@ public class Button {
 				+ (int) (GamePanel.g.getFontMetrics(font).getHeight() * 0.9));
 
 	}
-
 }

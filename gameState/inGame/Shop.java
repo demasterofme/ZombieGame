@@ -126,9 +126,10 @@ public class Shop extends GameState {
 			}
 		}
 
-		if (button_back.isPressed())
+		if (button_back.isPressed()) {
 			GamePanel.changeGameState(oldState);
-
+		}
+			
 		if (button_next.isPressed())
 			page++;
 

@@ -18,9 +18,6 @@ public class Endless extends InGame {
 	private int zombiesAmount;
 	private int zombieIndex = 1;
 
-	private String alertMessage;
-	private boolean showAlertMessage;
-
 	public Endless() {
 		super();
 
@@ -28,17 +25,13 @@ public class Endless extends InGame {
 		// zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1700, 1024));
 		// zombies.add(new Zombie(Zombie.ZombieType.SWARMER, 1100, 1600));
 
-		alertMessage = "Welcome to [insert game name here] version 1.0. We hope that you won't encounter any bugs what so ever. But, we are aware that taht could happen. Please bare with us";
-		showAlertMessage = true;
+		// alertMessage =
+		// "Welcome to [insert game name here] version 1.0. We hope that you won't encounter any bugs what so ever. But, we are aware that taht could happen. Please bare with us";
+		// showAlertMessage = true;
 	}
 
 	public void update() {
 		super.update();
-
-		if (showAlertMessage) {
-			GamePanel.changeGameState(new AlertBox(this, alertMessage));
-			showAlertMessage = !showAlertMessage;
-		}
 
 		// if (zombies.size() == 0 && !waveInitiating && !waveText) {
 		// startWave(++waveNumber);
@@ -73,7 +66,9 @@ public class Endless extends InGame {
 	}
 
 	public void render(Graphics2D g) {
+		
 		super.render(g);
+		
 		if (waveText) {
 
 			double difference = (2000 - (double) (System.nanoTime() - waveStartTimer) / 1000000) / 2000;
@@ -87,7 +82,7 @@ public class Endless extends InGame {
 			g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 			String s = "- W A V E   " + waveNumber + "   -";
 			g.setColor(Color.WHITE);
-			//g.drawString(s, 50, 50);
+			// g.drawString(s, 50, 50);
 		}
 	}
 

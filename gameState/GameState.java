@@ -14,13 +14,11 @@ public class GameState {
 	}
 
 	public void update() {
-
 	}
 
 	public void render(Graphics2D g) {
-
 	}
-	
+
 	public ArrayList<Button> getButtons() {
 		return buttons;
 	}
