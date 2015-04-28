@@ -30,5 +30,11 @@ public class LivingEntity extends Entity {
 	public void setRotation(int rotation) {
 		this.rotation = rotation;
 	}
+	
+	public void damage(int damage) {
+		this.health -= damage;
+		if (health <= 0)
+			this.dead = true;
+	}
 
 }

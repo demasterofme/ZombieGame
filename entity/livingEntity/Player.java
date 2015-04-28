@@ -49,12 +49,12 @@ public class Player extends LivingEntity {
 		super(x, y);
 		speed = 3;
 		r = 30;
-		health = 20;
+		health = 100;
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
 
 		// Temp, will be done by XML later
-		maxHealth = 20;
+		maxHealth = 100;
 	}
 
 	public boolean update() {
@@ -213,6 +213,10 @@ public class Player extends LivingEntity {
 
 	public Inventory getInventory() {
 		return inventory;
+	}
+	
+	public int getMaxHealth() {
+		return maxHealth;
 	}
 
 	public void resume(GameState previousState) {

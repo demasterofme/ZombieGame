@@ -17,6 +17,10 @@ public class Zombie extends LivingEntity {
 	private ZombieType type;
 
 	public static BufferedImage texture;
+	
+	private int attackStrength;
+	private boolean canAttack;
+	private long canAttackTimer;
 
 	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
@@ -28,6 +32,9 @@ public class Zombie extends LivingEntity {
 		r = 30;
 		health = 1000;
 		speed = 1;
+		
+		canAttack = true;
+		attackStrength = 10;
 
 	}
 
@@ -83,6 +90,15 @@ public class Zombie extends LivingEntity {
 			}
 
 		} else {
+			
+			if (!canAttack && (System.nanoTime() - canAttackTimer) / 1000000 > 3000)
+				canAttack = true;
+			
+			if (canAttack) {
+				canAttack = false;
+				canAttackTimer = System.nanoTime();
+			}
+			
 			dx = 0;
 			dy = 0;
 		}
@@ -114,14 +130,6 @@ public class Zombie extends LivingEntity {
 					new Vertex(InGame.player.getx(), InGame.player.gety(),
 							InGame.map.getPathFinding()));
 		return null;
-	}
-
-	public void damage(int damage) {
-
-		health -= damage;
-		if (health <= 0)
-			dead = true;
-
 	}
 
 	public void draw(Graphics2D g) {

@@ -164,7 +164,7 @@ public class InGame extends GameState {
 		g.setColor(new Color(150, 0, 0));
 		g.fillRect(20, 105, 400, 40);
 		g.setColor(Color.RED);
-		g.fillRect(23, 108, 394 * player.getHealth() / 20, 34);
+		g.fillRect(23, 108, 394 * player.getHealth() / player.getMaxHealth(), 34);
 
 		// Draw gun properties
 		g.setColor(Color.WHITE);
