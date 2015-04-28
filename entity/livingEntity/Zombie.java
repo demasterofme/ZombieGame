@@ -95,6 +95,7 @@ public class Zombie extends LivingEntity {
 				canAttack = true;
 			
 			if (canAttack) {
+				InGame.player.damage(attackStrength);
 				canAttack = false;
 				canAttackTimer = System.nanoTime();
 			}
