@@ -2,6 +2,7 @@ package entity.livingEntity;
 
 import entity.Bullet;
 import entity.Gun;
+import entity.utility.Utility;
 import gameState.AlertBox;
 import gameState.GameState;
 import gameState.PauseMenu;
@@ -36,6 +37,8 @@ public class Player extends LivingEntity {
 	private long recoveringTimer;
 
 	private Inventory inventory;
+	private Gun gun;
+	private Utility utility;
 
 	private int maxHealth;
 
@@ -48,6 +51,7 @@ public class Player extends LivingEntity {
 		r = 30;
 		health = 20;
 		inventory = new Inventory(InGame.guns.get(0));
+		gun = inventory.getCurrentGun();
 
 		// Temp, will be done by XML later
 		maxHealth = 20;
@@ -84,8 +88,8 @@ public class Player extends LivingEntity {
 		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
-		Gun gun = inventory.getCurrentGun();
-
+		gun = inventory.getCurrentGun();
+		
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -241,9 +245,6 @@ public class Player extends LivingEntity {
 	}
 
 	public void draw(Graphics2D g) {
-		
-		// Draw inventory
-		inventory.draw(g);
 
 		// Combine the player with the gun
 		BufferedImage tempImage;

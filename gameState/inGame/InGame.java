@@ -9,6 +9,7 @@ import gfx.DeadZombie;
 import gfx.MuzzleFlash;
 import gfx.Text;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -142,23 +143,35 @@ public class InGame extends GameState {
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
 				b.draw(g);
+		
+		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 
 		player.draw(g);
 
-		// Temp
+		// Draw the inventory, health bar and current selectedItem details
+		g.setColor(new Color(24, 24, 24, 100));
+		g.fillRect(0, 0, 500, 150);
+		g.setStroke(new BasicStroke(2));
+		g.drawRect(-2, -2, 504, 154);
+		g.setStroke(new BasicStroke(1));
+
+		// Inventory
+		player.getInventory().draw(g);
+
 		// Player health
 		g.setColor(Color.WHITE);
-		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 60, 400, 40);
+		g.drawString("Health", 20, 100);
+		g.setColor(new Color(150, 0, 0));
+		g.fillRect(20, 105, 400, 40);
 		g.setColor(Color.RED);
-		g.fillRect(23, GamePanel.WINDOW_HEIGHT - 57,
-				394 * player.getHealth() / 20, 34);
+		g.fillRect(23, 108, 394 * player.getHealth() / 20, 34);
 
 		// Draw gun properties
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+
 		if (player.getInventory().hasGunEquipped())
-			g.drawString(player.getInventory().getCurrentGun().getName(), 440,
-					GamePanel.WINDOW_HEIGHT - 40);
+			g.drawString(player.getInventory().getCurrentGun().getName(), 370,
+					40);
 		if (player.isReloading())
 			g.setColor(Color.RED);
 		if (player.getInventory().hasGunEquipped())
@@ -166,13 +179,11 @@ public class InGame extends GameState {
 					.getCurrentBullets()
 					+ " / "
 					+ player.getInventory().getCurrentGun().getMaxBullets(),
-					440, GamePanel.WINDOW_HEIGHT - 20);
+					370, 60);
 
 		// Money
 		g.setColor(Color.WHITE);
-		g.drawString("Money: " + player.getMoney(),
-				(int) (GamePanel.WINDOW_WIDTH - 200),
-				(int) (GamePanel.WINDOW_HEIGHT - 20));
+		g.drawString("$: " + player.getMoney(), 370, 80);
 
 		// Debug mode
 		if (GamePanel.debugMode) {
@@ -218,7 +229,7 @@ public class InGame extends GameState {
 								+ player.getInventory().getCurrentGun()
 										.getMaxBullets(), 20, updateY());
 			}
-			
+
 		}
 	}
 
@@ -325,7 +336,8 @@ public class InGame extends GameState {
 			List<Element> shapeElements = root.elements("shape");
 
 			for (Element shapeElement : shapeElements) {
-				GeneralPath polyline = new GeneralPath(GeneralPath.WIND_EVEN_ODD, 4);
+				GeneralPath polyline = new GeneralPath(
+						GeneralPath.WIND_EVEN_ODD, 4);
 				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
 					int x = Integer.parseInt(shapeElement.element("x" + index)

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.HashMap;
 
+import launcher.GamePanel;
 import entity.Gun;
 import entity.utility.Grenade;
 import entity.utility.Utility;
@@ -33,9 +34,14 @@ public class Inventory {
 	public boolean hasGunEquipped() {
 		switch (selectedSlot) {
 		case 1:
+			if (slot1 != null)
+				return true;
 		case 2:
+			if (slot2 != null)
+				return true;
 		case 3:
-			return true;
+			if (slot3 != null)
+				return true;
 		default:
 			return false;
 		}
@@ -51,6 +57,21 @@ public class Inventory {
 			return slot3;
 		case 4:
 		case 5:
+		default:
+			return null;
+		}
+	}
+
+	public HashMap<Utility, Integer> getCurrentUtility() {
+		switch (selectedSlot) {
+		case 1:
+		case 2:
+		case 3:
+			return null;
+		case 4:
+			return slot4;
+		case 5:
+			return slot5;
 		default:
 			return null;
 		}
@@ -164,10 +185,32 @@ public class Inventory {
 	}
 
 	public void draw(Graphics2D g) {
-		
+
 		g.setStroke(new BasicStroke(2));
-		
+
 		for (int i = 0; i < 5; i++) {
+
+			switch (i + 1) {
+			case 1:
+				if (slot1 != null)
+					g.drawRenderedImage(slot1.getTexture(), GamePanel
+							.getAffineTransform(slot1.getTexture(),
+									20 + i * 70, 20, 0.1, 45));
+				break;
+			case 2:
+				if (slot2 != null)
+					g.drawRenderedImage(slot2.getTexture(), GamePanel
+							.getAffineTransform(slot2.getTexture(),
+									20 + i * 70, 20, 0.1, 45));
+				break;
+			case 3:
+				if (slot3 != null)
+					g.drawRenderedImage(slot3.getTexture(), GamePanel
+							.getAffineTransform(slot3.getTexture(),
+									20 + i * 70, 20, 0.1, 45));
+				break;
+			}
+
 			if (i + 1 == selectedSlot) {
 				g.setColor(Color.YELLOW);
 				g.drawRect(20 + i * 70, 20, 50, 50);
@@ -175,8 +218,8 @@ public class Inventory {
 			}
 			g.setColor(Color.white);
 			g.drawRect(20 + i * (70), 20, 50, 50);
-		}		
-		
+		}
+
 	}
 
 }
