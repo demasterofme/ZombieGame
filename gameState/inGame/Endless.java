@@ -28,12 +28,12 @@ public class Endless extends InGame {
 	public void update() {
 		super.update();
 
-		if (zombies.size() == 0 && !waveInitiating && !waveText) {
+		if (zombies.size() == 0 && !waveInitiating) {
 			startWave(++waveNumber);
 			waveStartTimer = System.nanoTime();
 			if (waveNumber != 1) {
 				Font font = new Font("Century Gothic", Font.PLAIN, 36);
-				String text = "- W A V E   " + waveNumber
+				String text = "- W A V E   " + (waveNumber - 1)
 						+ "   C O M P L E T E D -";
 				texts.add(new Text(text, 2000, font, Color.WHITE,
 						GamePanel.WINDOW_WIDTH
