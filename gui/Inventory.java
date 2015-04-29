@@ -195,29 +195,32 @@ public class Inventory {
 				if (slot1 != null)
 					g.drawRenderedImage(slot1.getTexture(), GamePanel
 							.getAffineTransform(slot1.getTexture(),
-									20 + i * 70, 20, 0.1, 45));
+									20 + i * 70, GamePanel.WINDOW_HEIGHT - 130,
+									0.1, 45));
 				break;
 			case 2:
 				if (slot2 != null)
 					g.drawRenderedImage(slot2.getTexture(), GamePanel
 							.getAffineTransform(slot2.getTexture(),
-									20 + i * 70, 20, 0.1, 45));
+									20 + i * 70, GamePanel.WINDOW_HEIGHT - 130,
+									0.1, 45));
 				break;
 			case 3:
 				if (slot3 != null)
 					g.drawRenderedImage(slot3.getTexture(), GamePanel
 							.getAffineTransform(slot3.getTexture(),
-									20 + i * 70, 20, 0.1, 45));
+									20 + i * 70, GamePanel.WINDOW_HEIGHT - 130,
+									0.1, 45));
 				break;
 			}
 
 			if (i + 1 == selectedSlot) {
 				g.setColor(Color.YELLOW);
-				g.drawRect(20 + i * 70, 20, 50, 50);
+				g.drawRect(20 + i * 70, GamePanel.WINDOW_HEIGHT - 130, 50, 50);
 				continue;
 			}
 			g.setColor(Color.white);
-			g.drawRect(20 + i * (70), 20, 50, 50);
+			g.drawRect(20 + i * (70), GamePanel.WINDOW_HEIGHT - 130, 50, 50);
 		}
 
 	}

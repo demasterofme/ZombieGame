@@ -185,7 +185,6 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 
 	public static void changeGameState(GameState gameState) {
-		System.out.println(gameState);
 		GamePanel.gameState = gameState;
 	}
 

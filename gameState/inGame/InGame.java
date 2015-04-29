@@ -143,16 +143,16 @@ public class InGame extends GameState {
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
 				b.draw(g);
-		
+
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 
 		player.draw(g);
 
 		// Draw the inventory, health bar and current selectedItem details
 		g.setColor(new Color(24, 24, 24, 100));
-		g.fillRect(0, 0, 500, 150);
+		g.fillRect(0, GamePanel.WINDOW_HEIGHT - 150, 500, 150);
 		g.setStroke(new BasicStroke(2));
-		g.drawRect(-2, -2, 504, 154);
+		g.drawRect(-2, GamePanel.WINDOW_HEIGHT - 153, 504, 154);
 		g.setStroke(new BasicStroke(1));
 
 		// Inventory
@@ -160,18 +160,19 @@ public class InGame extends GameState {
 
 		// Player health
 		g.setColor(Color.WHITE);
-		g.drawString("Health", 20, 100);
+		g.drawString("Health:", 20, GamePanel.WINDOW_HEIGHT - 50);
+		g.setColor(new Color(102, 0, 0));
+		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 45, 400, 40);
 		g.setColor(new Color(150, 0, 0));
-		g.fillRect(20, 105, 400, 40);
-		g.setColor(Color.RED);
-		g.fillRect(23, 108, 394 * player.getHealth() / player.getMaxHealth(), 34);
+		g.fillRect(23, GamePanel.WINDOW_HEIGHT - 42, 394 * player.getHealth()
+				/ player.getMaxHealth(), 34);
 
 		// Draw gun properties
 		g.setColor(Color.WHITE);
 
 		if (player.getInventory().hasGunEquipped())
 			g.drawString(player.getInventory().getCurrentGun().getName(), 370,
-					40);
+					GamePanel.WINDOW_HEIGHT - 110);
 		if (player.isReloading())
 			g.setColor(Color.RED);
 		if (player.getInventory().hasGunEquipped())
@@ -179,11 +180,11 @@ public class InGame extends GameState {
 					.getCurrentBullets()
 					+ " / "
 					+ player.getInventory().getCurrentGun().getMaxBullets(),
-					370, 60);
+					370, GamePanel.WINDOW_HEIGHT - 90);
 
 		// Money
 		g.setColor(Color.WHITE);
-		g.drawString("$: " + player.getMoney(), 370, 80);
+		g.drawString("$: " + player.getMoney(), 370, GamePanel.WINDOW_HEIGHT - 70);
 
 		// Debug mode
 		if (GamePanel.debugMode) {
