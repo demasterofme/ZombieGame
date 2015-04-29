@@ -6,7 +6,7 @@ public class LivingEntity extends Entity {
 
 	protected int health;
 	protected double rotation;
-	protected int speed;
+	protected double speed;
 
 	protected boolean dead;
 

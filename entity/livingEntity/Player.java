@@ -12,13 +12,12 @@ import gui.Inventory;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import launcher.GamePanel;
 import map.Map;
-import map.Vertex;
 
 public class Player extends LivingEntity {
 
@@ -47,7 +46,7 @@ public class Player extends LivingEntity {
 
 	public Player(float x, float y) {
 		super(x, y);
-		speed = 3;
+		speed = 1;
 		r = 30;
 		health = 100;
 		inventory = new Inventory(InGame.guns.get(0));
@@ -63,13 +62,13 @@ public class Player extends LivingEntity {
 		dy = 0;
 
 		if (left)
-			dx = (int) (-speed * (up || down ? 0.6 : 1));
+			dx = -speed * (up || down ? Math.sqrt(0.5) : 1);
 		if (right)
-			dx = (int) (speed * (up || down ? 0.6 : 1));
+			dx = speed * (up || down ? Math.sqrt(0.5) : 1);
 		if (up)
-			dy = (int) (-speed * (left || right ? 0.6 : 1));
+			dy = -speed * (left || right ? Math.sqrt(0.5) : 1);
 		if (down)
-			dy = (int) (speed * (left || right ? 0.6 : 1));
+			dy = speed * (left || right ? Math.sqrt(0.5) : 1);
 
 		if (checkCollisions(dx, 0))
 			dx = 0;
@@ -89,7 +88,7 @@ public class Player extends LivingEntity {
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
 		gun = inventory.getCurrentGun();
-		
+
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -214,13 +213,13 @@ public class Player extends LivingEntity {
 	public Inventory getInventory() {
 		return inventory;
 	}
-	
+
 	public int getMaxHealth() {
 		return maxHealth;
 	}
 
 	public void resume(GameState previousState) {
-		
+
 		if (previousState instanceof PauseMenu) {
 			reloadTimer += System.nanoTime()
 					- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
@@ -228,7 +227,7 @@ public class Player extends LivingEntity {
 			reloadTimer += System.nanoTime()
 					- ((AlertBox) GamePanel.getGameState()).getPauseTimer();
 		}
-		
+
 		right = false;
 		left = false;
 		up = false;
@@ -237,8 +236,8 @@ public class Player extends LivingEntity {
 
 	public boolean checkCollisions(double dx, double dy) {
 
-		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
-				+ (int) dy - 5, 5, 5);
+		Rectangle2D.Double movementRect = new Rectangle2D.Double(x + dx - 5, y
+				+ dy - 5, 5, 5);
 
 		for (GeneralPath p : Map.shapeList)
 
@@ -274,9 +273,9 @@ public class Player extends LivingEntity {
 			g.setColor(Color.RED);
 			g.drawOval(GamePanel.WINDOW_WIDTH / 2 - r, GamePanel.WINDOW_HEIGHT
 					/ 2 - r, r * 2, r * 2);
-			g.setColor(Color.YELLOW);
-			g.drawRect((int) x - InGame.map.getxOffset() - r, (int) y
-					- InGame.map.getyOffset() - r, 2 * r, 2 * r);
+			// g.setColor(Color.YELLOW);
+			// g.drawRect((int) x - InGame.map.getxOffset() - r, (int) y
+			// - InGame.map.getyOffset() - r, 2 * r, 2 * r);
 		}
 	}
 

@@ -14,7 +14,7 @@ import map.Vertex;
 
 public class Zombie extends LivingEntity {
 
-	private ZombieType type;
+	//private ZombieType type;
 
 	public static BufferedImage texture;
 	
@@ -28,10 +28,10 @@ public class Zombie extends LivingEntity {
 	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
-		this.type = type;
+		//this.type = type;
 		r = 30;
 		health = 1000;
-		speed = 1;
+		speed = 0.2;
 		
 		canAttack = true;
 		attackStrength = 10;
@@ -153,22 +153,22 @@ public class Zombie extends LivingEntity {
 							Math.toRadians(rotation)));
 
 			g.setStroke(new BasicStroke(1));
-			if (path != null) {
-				for (int i = 0; i < path.size() - 1; i++) {
-					g.setColor(Color.ORANGE);
-					g.drawLine(
-							(int) path.get(i).getX() - InGame.map.getxOffset(),
-							(int) path.get(i).getY() - InGame.map.getyOffset(),
-							(int) path.get(i + 1).getX()
-									- InGame.map.getxOffset(),
-							(int) path.get(i + 1).getY()
-									- InGame.map.getyOffset());
-				}
-			}
 
 			if (GamePanel.debugMode) {
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
+				if (path != null) {
+					for (int i = 0; i < path.size() - 1; i++) {
+						g.setColor(Color.ORANGE);
+						g.drawLine(
+								(int) path.get(i).getX() - InGame.map.getxOffset(),
+								(int) path.get(i).getY() - InGame.map.getyOffset(),
+								(int) path.get(i + 1).getX()
+										- InGame.map.getxOffset(),
+								(int) path.get(i + 1).getY()
+										- InGame.map.getyOffset());
+					}
+				}
 			}
 		}
 	}

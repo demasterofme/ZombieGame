@@ -28,9 +28,6 @@ public class Shop extends GameState {
 
 	private ArrayList<Text> texts;
 
-	private static double sx = GamePanel.WINDOW_WIDTH;
-	private static double sy = GamePanel.WINDOW_HEIGHT;
-
 	public Shop(InGame oldState, boolean available) {
 
 		this.oldState = oldState;
@@ -46,12 +43,12 @@ public class Shop extends GameState {
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
 				"BACK", new Font("Century Gothic", Font.PLAIN, 24));
 
-		button_previous = new Button((int) (sx * 0.11) + 20,
-				(int) (sy * 0.45) + 20, "<<", new Font("Century Gothic",
+		button_previous = new Button((int) (GamePanel.WINDOW_WIDTH * 0.11) + 20,
+				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, "<<", new Font("Century Gothic",
 						Font.PLAIN, 26));
 
-		button_next = new Button((int) (sx * 0.855) + 20,
-				(int) (sy * 0.45) + 20, ">>", new Font("Century Gothic",
+		button_next = new Button((int) (GamePanel.WINDOW_WIDTH * 0.855) + 20,
+				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, ">>", new Font("Century Gothic",
 						Font.PLAIN, 26));
 
 		buttons.add(button_back);
@@ -71,12 +68,12 @@ public class Shop extends GameState {
 
 			gunButtons
 					.add(new Button(
-							(int) (sx * 0.16 * x++)
+							(int) (GamePanel.WINDOW_WIDTH * 0.16 * x++)
 									+ (int) (gun.getTexture().getWidth() * 0.1 + 40)
 									/ 2
 									- GamePanel.g.getFontMetrics(font)
 											.stringWidth(text) / 2,
-							(int) (sy * 0.2 * y + gun.getTexture().getHeight() * 0.1)
+							(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y + gun.getTexture().getHeight() * 0.1)
 									+ 45
 									+ GamePanel.g.getFontMetrics(font)
 											.getHeight(), text, font));
@@ -150,8 +147,8 @@ public class Shop extends GameState {
 
 		g.setColor(new Color(24, 24, 24, 240));
 
-		g.fillRect((int) (sx * 0.1), (int) (sy * 0.1), (int) (sx - sx * 0.2),
-				(int) (sy - sy * 0.2));
+		g.fillRect((int) (GamePanel.WINDOW_WIDTH * 0.1), (int) (GamePanel.WINDOW_HEIGHT * 0.1), (int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
+				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2));
 
 		g.setColor(Color.WHITE);
 
@@ -183,9 +180,9 @@ public class Shop extends GameState {
 				}
 				g.drawRenderedImage(gun.getTexture(), GamePanel
 						.getAffineTransform(gun.getTexture(),
-								(int) (sx * 0.16 * x) + 20,
-								(int) (sy * 0.2 * y) + 20, 0.1, 0));
-				g.drawRect((int) (sx * 0.16 * x++), (int) (sy * 0.2 * y),
+								(int) (GamePanel.WINDOW_WIDTH * 0.16 * x) + 20,
+								(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y) + 20, 0.1, 0));
+				g.drawRect((int) (GamePanel.WINDOW_WIDTH * 0.16 * x++), (int) (GamePanel.WINDOW_HEIGHT * 0.2 * y),
 						(int) (gun.getTexture().getWidth() * 0.1) + 40,
 						(int) (gun.getTexture().getHeight() * 0.1) + 40);
 			}

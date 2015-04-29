@@ -88,7 +88,7 @@ public class TitleScreen extends GameState {
 			g.drawString("X: " + GamePanel.mouseX + " Y: " + GamePanel.mouseY,
 					20, updateY());
 			g.drawString("Button: ", 10, updateY());
-			g.drawString("X: " + buttons.get(2).getx() + " Y: "
+			g.drawString("X: " + buttons.get(1).getx() + " Y: "
 					+ buttons.get(0).gety(), 20, updateY());
 			g.drawString("Width: " + buttons.get(2).getWidth() + " Heigth: "
 					+ buttons.get(2).getHeight(), 20, updateY());

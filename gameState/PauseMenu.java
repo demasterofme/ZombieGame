@@ -29,16 +29,15 @@ public class PauseMenu extends GameState {
 
 		buttons = new ArrayList<>();
 
-		button_resume = new Button(
-				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
-				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
-				"Resume", new Font("Century Gothic", Font.PLAIN, 24));
+		button_resume = new Button(GamePanel.WINDOW_WIDTH / 2 - 58,
+				GamePanel.WINDOW_HEIGHT / 2 + 50, "Resume", new Font(
+						"Century Gothic", Font.PLAIN, 24));
 
-		button_back = new Button(
-				(int) (GamePanel.WINDOW_WIDTH * 0.2),
-				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
-				"Back to Titlescreen", new Font("Century Gothic", Font.PLAIN,
-						24));
+		button_back = new Button(GamePanel.WINDOW_WIDTH / 2 - 120,
+				GamePanel.WINDOW_HEIGHT / 2 + 100, "Back to Titlescreen",
+				new Font("Century Gothic", Font.PLAIN, 24));
+		
+		System.out.println(button_resume.getWidth());
 
 		buttons.add(button_resume);
 		buttons.add(button_back);
@@ -70,10 +69,20 @@ public class PauseMenu extends GameState {
 
 		oldState.render(g);
 
+		g.setColor(new Color(24, 24, 24, 240));
+
+		g.fillRect(GamePanel.WINDOW_WIDTH / 2 - 300,
+				GamePanel.WINDOW_HEIGHT / 2 - 150, 600, 300);
+
 		g.setColor(Color.WHITE);
-		
-		g.setFont(new Font("Century Gothic", Font.PLAIN, 48));
-		g.drawString("Pause", GamePanel.WINDOW_WIDTH / 2, 150);
+
+		Font font = new Font("Century Gothic", Font.PLAIN, 48);
+
+		g.setFont(font);
+		g.drawString("PAUSE",
+				GamePanel.WINDOW_WIDTH / 2
+						- g.getFontMetrics(font).stringWidth("PAUSE") / 2,
+				GamePanel.WINDOW_HEIGHT / 2 - 100);
 
 		for (Button b : buttons)
 			b.draw(g);
@@ -83,7 +92,7 @@ public class PauseMenu extends GameState {
 	public ArrayList<Button> getButtons() {
 		return buttons;
 	}
-	
+
 	public InGame getOldState() {
 		return oldState;
 	}

@@ -1,0 +1,26 @@
+<locations>
+	<spawn>0, -100</spawn>
+	<spawn>200, -100</spawn>
+	<spawn>400, -100</spawn>
+	<spawn>600, -100</spawn>
+	<spawn>800, -100</spawn>
+	<spawn>1000, -100</spawn>
+	<spawn>1100, 0</spawn>
+	<spawn>1100, 200</spawn>
+	<spawn>1100, 400</spawn>
+	<spawn>1100, 600</spawn>
+	<spawn>1100, 800</spawn>
+	<spawn>1100, 1000</spawn>
+	<spawn>1000, 1100</spawn>
+	<spawn>800, 1100</spawn>
+	<spawn>600, 1100</spawn>
+	<spawn>400, 1100</spawn>
+	<spawn>200, 1100</spawn>
+	<spawn>0, 1100</spawn>
+	<spawn>-100, 1000</spawn>
+	<spawn>-100, 800</spawn>
+	<spawn>-100, 600</spawn>
+	<spawn>-100, 400</spawn>
+	<spawn>-100, 200</spawn>
+	<spawn>-100, 0</spawn>
+</locations>

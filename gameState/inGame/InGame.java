@@ -17,9 +17,9 @@ import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Point;
 import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,6 @@ import javax.imageio.ImageIO;
 
 import launcher.GamePanel;
 import map.Map;
-import map.Vertex;
 
 import org.dom4j.Document;
 import org.dom4j.Element;
@@ -48,10 +47,11 @@ public class InGame extends GameState {
 	public static ArrayList<Text> texts;
 
 	private static ArrayList<GeneralPath> shapeList;
+	public static ArrayList<Point2D.Float> spawnLocations;
 
 	public InGame() {
 
-		if (!loadGuns() || !loadSprites() || !loadCollisionMap()) {
+		if (!loadGuns() || !loadSprites() || !loadCollisionMap() || !loadSpawnLocations()) {
 			GamePanel.running = false;
 			return;
 		}
@@ -184,62 +184,69 @@ public class InGame extends GameState {
 
 		// Money
 		g.setColor(Color.WHITE);
-		g.drawString("$: " + player.getMoney(), 370, GamePanel.WINDOW_HEIGHT - 70);
+		g.drawString("$: " + player.getMoney(), 370,
+				GamePanel.WINDOW_HEIGHT - 70);
 
 		// Debug mode
 		if (GamePanel.debugMode) {
 
-			y = 5;
+			debugHeight = 5;
 
 			g.setFont(new Font(Font.MONOSPACED, Font.PLAIN, 14));
 			g.setColor(Color.WHITE);
 
-			g.drawString("Debug Mode", 10, updateY());
-			g.drawString("Player: ", 10, updateY());
+			g.drawString("Debug Mode", 10, updateDebugHeight());
+			g.drawString("Player: ", 10, updateDebugHeight());
 			g.drawString(
 					"Coordinates: " + player.getx() + ", " + player.gety(), 20,
-					updateY());
-			g.drawString("Rotation: " + player.getRotation(), 20, updateY());
-			g.drawString("Reloading: " + player.isReloading(), 20, updateY());
-			g.drawString("Going Right: " + player.getRight(), 20, updateY());
-			g.drawString("Going Left: " + player.getLeft(), 20, updateY());
-			g.drawString("Going Up: " + player.getUp(), 20, updateY());
-			g.drawString("Going Down: " + player.getDown(), 20, updateY());
-			g.drawString("Gun:", 10, updateY());
+					updateDebugHeight());
+			g.drawString("Rotation: " + player.getRotation(), 20,
+					updateDebugHeight());
+			g.drawString("Reloading: " + player.isReloading(), 20,
+					updateDebugHeight());
+			g.drawString("Going Right: " + player.getRight(), 20,
+					updateDebugHeight());
+			g.drawString("Going Left: " + player.getLeft(), 20,
+					updateDebugHeight());
+			g.drawString("Going Up: " + player.getUp(), 20, updateDebugHeight());
+			g.drawString("Going Down: " + player.getDown(), 20,
+					updateDebugHeight());
+			g.drawString("Gun:", 10, updateDebugHeight());
 			if (player.getInventory().hasGunEquipped()) {
 				g.drawString("Name: "
 						+ player.getInventory().getCurrentGun().getName(), 20,
-						updateY());
+						updateDebugHeight());
 				g.drawString("Damage: "
 						+ player.getInventory().getCurrentGun().getDamage(),
-						20, updateY());
+						20, updateDebugHeight());
 				g.drawString("FireRate: "
 						+ player.getInventory().getCurrentGun().getFireRate(),
-						20, updateY());
+						20, updateDebugHeight());
 				g.drawString("Reload Speed: "
 						+ player.getInventory().getCurrentGun()
-								.getReloadSpeed(), 20, updateY());
+								.getReloadSpeed(), 20, updateDebugHeight());
 				g.drawString("Clip Size: "
 						+ player.getInventory().getCurrentGun().getClipSize(),
-						20, updateY());
+						20, updateDebugHeight());
 				g.drawString("Current Bullets: "
 						+ player.getInventory().getCurrentGun()
-								.getCurrentBullets(), 20, updateY());
+								.getCurrentBullets(), 20, updateDebugHeight());
 				g.drawString(
 						"Max Bullets: "
 								+ player.getInventory().getCurrentGun()
-										.getMaxBullets(), 20, updateY());
+										.getMaxBullets(), 20,
+						updateDebugHeight());
 			}
 
 		}
 	}
 
 	// for debug mode
-	private static int y;
+	private static int debugHeight;
 
-	private static int updateY() {
-		y += 15;
-		return y;
+	private static int updateDebugHeight() {
+		debugHeight += 15;
+		return debugHeight;
 	}
 
 	private static GraphicsEnvironment env = GraphicsEnvironment
@@ -259,9 +266,10 @@ public class InGame extends GameState {
 		return texture;
 	}
 
+	private static SAXReader reader = new SAXReader();
+
 	private static boolean loadGuns() {
 		guns = new ArrayList<>();
-		SAXReader reader = new SAXReader();
 		try {
 			Document document = reader.read(GamePanel.class
 					.getResource("/xml/guns.xml").toURI().toURL());
@@ -327,7 +335,6 @@ public class InGame extends GameState {
 	}
 
 	private static boolean loadCollisionMap() {
-		SAXReader reader = new SAXReader();
 		shapeList = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
@@ -338,7 +345,7 @@ public class InGame extends GameState {
 
 			for (Element shapeElement : shapeElements) {
 				GeneralPath polyline = new GeneralPath(
-						GeneralPath.WIND_EVEN_ODD, 4);
+						GeneralPath.WIND_EVEN_ODD, shapeElements.size());
 				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
 					int x = Integer.parseInt(shapeElement.element("x" + index)
@@ -355,6 +362,30 @@ public class InGame extends GameState {
 				shapeList.add(polyline);
 			}
 			Map.shapeList = shapeList;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean loadSpawnLocations() {
+		spawnLocations = new ArrayList<>();
+		try {
+			Document document = reader.read(GamePanel.class
+					.getResource("/xml/spawn-locations.xml").toURI().toURL());
+			Element root = document.getRootElement();
+			@SuppressWarnings("unchecked")
+			List<Element> spawnElements = root.elements("spawn");
+
+			for (Element spawnElement : spawnElements) {
+				spawnLocations
+						.add(new Point2D.Float(Float.parseFloat(spawnElement
+								.getText().split(",")[0]),
+								Float.parseFloat(spawnElement.getText().split(
+										",")[1])));
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
