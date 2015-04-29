@@ -53,9 +53,9 @@ public class TitleScreen extends GameState {
 
 		if (button_start.isPressed()) {
 			Endless endless = new Endless();
-			AlertBox alertBox = new AlertBox(
-					endless,
-					"Welcome to zombie game version 1.0. We hope that you won't encounter any bugs what so ever. But, we are aware that it could happen. Please bare with us");
+			String message = "Welcome to Zombie Game version 1.0. We hope that you won't encounter  any bugs what so ever, but please mind that that could happen. We hope that you'll enjoy this game. Here is a quick overview of the controls:	 W, A, S, D = walkking  |  R = reaload gun  |  SPACE = open shop  |  ESCAPE = pause  |  Mouse = shoot";
+			
+			AlertBox alertBox = new AlertBox(endless, message);
 			GamePanel.changeGameState(alertBox);
 		}
 		if (button_quit.isPressed()) {

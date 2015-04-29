@@ -149,10 +149,11 @@ public class InGame extends GameState {
 		player.draw(g);
 
 		// Draw the inventory, health bar and current selectedItem details
+		// Background
 		g.setColor(new Color(24, 24, 24, 100));
-		g.fillRect(0, GamePanel.WINDOW_HEIGHT - 150, 500, 150);
+		g.fillRect(0, GamePanel.WINDOW_HEIGHT - 160, 500, 160);
 		g.setStroke(new BasicStroke(2));
-		g.drawRect(-2, GamePanel.WINDOW_HEIGHT - 153, 504, 154);
+		g.drawRect(-2, GamePanel.WINDOW_HEIGHT - 163, 504, 164);
 		g.setStroke(new BasicStroke(1));
 
 		// Inventory

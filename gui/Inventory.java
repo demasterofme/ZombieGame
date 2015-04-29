@@ -185,6 +185,10 @@ public class Inventory {
 	}
 
 	public void draw(Graphics2D g) {
+		
+		g.setColor(Color.WHITE);
+		g.drawString("Guns:", 20, GamePanel.WINDOW_HEIGHT - 138);
+		g.drawString("Utilities:", 230, GamePanel.WINDOW_HEIGHT - 138);
 
 		g.setStroke(new BasicStroke(2));
 
