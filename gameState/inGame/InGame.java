@@ -21,10 +21,16 @@ import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import launcher.GamePanel;
 import map.Map;
@@ -51,7 +57,7 @@ public class InGame extends GameState {
 
 	public InGame() {
 
-		if (!loadGuns() || !loadSprites() || !loadCollisionMap() || !loadSpawnLocations()) {
+		if (!loadGuns() || !loadSprites() || !loadCollisionMap() || !loadSpawnLocations() || !loadSounds()) {
 			GamePanel.running = false;
 			return;
 		}
@@ -388,6 +394,19 @@ public class InGame extends GameState {
 			}
 
 		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	
+	private static boolean loadSounds() {
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk Gravel.wav"));
+			clip.open(ais);
+			Player.gravel_sound = clip;
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 			return false;
 		}

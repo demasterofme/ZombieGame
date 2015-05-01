@@ -16,6 +16,8 @@ import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
+import javax.sound.sampled.Clip;
+
 import launcher.GamePanel;
 import map.Map;
 
@@ -43,6 +45,8 @@ public class Player extends LivingEntity {
 
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
+
+	public static Clip gravel_sound;
 
 	public Player(float x, float y) {
 		super(x, y);
@@ -74,6 +78,9 @@ public class Player extends LivingEntity {
 			dx = 0;
 		if (checkCollisions(0, dy))
 			dy = 0;
+
+		if (dx != 0 || dy != 0)
+			gravel_sound.loop(1);
 
 		x += dx;
 		y += dy;

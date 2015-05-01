@@ -41,6 +41,7 @@ public class Endless extends InGame {
 								- GamePanel.g.getFontMetrics(font).stringWidth(
 										text) / 2, GamePanel.WINDOW_HEIGHT / 2));
 			}
+			waveText = false;
 			waveInitiating = true;
 		}
 
