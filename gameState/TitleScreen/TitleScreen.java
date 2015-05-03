@@ -6,9 +6,11 @@ import gameState.inGame.Endless;
 import gfx.Button;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -19,6 +21,7 @@ public class TitleScreen extends GameState {
 
 	public static ArrayList<Button> buttons;
 	private Button button_start;
+	private Button button_help;
 	private Button button_quit;
 
 	private BufferedImage backgroundImage;
@@ -32,9 +35,11 @@ public class TitleScreen extends GameState {
 		// Add buttons to the screen, will be perfected later
 
 		button_start = new Button(true, 250, "Start Game", font);
-		button_quit = new Button(true, 350, "Quit", font);
+		button_help = new Button(true, 350, "Help", font);
+		button_quit = new Button(true, 450, "Quit", font);
 
 		buttons.add(button_start);
+		buttons.add(button_help);
 		buttons.add(button_quit);
 
 		// For testing
@@ -58,6 +63,22 @@ public class TitleScreen extends GameState {
 			AlertBox alertBox = new AlertBox(endless, message);
 			GamePanel.changeGameState(alertBox);
 		}
+		
+		if (button_help.isPressed()) {
+			 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+			 String errorMessage = "Sorry, we couldn't open the help page :( To view the help page, open a browser and go to: www.github.com/Dacaspex/ZombieGame/blob/master/README .md#the-game ";
+			    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+			        try {
+			        	URL helpPage = new URL("https://github.com/Dacaspex/ZombieGame/blob/master/README.md#the-game");
+			            desktop.browse(helpPage.toURI());
+			        } catch (Exception e) {
+			        	GamePanel.changeGameState(new AlertBox(this, errorMessage));
+			        }
+			    } else {
+			    	GamePanel.changeGameState(new AlertBox(this, errorMessage));
+			    }
+		}
+		
 		if (button_quit.isPressed()) {
 			GamePanel.running = false;
 		}

@@ -37,7 +37,7 @@ public class AlertBox extends GameState {
 
 		this.width = 900;
 		this.height = ((int) message.length() / 70)
-				* GamePanel.g.getFontMetrics(font).getHeight() + 50;
+				* GamePanel.g.getFontMetrics(font).getHeight() + 70;
 
 		this.x = GamePanel.WINDOW_WIDTH / 2 - width / 2;
 		this.y = GamePanel.WINDOW_HEIGHT / 2 - height / 2;
@@ -73,6 +73,8 @@ public class AlertBox extends GameState {
 	public void render(Graphics2D g) {
 
 		previousGameState.render(g);
+		
+		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 
 		g.setColor(new Color(24, 24, 24, 240));
 		g.fillRect(x, y, width, height);

@@ -7,7 +7,7 @@ public class Gun {
 	private int rotation;
 	private int damage;
 	private int fireRate;
-	private int reloadSpeed;
+	private float reloadSpeed;
 	private int currentBullets;
 	private int clipSize;
 	private int maxBullets;
@@ -15,7 +15,7 @@ public class Gun {
 	private int price;
 	private BufferedImage texture;
 
-	public Gun(String name, int damage, int fireRate, int reloadSpeed,
+	public Gun(String name, int damage, int fireRate, float reloadSpeed,
 			int clipSize, int maxBullets, int price, BufferedImage texture) {
 		this.name = name;
 		this.damage = damage;
@@ -44,7 +44,7 @@ public class Gun {
 		return damage;
 	}
 
-	public int getReloadSpeed() {
+	public float getReloadSpeed() {
 		return reloadSpeed;
 	}
 

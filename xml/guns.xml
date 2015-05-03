@@ -8,130 +8,175 @@
 		<Price>100</Price>
 	</AK47>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
+	<M16A3>
+		<Damage>22</Damage>
+		<Firerate>800</Firerate>
+		<Reloadspeed>2.5</Reloadspeed>
+		<Clipsize>30</Clipsize>
+		<Maxbullets>1600</Maxbullets>
+		<Weight>4200</Weight>
+		<Price>100</Price>
+	</M16A3>
+	<!--
+	<F2000>
+		<Damage>22</Damage>
+		<Firerate>850</Firerate>
+		<Reloadspeed>3.5</Reloadspeed>
+		<Clipsize>30</Clipsize>
+		<Maxbullets>1700</Maxbullets>
+		<Weight>4500</Weight>
+		<Price>100</Price>
+	</F2000>
+	
+	<FAMAS>
+		<Damage>22</Damage>
+		<Firerate>1000</Firerate>
+		<Reloadspeed>3.9</Reloadspeed>
+		<Clipsize>25</Clipsize>
+		<Maxbullets>2000</Maxbullets>
+		<Weight>3300</Weight>
+		<Price>100</Price>
+	</FAMAS>
+
+	<SCAR-H>
+		<Damage>22</Damage>
+		<Firerate>620</Firerate>
 		<Reloadspeed>3</Reloadspeed>
 		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+		<Maxbullets>1240</Maxbullets>
+		<Weight>4500</Weight>
 		<Price>100</Price>
-	</AK47>
+	</SCAR-H>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
+	<AUG-A3>
+		<Damage>22</Damage>
+		<Firerate>700</Firerate>
+		<Reloadspeed>2.9</Reloadspeed>
 		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+		<Maxbullets>1400</Maxbullets>
+		<Weight>3700</Weight>
 		<Price>100</Price>
-	</AK47>
+	</AUG-A3>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
+	<P90>
+		<Damage>16</Damage>
+		<Firerate>900</Firerate>
 		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+		<Clipsize>50</Clipsize>
+		<Maxbullets>1800</Maxbullets>
+		<Weight>3000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</P90>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<UMP-45>
+		<Damage>23</Damage>
+		<Firerate>600</Firerate>
+		<Reloadspeed>3.7</Reloadspeed>
+		<Clipsize>25</Clipsize>
+		<Maxbullets>1200</Maxbullets>
+		<Weight>2200</Weight>
 		<Price>100</Price>
-	</AK47>
+	</UMP-45>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<M5K>
+		<Damage>20</Damage>
+		<Firerate>900</Firerate>
+		<Reloadspeed>2.8</Reloadspeed>
+		<Clipsize>20</Clipsize>
+		<Maxbullets>1800</Maxbullets>
+		<Weight>2800</Weight>
 		<Price>100</Price>
-	</AK47>
+	</M5K>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<MP7>
+		<Damage>16</Damage>
+		<Firerate>950</Firerate>
+		<Reloadspeed>2.6</Reloadspeed>
+		<Clipsize>20</Clipsize>
+		<Maxbullets>1900</Maxbullets>
+		<Weight>2100</Weight>
 		<Price>100</Price>
-	</AK47>
+	</MP7>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<PP-2000>
+		<Damage>16</Damage>
+		<Firerate>650</Firerate>
+		<Reloadspeed>3.5</Reloadspeed>
+		<Clipsize>20</Clipsize>
+		<Maxbullets>1300</Maxbullets>
+		<Weight>2500</Weight>
 		<Price>100</Price>
-	</AK47>
+	</PP-2000>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<Skorpion>
+		<Damage>25</Damage>
+		<Firerate>800</Firerate>
+		<Reloadspeed>2.9</Reloadspeed>
+		<Clipsize>20</Clipsize>
+		<Maxbullets>1600</Maxbullets>
+		<Weight>2770</Weight>
 		<Price>100</Price>
-	</AK47>
+	</Skorpion>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<Desert_Eagle>
+		<Damage>46</Damage>
+		<Firerate>300</Firerate>
+		<Reloadspeed>3.2</Reloadspeed>
+		<Clipsize>9</Clipsize>
+		<Maxbullets>600</Maxbullets>
+		<Weight>1000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</Desert_Eagle>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<Dot44_Magnum>
+		<Damage>45</Damage>
+		<Firerate>255</Firerate>
+		<Reloadspeed>3.6</Reloadspeed>
+		<Clipsize>6</Clipsize>
+		<Maxbullets>510</Maxbullets>
+		<Weight>1000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</Dot44_Magnum>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<M1911>
+		<Damage>24</Damage>
+		<Firerate>330</Firerate>
+		<Reloadspeed>2</Reloadspeed>
+		<Clipsize>8</Clipsize>
+		<Maxbullets>660</Maxbullets>
+		<Weight>1000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</M1911>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<G17>
+		<Damage>20</Damage>
+		<Firerate>400</Firerate>
+		<Reloadspeed>1.6</Reloadspeed>
+		<Clipsize>17</Clipsize>
+		<Maxbullets>800</Maxbullets>
+		<Weight>1000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</G17>
 	
-	<AK47>
-		<Damage>200</Damage>
-		<Firerate>100</Firerate>
-		<Reloadspeed>3</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
+	<A93R>
+		<Damage>16</Damage>
+		<Firerate>900</Firerate>
+		<Reloadspeed>1.6</Reloadspeed>
+		<Clipsize>20</Clipsize>
+		<Maxbullets>1800</Maxbullets>
+		<Weight>1000</Weight>
 		<Price>100</Price>
-	</AK47>
+	</A93R>
 	
-	<AK47>
-		<Damage>2000</Damage>
-		<Firerate>1</Firerate>
-		<Reloadspeed>1</Reloadspeed>
-		<Clipsize>100</Clipsize>
-		<Maxbullets>10000</Maxbullets>
-		<Price>1000</Price>
-	</AK47>
+	<P226>
+		<Damage>20</Damage>
+		<Firerate>400</Firerate>
+		<Reloadspeed>1.5</Reloadspeed>
+		<Clipsize>13</Clipsize>
+		<Maxbullets>800</Maxbullets>
+		<Weight>1000</Weight>
+		<Price>100</Price>
+	</P226>
+	-->
 	
 </Guns>

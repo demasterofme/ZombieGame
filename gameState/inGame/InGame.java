@@ -289,8 +289,7 @@ public class InGame extends GameState {
 						.getText());
 				int fireRate = Integer.parseInt(gunElement.element("Firerate")
 						.getText());
-				int reloadSpeed = Integer.parseInt(gunElement.element(
-						"Reloadspeed").getText());
+				float reloadSpeed = Float.parseFloat(gunElement.element("Reloadspeed").getText());
 				int clipSize = Integer.parseInt(gunElement.element("Clipsize")
 						.getText());
 				int maxBullets = Integer.parseInt(gunElement.element(

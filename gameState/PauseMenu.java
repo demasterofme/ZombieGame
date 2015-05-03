@@ -5,8 +5,10 @@ import gameState.inGame.InGame;
 import gfx.Button;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.net.URL;
 import java.util.ArrayList;
 
 import launcher.GamePanel;
@@ -19,6 +21,7 @@ public class PauseMenu extends GameState {
 
 	private ArrayList<Button> buttons;
 	private Button button_resume;
+	private Button button_help;
 	private Button button_back;
 
 	public PauseMenu(InGame oldState) {
@@ -30,16 +33,19 @@ public class PauseMenu extends GameState {
 		buttons = new ArrayList<>();
 
 		button_resume = new Button(GamePanel.WINDOW_WIDTH / 2 - 58,
-				GamePanel.WINDOW_HEIGHT / 2 + 50, "Resume", new Font(
+				GamePanel.WINDOW_HEIGHT / 2, "Resume", new Font(
+						"Century Gothic", Font.PLAIN, 24));
+		
+		button_help = new Button(GamePanel.WINDOW_WIDTH / 2 - 35,
+				GamePanel.WINDOW_HEIGHT / 2 + 50, "Help", new Font(
 						"Century Gothic", Font.PLAIN, 24));
 
 		button_back = new Button(GamePanel.WINDOW_WIDTH / 2 - 120,
 				GamePanel.WINDOW_HEIGHT / 2 + 100, "Back to Titlescreen",
 				new Font("Century Gothic", Font.PLAIN, 24));
-		
-		System.out.println(button_resume.getWidth());
 
 		buttons.add(button_resume);
+		buttons.add(button_help);
 		buttons.add(button_back);
 
 		oldState.getPlayer().resetKeys();
@@ -51,16 +57,27 @@ public class PauseMenu extends GameState {
 			b.update();
 
 		if (button_resume.isPressed()) {
-
 			oldState.getPlayer().resume(this);
 			GamePanel.changeGameState(oldState);
-
+		}
+		
+		if (button_help.isPressed()) {
+			 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
+			 String errorMessage = "Sorry, we couldn't open the help page :( To view the help page, open a browser and go to: www.github.com/Dacaspex/ZombieGame/blob/master/README .md#the-game ";
+			    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
+			        try {
+			        	URL helpPage = new URL("https://github.com/Dacaspex/ZombieGame/blob/master/README.md#the-game");
+			            desktop.browse(helpPage.toURI());
+			        } catch (Exception e) {
+			        	GamePanel.changeGameState(new AlertBox(this, errorMessage));
+			        }
+			    } else {
+			    	GamePanel.changeGameState(new AlertBox(this, errorMessage));
+			    }
 		}
 
 		if (button_back.isPressed()) {
-
 			GamePanel.changeGameState(new TitleScreen());
-
 		}
 
 	}
