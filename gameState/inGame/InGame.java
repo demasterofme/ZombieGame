@@ -402,9 +402,18 @@ public class InGame extends GameState {
 	private static boolean loadSounds() {
 		try {
 			Clip clip = AudioSystem.getClip();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Player Walk.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk1.wav"));
 			clip.open(ais);
-			Player.gravel_sound = clip;
+			Player.walk_sound1 = clip;
+			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk2.wav"));
+			clip.open(ais);
+			Player.walk_sound2 = clip;
+			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk3.wav"));
+			clip.open(ais);
+			Player.walk_sound3 = clip;
+			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk4.wav"));
+			clip.open(ais);
+			Player.walk_sound4 = clip;
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
 			e.printStackTrace();
 			return false;

@@ -15,6 +15,7 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import javax.sound.sampled.Clip;
 
@@ -46,7 +47,11 @@ public class Player extends LivingEntity {
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
 
-	public static Clip gravel_sound;
+	private static int clipNumber = -1;
+	public static Clip walk_sound1;
+	public static Clip walk_sound2;
+	public static Clip walk_sound3;
+	public static Clip walk_sound4;
 
 	public Player(float x, float y) {
 		super(x, y);
@@ -80,7 +85,11 @@ public class Player extends LivingEntity {
 			dy = 0;
 
 		if (dx != 0 || dy != 0)
-			gravel_sound.loop(1);
+			if (clipNumber != -1) {
+				if (!getClipByNumber(clipNumber).isActive())
+					getClipByNumber(new Random().nextInt(4) + 1).loop(1);
+			} else
+				getClipByNumber(new Random().nextInt(4) + 1).loop(1);
 
 		x += dx;
 		y += dy;
@@ -193,6 +202,18 @@ public class Player extends LivingEntity {
 
 	public boolean getDown() {
 		return down;
+	}
+	
+	private Clip getClipByNumber(int number) {
+		if (number == 1)
+			return walk_sound1;
+		if (number == 2)
+			return walk_sound2;
+		if (number == 3)
+			return walk_sound3;
+		if (number == 4)
+			return walk_sound4;
+		return null;
 	}
 
 	public void setFiring(boolean firing) {
