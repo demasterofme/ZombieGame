@@ -143,9 +143,6 @@ public class InGame extends GameState {
 		for (MuzzleFlash m : muzzleFlashes)
 			m.draw(g);
 
-		for (Text t : texts)
-			t.draw(g);
-
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
 				b.draw(g);
@@ -193,6 +190,9 @@ public class InGame extends GameState {
 		g.setColor(Color.WHITE);
 		g.drawString("$: " + player.getMoney(), 370,
 				GamePanel.WINDOW_HEIGHT - 70);
+		
+		for (Text t : texts)
+			t.draw(g);
 
 		// Debug mode
 		if (GamePanel.debugMode) {
@@ -402,7 +402,7 @@ public class InGame extends GameState {
 	private static boolean loadSounds() {
 		try {
 			Clip clip = AudioSystem.getClip();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk Gravel.wav"));
+			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Player Walk.wav"));
 			clip.open(ais);
 			Player.gravel_sound = clip;
 		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {

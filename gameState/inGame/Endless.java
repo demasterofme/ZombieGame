@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import launcher.GamePanel;
 import entity.livingEntity.Zombie;
 import entity.livingEntity.Zombie.ZombieType;
+import gameState.TitleScreen.TitleScreen;
 import gfx.Text;
 
 public class Endless extends InGame {
@@ -20,26 +21,41 @@ public class Endless extends InGame {
 	private int zombieIndex = 1;
 	private int spawnIndex = 0;
 
+	private long restartTimer = -1;
+	private boolean restart = false;
+
 	public Endless() {
 		super();
-
 	}
 
 	public void update() {
+
+		if (player.getHealth() <= 0 && !restart) {
+			texts.add(new Text("Y O U    D I E D", 10000, new Font(
+					"Century Gothic", Font.PLAIN, 42), Color.RED));
+			restartTimer = System.nanoTime();
+			restart = true;
+		}
+
+		if (restart) {
+			for (int i = 0; i < texts.size(); i++) {
+				if (texts.get(i).update()) {
+					texts.remove(i);
+					i--;
+				}
+			}
+			return;
+		}
+
 		super.update();
 
 		if (zombies.size() == 0 && !waveInitiating) {
 			startWave(++waveNumber);
 			waveStartTimer = System.nanoTime();
 			if (waveNumber != 1) {
-				Font font = new Font("Century Gothic", Font.PLAIN, 36);
-				String text = "- W A V E   " + (waveNumber - 1)
-						+ "   C O M P L E T E D -";
-				texts.add(new Text(text, 2000, font, Color.WHITE,
-						GamePanel.WINDOW_WIDTH
-								/ 2
-								- GamePanel.g.getFontMetrics(font).stringWidth(
-										text) / 2, GamePanel.WINDOW_HEIGHT / 2));
+				texts.add(new Text("- W A V E   " + (waveNumber - 1)
+						+ "   C O M P L E T E D -", 2000, new Font(
+						"Century Gothic", Font.PLAIN, 36), Color.WHITE));
 			}
 			waveText = false;
 			waveInitiating = true;
@@ -60,14 +76,9 @@ public class Endless extends InGame {
 					&& (difference - interWaveTime)
 							/ ((zombieIndex + 1) * timeBetweenZombies) < 1) {
 				if (!waveText) {
-					Font font = new Font("Century Gothic", Font.PLAIN, 36);
-					String text = "- W A V E   " + waveNumber + "   -";
-					texts.add(new Text(text, 3000, font, Color.WHITE,
-							GamePanel.WINDOW_WIDTH
-									/ 2
-									- GamePanel.g.getFontMetrics(font)
-											.stringWidth(text) / 2,
-							GamePanel.WINDOW_HEIGHT / 2));
+					texts.add(new Text("- W A V E   " + waveNumber + "   -",
+							3000, new Font("Century Gothic", Font.PLAIN, 36),
+							Color.WHITE));
 					waveText = true;
 				}
 				zombieIndex++;
@@ -96,22 +107,32 @@ public class Endless extends InGame {
 
 		super.render(g);
 
-		// if (waveText) {
-		//
-		// double difference = (2000 - (double) (System.nanoTime() -
-		// waveStartTimer) / 1000000) / 2000;
-		// if (difference <= 0) {
-		// waveStartTimer = System.nanoTime();
-		// waveInitiating = true;
-		// waveText = false;
-		// }
-		//
-		// } else {
-		// g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		// String s = "- W A V E   " + waveNumber + "   -";
-		// g.setColor(Color.WHITE);
-		// // g.drawString(s, 50, 50);
-		// }
+		if (restart) {
+
+			long dif = (System.nanoTime() - restartTimer) / 1000000;
+
+			int alpha;
+
+			if (dif > 6000)
+				GamePanel.changeGameState(new TitleScreen());
+			
+			if (dif > 5000)
+				dif = 5000;
+			
+			alpha = (int) (255 * Math.sin((Math.PI / 2) * dif / 5000));
+			if (alpha > 255)
+				alpha = 255;
+			if (alpha < 0)
+				alpha = 0;
+
+			g.setColor(new Color(255, 255, 255, alpha));
+			g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
+
+			for (Text t : texts)
+				t.draw(g);
+
+		}
+
 	}
 
 	public int getWaveNumber() {

@@ -30,6 +30,22 @@ public class Text {
 		this.height = GamePanel.g.getFontMetrics(font).getHeight();
 
 	}
+	
+	public Text(String text, int time, Font font, Color color) {
+		
+		this.text = text;
+		this.startTime = System.nanoTime();
+		this.time = time;
+		this.font = font;
+		this.color = color;
+
+		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text);
+		this.height = GamePanel.g.getFontMetrics(font).getHeight();
+		
+		this.x = GamePanel.WINDOW_WIDTH / 2;
+		this.y = GamePanel.WINDOW_HEIGHT / 2;
+		
+	}
 
 	public boolean update() {
 		long dif = (System.nanoTime() - startTime) / 1000000;
@@ -51,7 +67,7 @@ public class Text {
 
 		g.setFont(font);
 
-		g.drawString(text, x - width / 2, y - height / 2);
+		g.drawString(text, x - width / 2, y + height / 2);
 
 	}
 

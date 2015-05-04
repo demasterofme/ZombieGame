@@ -10,10 +10,16 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 import launcher.GamePanel;
 
@@ -25,6 +31,8 @@ public class TitleScreen extends GameState {
 	private Button button_quit;
 
 	private BufferedImage backgroundImage;
+	
+	private Clip backgroundSound;
 
 	public TitleScreen() {
 
@@ -49,6 +57,19 @@ public class TitleScreen extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		//Load Titlescreen music
+		try {
+			Clip clip = AudioSystem.getClip();
+			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/TitleScreen.wav"));
+			clip.open(ais);
+			backgroundSound = clip;
+		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+			e.printStackTrace();
+		}
+		
+		backgroundSound.loop(Clip.LOOP_CONTINUOUSLY);
+		
 	}
 
 	public void update() {
@@ -57,6 +78,7 @@ public class TitleScreen extends GameState {
 			b.update();
 
 		if (button_start.isPressed()) {
+			backgroundSound.stop();
 			Endless endless = new Endless();
 			String message = "Welcome to Zombie Game version 1.0. We hope that you won't encounter  any bugs what so ever, but please mind that that could happen. We hope that you'll enjoy this game. Here is a quick overview of the controls:	 W, A, S, D = walkking  |  R = reaload gun  |  SPACE = open shop  |  ESCAPE = pause  |  Mouse = shoot";
 			
@@ -66,7 +88,7 @@ public class TitleScreen extends GameState {
 		
 		if (button_help.isPressed()) {
 			 Desktop desktop = Desktop.isDesktopSupported() ? Desktop.getDesktop() : null;
-			 String errorMessage = "Sorry, we couldn't open the help page :( To view the help page, open a browser and go to: www.github.com/Dacaspex/ZombieGame/blob/master/README .md#the-game ";
+			 String errorMessage = "Sorry, we couldn't open the help page :( To view the help page, open a browser and go to: www.github.com/Dacaspex/ZombieGame/blob/master/README.md#the-game ";
 			    if (desktop != null && desktop.isSupported(Desktop.Action.BROWSE)) {
 			        try {
 			        	URL helpPage = new URL("https://github.com/Dacaspex/ZombieGame/blob/master/README.md#the-game");
@@ -80,6 +102,7 @@ public class TitleScreen extends GameState {
 		}
 		
 		if (button_quit.isPressed()) {
+			backgroundSound.stop();
 			GamePanel.running = false;
 		}
 	}
