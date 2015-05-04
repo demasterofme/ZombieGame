@@ -405,12 +405,15 @@ public class InGame extends GameState {
 			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk1.wav"));
 			clip.open(ais);
 			Player.walk_sound1 = clip;
+			clip = AudioSystem.getClip();
 			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk2.wav"));
 			clip.open(ais);
 			Player.walk_sound2 = clip;
+			clip = AudioSystem.getClip();
 			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk3.wav"));
 			clip.open(ais);
 			Player.walk_sound3 = clip;
+			clip = AudioSystem.getClip();
 			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk4.wav"));
 			clip.open(ais);
 			Player.walk_sound4 = clip;

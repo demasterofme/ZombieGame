@@ -84,12 +84,17 @@ public class Player extends LivingEntity {
 		if (checkCollisions(0, dy))
 			dy = 0;
 
-		if (dx != 0 || dy != 0)
+		if (dx != 0 || dy != 0) {
 			if (clipNumber != -1) {
-				if (!getClipByNumber(clipNumber).isActive())
-					getClipByNumber(new Random().nextInt(4) + 1).loop(1);
-			} else
-				getClipByNumber(new Random().nextInt(4) + 1).loop(1);
+				if (!getClipByNumber(clipNumber).isRunning()) {
+					clipNumber = new Random().nextInt(4) + 1;
+					getClipByNumber(clipNumber).start();
+				}
+			} else {
+				clipNumber = new Random().nextInt(4) + 1;
+				getClipByNumber(clipNumber).start();
+			}
+		}
 
 		x += dx;
 		y += dy;
@@ -203,7 +208,7 @@ public class Player extends LivingEntity {
 	public boolean getDown() {
 		return down;
 	}
-	
+
 	private Clip getClipByNumber(int number) {
 		if (number == 1)
 			return walk_sound1;
