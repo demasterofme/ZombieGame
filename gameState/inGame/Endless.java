@@ -1,14 +1,16 @@
 package gameState.inGame;
 
+import entity.livingEntity.Zombie;
+import entity.livingEntity.Zombie.ZombieType;
+import gameState.TitleScreen.TitleScreen;
+import gfx.Text;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
 import launcher.GamePanel;
-import entity.livingEntity.Zombie;
-import entity.livingEntity.Zombie.ZombieType;
-import gameState.TitleScreen.TitleScreen;
-import gfx.Text;
+import sfx.Sound;
 
 public class Endless extends InGame {
 
@@ -23,11 +25,11 @@ public class Endless extends InGame {
 
 	private long restartTimer = -1;
 	private boolean restart = false;
-
+	
 	public Endless() {
 		super();
 	}
-
+		
 	public void update() {
 
 		if (player.getHealth() <= 0 && !restart) {
@@ -113,8 +115,10 @@ public class Endless extends InGame {
 
 			int alpha;
 
-			if (dif > 6000)
+			if (dif > 6000) {
+				backgroundSound.stop();
 				GamePanel.changeGameState(new TitleScreen());
+			}
 			
 			if (dif > 5000)
 				dif = 5000;

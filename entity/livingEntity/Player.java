@@ -21,6 +21,7 @@ import javax.sound.sampled.Clip;
 
 import launcher.GamePanel;
 import map.Map;
+import sfx.Sound;
 
 public class Player extends LivingEntity {
 
@@ -48,10 +49,10 @@ public class Player extends LivingEntity {
 	public static BufferedImage texture_bottom;
 
 	private static int clipNumber = -1;
-	public static Clip walk_sound1;
-	public static Clip walk_sound2;
-	public static Clip walk_sound3;
-	public static Clip walk_sound4;
+	public static Sound walk_sound1;
+	public static Sound walk_sound2;
+	public static Sound walk_sound3;
+	public static Sound walk_sound4;
 
 	public Player(float x, float y) {
 		super(x, y);
@@ -86,13 +87,13 @@ public class Player extends LivingEntity {
 
 		if (dx != 0 || dy != 0) {
 			if (clipNumber != -1) {
-				if (!getClipByNumber(clipNumber).isRunning()) {
+				if (!getSoundByNumber(clipNumber).isRunning()) {
 					clipNumber = new Random().nextInt(4) + 1;
-					getClipByNumber(clipNumber).start();
+					getSoundByNumber(clipNumber).play();
 				}
 			} else {
 				clipNumber = new Random().nextInt(4) + 1;
-				getClipByNumber(clipNumber).start();
+				getSoundByNumber(clipNumber).play();
 			}
 		}
 
@@ -209,7 +210,7 @@ public class Player extends LivingEntity {
 		return down;
 	}
 
-	private Clip getClipByNumber(int number) {
+	private Sound getSoundByNumber(int number) {
 		if (number == 1)
 			return walk_sound1;
 		if (number == 2)

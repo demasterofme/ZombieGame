@@ -21,16 +21,10 @@ import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
 import launcher.GamePanel;
 import map.Map;
@@ -38,6 +32,8 @@ import map.Map;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
+
+import sfx.Sound;
 
 public class InGame extends GameState {
 
@@ -55,9 +51,12 @@ public class InGame extends GameState {
 	private static ArrayList<GeneralPath> shapeList;
 	public static ArrayList<Point2D.Float> spawnLocations;
 
+	public Sound backgroundSound;
+
 	public InGame() {
 
-		if (!loadGuns() || !loadSprites() || !loadCollisionMap() || !loadSpawnLocations() || !loadSounds()) {
+		if (!loadGuns() || !loadSprites() || !loadCollisionMap()
+				|| !loadSpawnLocations() || !loadSounds()) {
 			GamePanel.running = false;
 			return;
 		}
@@ -71,6 +70,9 @@ public class InGame extends GameState {
 		bullets = new ArrayList<>();
 		muzzleFlashes = new ArrayList<>();
 		texts = new ArrayList<>();
+
+		backgroundSound = new Sound("/sounds/InGame.wav");
+		backgroundSound.loop();
 
 	}
 
@@ -190,7 +192,7 @@ public class InGame extends GameState {
 		g.setColor(Color.WHITE);
 		g.drawString("$: " + player.getMoney(), 370,
 				GamePanel.WINDOW_HEIGHT - 70);
-		
+
 		for (Text t : texts)
 			t.draw(g);
 
@@ -289,7 +291,8 @@ public class InGame extends GameState {
 						.getText());
 				int fireRate = Integer.parseInt(gunElement.element("Firerate")
 						.getText());
-				float reloadSpeed = Float.parseFloat(gunElement.element("Reloadspeed").getText());
+				float reloadSpeed = Float.parseFloat(gunElement.element(
+						"Reloadspeed").getText());
 				int clipSize = Integer.parseInt(gunElement.element("Clipsize")
 						.getText());
 				int maxBullets = Integer.parseInt(gunElement.element(
@@ -398,29 +401,12 @@ public class InGame extends GameState {
 		}
 		return true;
 	}
-	
+
 	private static boolean loadSounds() {
-		try {
-			Clip clip = AudioSystem.getClip();
-			AudioInputStream ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk1.wav"));
-			clip.open(ais);
-			Player.walk_sound1 = clip;
-			clip = AudioSystem.getClip();
-			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk2.wav"));
-			clip.open(ais);
-			Player.walk_sound2 = clip;
-			clip = AudioSystem.getClip();
-			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk3.wav"));
-			clip.open(ais);
-			Player.walk_sound3 = clip;
-			clip = AudioSystem.getClip();
-			ais = AudioSystem.getAudioInputStream(GamePanel.class.getResource("/sounds/Walk4.wav"));
-			clip.open(ais);
-			Player.walk_sound4 = clip;
-		} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-			e.printStackTrace();
-			return false;
-		}
+		Player.walk_sound1 = new Sound("/sounds/PlayerWalk1.wav");
+		Player.walk_sound2 = new Sound("/sounds/PlayerWalk2.wav");
+		Player.walk_sound3 = new Sound("/sounds/PlayerWalk3.wav");
+		Player.walk_sound4 = new Sound("/sounds/PlayerWalk4.wav");
 		return true;
 	}
 
