@@ -25,6 +25,9 @@ public class Inventory {
 
 		this.slot1 = startGun;
 
+		slot4 = new HashMap<>();
+		slot5 = new HashMap<>();
+
 	}
 
 	public void update() {
@@ -47,6 +50,19 @@ public class Inventory {
 		}
 	}
 
+	public boolean hasUtilityEquipped() {
+		switch (selectedSlot) {
+		case 4:
+			if (!slot4.isEmpty())
+				return true;
+		case 5:
+			if (!slot5.isEmpty())
+				return true;
+		default:
+			return false;
+		}
+	}
+
 	public Gun getCurrentGun() {
 		switch (selectedSlot) {
 		case 1:
@@ -55,8 +71,6 @@ public class Inventory {
 			return slot2;
 		case 3:
 			return slot3;
-		case 4:
-		case 5:
 		default:
 			return null;
 		}
@@ -64,10 +78,6 @@ public class Inventory {
 
 	public HashMap<Utility, Integer> getCurrentUtility() {
 		switch (selectedSlot) {
-		case 1:
-		case 2:
-		case 3:
-			return null;
 		case 4:
 			return slot4;
 		case 5:
@@ -185,7 +195,7 @@ public class Inventory {
 	}
 
 	public void draw(Graphics2D g) {
-		
+
 		g.setColor(Color.WHITE);
 		g.drawString("Guns:", 20, GamePanel.WINDOW_HEIGHT - 138);
 		g.drawString("Utilities:", 230, GamePanel.WINDOW_HEIGHT - 138);

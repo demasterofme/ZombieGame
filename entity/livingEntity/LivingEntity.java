@@ -18,6 +18,10 @@ public class LivingEntity extends Entity {
 	public int getHealth() {
 		return health;
 	}
+	
+	public void setHealth(int health) {
+		this.health = health;
+	}
 
 	public boolean isDead() {
 		return dead;

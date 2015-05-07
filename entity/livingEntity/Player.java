@@ -2,6 +2,8 @@ package entity.livingEntity;
 
 import entity.Bullet;
 import entity.Gun;
+import entity.utility.Grenade;
+import entity.utility.MedKit;
 import entity.utility.Utility;
 import gameState.AlertBox;
 import gameState.GameState;
@@ -15,9 +17,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.util.HashMap;
 import java.util.Random;
-
-import javax.sound.sampled.Clip;
 
 import launcher.GamePanel;
 import map.Map;
@@ -41,15 +42,13 @@ public class Player extends LivingEntity {
 
 	private Inventory inventory;
 	private Gun gun;
-	private Utility utility;
+	private HashMap<Utility, Integer> utility;
 
 	private int maxHealth;
 
 	private Stats stats;
 
 	public static BufferedImage texture;
-	public static BufferedImage texture_head;
-	public static BufferedImage texture_bottom;
 
 	private static int clipNumber = -1;
 	public static Sound walk_sound1;
@@ -114,6 +113,7 @@ public class Player extends LivingEntity {
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
 		gun = inventory.getCurrentGun();
+		utility = inventory.getCurrentUtility();
 
 		if (reloading
 				&& getInventory().hasGunEquipped()
@@ -131,29 +131,53 @@ public class Player extends LivingEntity {
 			}
 		}
 
-		if (firing && getInventory().hasGunEquipped()) {
+		if (firing) {
 
-			long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+			if (getInventory().hasGunEquipped()) {
 
-			if (elapsed >= gun.getFireRate() && !reloading
-					&& gun.getCurrentBullets() > 0) {
-				// We can now fire
-				firingTimer = System.nanoTime();
-				int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
-				int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
-				InGame.muzzleFlashes.add(new MuzzleFlash(GamePanel.WINDOW_WIDTH
-						/ 2 - x1, GamePanel.WINDOW_HEIGHT / 2 - y1,
-						(int) rotation));
-				InGame.bullets.add(new Bullet(x, y, (int) rotation, gun
-						.getDamage()));
-				stats.addBulletsFired(1);
+				long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
-				gun.setCurrentBullets(gun.getCurrentBullets() - 1);
+				if (elapsed >= gun.getFireRate() && !reloading
+						&& gun.getCurrentBullets() > 0) {
+					firingTimer = System.nanoTime();
+					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
+					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
+					InGame.muzzleFlashes.add(new MuzzleFlash(
+							GamePanel.WINDOW_WIDTH / 2 - x1,
+							GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
+					InGame.bullets.add(new Bullet(x, y, (int) rotation, gun
+							.getDamage()));
+					stats.addBulletsFired(1);
 
-				// Reloading
-				if (gun.getCurrentBullets() == 0) {
-					reloading = true;
-					reloadTimer = System.nanoTime();
+					gun.setCurrentBullets(gun.getCurrentBullets() - 1);
+
+					// Reloading
+					if (gun.getCurrentBullets() == 0) {
+						reloading = true;
+						reloadTimer = System.nanoTime();
+					}
+
+				}
+
+			} else if (getInventory().hasUtilityEquipped()) {
+
+				long elapsed = (System.nanoTime() - firingTimer) / 1000000;
+
+				if (elapsed >= 1000 && !reloading) {
+
+					if (utility.keySet().iterator().next() instanceof MedKit) {
+
+						InGame.deployedUtilities.add(((MedKit) utility.keySet()
+								.iterator().next()).deploy(x, y));
+
+					} else if (utility.keySet().iterator().next() instanceof Grenade) {
+
+						InGame.deployedUtilities.add(((Grenade) utility
+								.keySet().iterator().next()).deploy(x, y,
+								rotation));
+
+					}
+
 				}
 
 			}
@@ -287,18 +311,20 @@ public class Player extends LivingEntity {
 		// Combine the player with the gun
 		BufferedImage tempPlayerImage;
 		if (inventory.getCurrentGun() != null)
-			tempPlayerImage = GamePanel.mergeImages(Player.texture, 0, 0, inventory
-					.getCurrentGun().getTexture(), 100, 300);
+			tempPlayerImage = GamePanel.mergeImages(Player.texture, 0, 0,
+					inventory.getCurrentGun().getTexture(), 100, 300);
 		else
 			tempPlayerImage = Player.texture;
 
 		double scale = 0.2;
 
-		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(tempPlayerImage,
+		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(
+				tempPlayerImage,
 				(int) (GamePanel.WINDOW_WIDTH / 2 - tempPlayerImage.getWidth()
 						* scale / 2),
-				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage.getHeight()
-						* scale / 2), scale, Math.toRadians(rotation + 90)));
+				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
+						.getHeight() * scale / 2), scale,
+				Math.toRadians(rotation + 90)));
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.RED);

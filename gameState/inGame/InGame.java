@@ -4,6 +4,9 @@ import entity.Bullet;
 import entity.Gun;
 import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
+import entity.utility.Grenade;
+import entity.utility.MedKit;
+import entity.utility.Utility;
 import gameState.GameState;
 import gfx.DeadZombie;
 import gfx.MuzzleFlash;
@@ -21,6 +24,7 @@ import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +45,13 @@ public class InGame extends GameState {
 
 	public static Map map;
 
+	public static ArrayList<Gun> guns;
+	public static ArrayList<Utility> utilities;
+
 	public static ArrayList<Zombie> zombies;
 	public static ArrayList<DeadZombie> deadZombies;
 	public static ArrayList<Bullet> bullets;
-	public static ArrayList<Gun> guns;
+	public static ArrayList<Utility> deployedUtilities;
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 	public static ArrayList<Text> texts;
 
@@ -55,8 +62,9 @@ public class InGame extends GameState {
 
 	public InGame() {
 
-		if (!loadGuns() || !loadSprites() || !loadCollisionMap()
-				|| !loadSpawnLocations() || !loadSounds()) {
+		if (!loadGuns() || !loadUtilities() || !loadSprites()
+				|| !loadCollisionMap() || !loadSpawnLocations()
+				|| !loadSounds()) {
 			GamePanel.running = false;
 			return;
 		}
@@ -68,6 +76,7 @@ public class InGame extends GameState {
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();
 		bullets = new ArrayList<>();
+		deployedUtilities = new ArrayList<>();
 		muzzleFlashes = new ArrayList<>();
 		texts = new ArrayList<>();
 
@@ -86,6 +95,14 @@ public class InGame extends GameState {
 		for (int i = 0; i < bullets.size(); i++) {
 			if (bullets.get(i).update()) {
 				bullets.remove(i);
+				i--;
+			}
+		}
+
+		// update utilities
+		for (int i = 0; i < deployedUtilities.size(); i++) {
+			if (deployedUtilities.get(i).update()) {
+				deployedUtilities.remove(i);
 				i--;
 			}
 		}
@@ -150,6 +167,9 @@ public class InGame extends GameState {
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
 				b.draw(g);
+		
+		for (Utility u : deployedUtilities)
+			u.draw(g);
 
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
 
@@ -308,7 +328,25 @@ public class InGame extends GameState {
 						maxBullets, price, texture));
 			}
 		} catch (Exception e) {
-			// e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
+			return false;
+		}
+		return true;
+	}
+
+	private static boolean loadUtilities() {
+		utilities = new ArrayList<>();
+		try {
+			BufferedImage texture;
+			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/utilities/Medkit.png")));
+			utilities.add(new MedKit(texture));
+			// Temporary
+			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/utilities/Medkit.png")));
+			utilities.add(new Grenade(texture));
+		} catch (IOException e) {
 			for (StackTraceElement add : e.getStackTrace())
 				GamePanel.errorLog += add + " ";
 			return false;
@@ -319,16 +357,9 @@ public class InGame extends GameState {
 	private static boolean loadSprites() {
 
 		try {
-			
-			Player.texture = loadCompatibleImage(ImageIO
-					.read(GamePanel.class
-							.getResource("/sprites/Player.png")));
-			Player.texture_head = loadCompatibleImage(ImageIO
-					.read(GamePanel.class
-							.getResource("/sprites/Player-head.png")));
-			Player.texture_bottom = loadCompatibleImage(ImageIO
-					.read(GamePanel.class
-							.getResource("/sprites/Player-bottom.png")));
+
+			Player.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/Player.png")));
 			MuzzleFlash.texture = loadCompatibleImage(ImageIO
 					.read(GamePanel.class
 							.getResource("/sprites/MuzzleFlash2.png")));
@@ -338,7 +369,6 @@ public class InGame extends GameState {
 					.getResource("/sprites/Map1.png")));
 
 		} catch (Exception e) {
-			// e.printStackTrace();
 			for (StackTraceElement add : e.getStackTrace())
 				GamePanel.errorLog += add + " ";
 			return false;
@@ -377,7 +407,8 @@ public class InGame extends GameState {
 			}
 			Map.shapeList = shapeList;
 		} catch (Exception e) {
-			e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
 			return false;
 		}
 		return true;
@@ -401,7 +432,8 @@ public class InGame extends GameState {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
 			return false;
 		}
 		return true;

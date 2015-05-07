@@ -1,6 +1,7 @@
 package gameState.inGame;
 
 import entity.Gun;
+import entity.utility.Utility;
 import gameState.GameState;
 import gfx.Button;
 import gfx.Text;
@@ -18,6 +19,7 @@ public class Shop extends GameState {
 
 	private ArrayList<Button> buttons;
 	private ArrayList<Button> gunButtons;
+	private ArrayList<Button> utilityButtons;
 	private Button button_back;
 	private Button button_previous;
 	private Button button_next;
@@ -36,6 +38,7 @@ public class Shop extends GameState {
 
 		buttons = new ArrayList<>();
 		gunButtons = new ArrayList<>();
+		utilityButtons = new ArrayList<>();
 		texts = new ArrayList<>();
 
 		button_back = new Button(
@@ -43,13 +46,14 @@ public class Shop extends GameState {
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2),
 				"BACK", new Font("Century Gothic", Font.PLAIN, 24));
 
-		button_previous = new Button((int) (GamePanel.WINDOW_WIDTH * 0.11) + 20,
-				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, "<<", new Font("Century Gothic",
-						Font.PLAIN, 26));
+		button_previous = new Button(
+				(int) (GamePanel.WINDOW_WIDTH * 0.11) + 20,
+				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, "<<", new Font(
+						"Century Gothic", Font.PLAIN, 26));
 
 		button_next = new Button((int) (GamePanel.WINDOW_WIDTH * 0.855) + 20,
-				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, ">>", new Font("Century Gothic",
-						Font.PLAIN, 26));
+				(int) (GamePanel.WINDOW_HEIGHT * 0.45) + 20, ">>", new Font(
+						"Century Gothic", Font.PLAIN, 26));
 
 		buttons.add(button_back);
 		buttons.add(button_previous);
@@ -57,23 +61,50 @@ public class Shop extends GameState {
 
 		int x = 1, y = 1;
 
+		Font font = new Font("Century Gothic", Font.PLAIN, 20);
+
 		for (Gun gun : InGame.guns) {
 			if (x == 6) {
 				x = 1;
 				y++;
 			}
 
-			Font font = new Font("Century Gothic", Font.PLAIN, 20);
 			String text = gun.getName() + ": " + gun.getPrice() + "$";
 
-			gunButtons
+			gunButtons.add(new Button(
+					(int) (GamePanel.WINDOW_WIDTH * 0.16 * x++)
+							+ (int) (gun.getTexture().getWidth() * 0.1 + 40)
+							/ 2
+							- GamePanel.g.getFontMetrics(font)
+									.stringWidth(text) / 2,
+					(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y + gun.getTexture()
+							.getHeight() * 0.1)
+							+ 45
+							+ GamePanel.g.getFontMetrics(font).getHeight(),
+					text, font));
+
+		}
+
+		x = 1;
+		y = 1;
+
+		for (Utility utility : InGame.utilities) {
+			if (x == 6) {
+				x = 1;
+				y++;
+			}
+
+			String text = utility.getName() + ": " + utility.getPrice() + "$";
+
+			utilityButtons
 					.add(new Button(
 							(int) (GamePanel.WINDOW_WIDTH * 0.16 * x++)
-									+ (int) (gun.getTexture().getWidth() * 0.1 + 40)
+									+ (int) (utility.getTexture().getWidth() * 0.1 + 40)
 									/ 2
 									- GamePanel.g.getFontMetrics(font)
 											.stringWidth(text) / 2,
-							(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y + gun.getTexture().getHeight() * 0.1)
+							(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y + utility
+									.getTexture().getHeight() * 0.1)
 									+ 45
 									+ GamePanel.g.getFontMetrics(font)
 											.getHeight(), text, font));
@@ -91,32 +122,64 @@ public class Shop extends GameState {
 		for (Button b : buttons)
 			b.update();
 
-		for (Button b : gunButtons) {
-			b.update();
-			if (b.isPressed()) {
-				String name = b.getText().split(":")[0];
-				Gun gun = null;
-				for (Gun g : InGame.guns)
-					if (g.getName().equalsIgnoreCase(name))
-						gun = g;
-				if (gun != null)
-					if (InGame.player.getMoney() < gun.getPrice())
-						texts.add(new Text("Unsufficient cash!", 2000,
-								new Font("Century Gothic", Font.PLAIN, 36),
-								Color.RED, GamePanel.WINDOW_WIDTH / 2,
-								GamePanel.WINDOW_HEIGHT / 2));
-					else if (!InGame.player.getInventory().addGun(gun))
-						texts.add(new Text("Unsufficient room!", 2000,
-								new Font("Century Gothic", Font.PLAIN, 36),
-								Color.RED, GamePanel.WINDOW_WIDTH / 2,
-								GamePanel.WINDOW_HEIGHT / 2));
-					else {
-						InGame.player.setMoney(InGame.player.getMoney()
-								- gun.getPrice());
-						InGame.player.getStats().addSpentMoney(gun.getPrice());
-					}
+		if (page == 1)
+			for (Button b : gunButtons) {
+				b.update();
+				if (b.isPressed()) {
+					String name = b.getText().split(":")[0];
+					Gun gun = null;
+					for (Gun g : InGame.guns)
+						if (g.getName().equalsIgnoreCase(name))
+							gun = g;
+					if (gun != null)
+						if (InGame.player.getMoney() < gun.getPrice())
+							texts.add(new Text("Unsufficient cash!", 2000,
+									new Font("Century Gothic", Font.PLAIN, 36),
+									Color.RED, GamePanel.WINDOW_WIDTH / 2,
+									GamePanel.WINDOW_HEIGHT / 2));
+						else if (!InGame.player.getInventory().addGun(gun))
+							texts.add(new Text("Unsufficient room!", 2000,
+									new Font("Century Gothic", Font.PLAIN, 36),
+									Color.RED, GamePanel.WINDOW_WIDTH / 2,
+									GamePanel.WINDOW_HEIGHT / 2));
+						else {
+							InGame.player.setMoney(InGame.player.getMoney()
+									- gun.getPrice());
+							InGame.player.getStats().addSpentMoney(
+									gun.getPrice());
+						}
+				}
 			}
-		}
+
+		if (page == 2)
+			for (Button b : utilityButtons) {
+				b.update();
+				if (b.isPressed()) {
+					String name = b.getText().split(":")[0];
+					Utility utility = null;
+					for (Utility u : InGame.utilities)
+						if (u.getName().equalsIgnoreCase(name))
+							utility = u;
+					if (utility != null)
+						if (InGame.player.getMoney() < utility.getPrice())
+							texts.add(new Text("Unsufficient cash!", 2000,
+									new Font("Century Gothic", Font.PLAIN, 36),
+									Color.RED, GamePanel.WINDOW_WIDTH / 2,
+									GamePanel.WINDOW_HEIGHT / 2));
+						else if (!InGame.player.getInventory().addUtility(
+								utility))
+							texts.add(new Text("Unsufficient room!", 2000,
+									new Font("Century Gothic", Font.PLAIN, 36),
+									Color.RED, GamePanel.WINDOW_WIDTH / 2,
+									GamePanel.WINDOW_HEIGHT / 2));
+						else {
+							InGame.player.setMoney(InGame.player.getMoney()
+									- utility.getPrice());
+							InGame.player.getStats().addSpentMoney(
+									utility.getPrice());
+						}
+				}
+			}
 
 		for (int i = 0; i < texts.size(); i++) {
 			if (texts.get(i).update()) {
@@ -128,7 +191,7 @@ public class Shop extends GameState {
 		if (button_back.isPressed()) {
 			GamePanel.changeGameState(oldState);
 		}
-			
+
 		if (button_next.isPressed())
 			page++;
 
@@ -149,7 +212,9 @@ public class Shop extends GameState {
 
 		g.setColor(new Color(24, 24, 24, 240));
 
-		g.fillRect((int) (GamePanel.WINDOW_WIDTH * 0.1), (int) (GamePanel.WINDOW_HEIGHT * 0.1), (int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
+		g.fillRect((int) (GamePanel.WINDOW_WIDTH * 0.1),
+				(int) (GamePanel.WINDOW_HEIGHT * 0.1),
+				(int) (GamePanel.WINDOW_WIDTH - GamePanel.WINDOW_WIDTH * 0.2),
 				(int) (GamePanel.WINDOW_HEIGHT - GamePanel.WINDOW_HEIGHT * 0.2));
 
 		g.setColor(Color.WHITE);
@@ -183,20 +248,43 @@ public class Shop extends GameState {
 				g.drawRenderedImage(gun.getTexture(), GamePanel
 						.getAffineTransform(gun.getTexture(),
 								(int) (GamePanel.WINDOW_WIDTH * 0.16 * x) + 20,
-								(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y) + 20, 0.1, 0));
-				g.drawRect((int) (GamePanel.WINDOW_WIDTH * 0.16 * x++), (int) (GamePanel.WINDOW_HEIGHT * 0.2 * y),
-						(int) (gun.getTexture().getWidth() * 0.1) + 40,
+								(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y) + 20,
+								0.1, 0));
+				g.drawRect((int) (GamePanel.WINDOW_WIDTH * 0.16 * x++),
+						(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y), (int) (gun
+								.getTexture().getWidth() * 0.1) + 40,
 						(int) (gun.getTexture().getHeight() * 0.1) + 40);
 			}
 
 		} else if (page == 2) {
 			g.drawString("SHOP - UTILITIES", GamePanel.WINDOW_WIDTH / 2
-					- g.getFontMetrics(font).stringWidth("SHOP - UTILITIES") / 2,
-					150);
+					- g.getFontMetrics(font).stringWidth("SHOP - UTILITIES")
+					/ 2, 150);
 
 			if (!available)
 				g.setColor(Color.GRAY);
-			
+
+			for (Button b : utilityButtons)
+				b.draw(g);
+
+			int x = 1, y = 1;
+
+			for (Utility utility : InGame.utilities) {
+				if (x == 6) {
+					x = 1;
+					y++;
+				}
+				g.drawRenderedImage(utility.getTexture(), GamePanel
+						.getAffineTransform(utility.getTexture(),
+								(int) (GamePanel.WINDOW_WIDTH * 0.16 * x) + 20,
+								(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y) + 20,
+								0.1, 0));
+				g.drawRect((int) (GamePanel.WINDOW_WIDTH * 0.16 * x++),
+						(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y),
+						(int) (utility.getTexture().getWidth() * 0.1) + 40,
+						(int) (utility.getTexture().getHeight() * 0.1) + 40);
+			}
+
 		}
 
 		for (Text t : texts)
@@ -208,6 +296,7 @@ public class Shop extends GameState {
 		@SuppressWarnings("unchecked")
 		ArrayList<Button> toReturn = (ArrayList<Button>) buttons.clone();
 		toReturn.addAll(gunButtons);
+		toReturn.addAll(utilityButtons);
 		return toReturn;
 	}
 

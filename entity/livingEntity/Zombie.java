@@ -154,9 +154,8 @@ public class Zombie extends LivingEntity {
 					GamePanel.getAffineTransform(texture, x, y, scale,
 							Math.toRadians(rotation)));
 
-			g.setStroke(new BasicStroke(1));
-
 			if (GamePanel.debugMode) {
+				g.setStroke(new BasicStroke(1));
 				g.setColor(Color.RED);
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
 				if (path != null) {
