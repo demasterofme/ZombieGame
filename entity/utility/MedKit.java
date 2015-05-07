@@ -13,11 +13,13 @@ public class MedKit extends Utility {
 	private static int healTime = 15000;
 
 	private long startTime;
+	
+	private int healTimer = 0;
 
 	public MedKit(BufferedImage texture) {
 
 		super("Medkit", 100, texture);
-		
+
 		r = 60;
 
 	}
@@ -31,7 +33,7 @@ public class MedKit extends Utility {
 
 	public boolean update() {
 
-		int dif = (int) (System.nanoTime() - startTime) / 1000000;
+		long dif = (System.nanoTime() - startTime) / 1000000;
 
 		if (dif >= healTime)
 			return true;
@@ -40,11 +42,15 @@ public class MedKit extends Utility {
 				x - InGame.player.getx(), 2)
 				+ Math.pow(y - InGame.player.gety(), 2));
 
-		if (distanceToPlayer < r + InGame.player.getr())
-			if (dif % 1000 == 0)
+		if (distanceToPlayer < r + InGame.player.getr()) {
+			if (dif > 1000 * healTimer) {
+				healTimer++;
 				InGame.player.setHealth(InGame.player.getHealth()
-						+ boostPerSecond);
-
+							+ boostPerSecond);
+				if (InGame.player.getHealth() > InGame.player.getMaxHealth())
+					InGame.player.setHealth(InGame.player.getMaxHealth());
+			}
+		}
 		return false;
 	}
 
@@ -56,7 +62,7 @@ public class MedKit extends Utility {
 		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
 				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.06;
+			double scale = 0.1;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

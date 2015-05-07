@@ -3,6 +3,7 @@ package gui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 import launcher.GamePanel;
@@ -114,17 +115,17 @@ public class Inventory {
 			return true;
 		}
 
-		if (slot4.keySet().iterator().next() instanceof Grenade
-				&& utility instanceof Grenade && slot4.get(0) < 3) {
-			int amount = slot4.get(0);
+		if (slot4.keySet().toArray()[0] instanceof Grenade
+				&& utility instanceof Grenade && slot4.values().iterator().next() < 3) {
+			int amount = slot4.values().iterator().next();
 			slot4.clear();
 			slot4.put(utility, amount++);
 			return true;
 		}
 
-		if (slot5.keySet().iterator().next() instanceof Grenade
-				&& utility instanceof Grenade && slot5.get(0) < 3) {
-			int amount = slot5.get(0);
+		if (slot5.keySet().toArray()[0] instanceof Grenade
+				&& utility instanceof Grenade && slot5.values().iterator().next() < 3) {
+			int amount = slot5.values().iterator().next();
 			slot5.clear();
 			slot5.put(utility, amount++);
 			return true;
@@ -153,9 +154,9 @@ public class Inventory {
 				return false;
 			}
 		case 4:
-			if (!slot4.isEmpty() && slot4.get(0) > 1) {
-				int currentAmount = slot4.get(0);
-				Utility currentUtility = slot4.keySet().iterator().next();
+			if (!slot4.isEmpty() && slot4.values().iterator().next() > 1) {
+				int currentAmount = slot4.values().iterator().next();
+				Utility currentUtility = (Utility) slot4.keySet().toArray()[0];
 				slot4.clear();
 				slot4.put(currentUtility, currentAmount--);
 				return true;
@@ -165,9 +166,9 @@ public class Inventory {
 			}
 			return false;
 		case 5:
-			if (!slot5.isEmpty() && slot5.get(0) > 1) {
-				int currentAmount = slot5.get(0);
-				Utility currentUtility = slot5.keySet().iterator().next();
+			if (!slot5.isEmpty() && slot5.values().iterator().next() > 1) {
+				int currentAmount = slot5.values().iterator().next();
+				Utility currentUtility = (Utility) slot5.keySet().toArray()[0];
 				slot5.clear();
 				slot5.put(currentUtility, currentAmount--);
 				return true;
@@ -226,6 +227,22 @@ public class Inventory {
 									20 + i * 70, GamePanel.WINDOW_HEIGHT - 130,
 									0.1, 45));
 				break;
+			case 4:
+				if (!slot4.isEmpty()) {
+					BufferedImage texture = ((Utility) slot4.keySet().toArray()[0])
+							.getTexture();
+					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
+							texture, 20 + i * 70,
+							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
+				}
+			case 5:
+				if (!slot5.isEmpty()) {
+					BufferedImage texture = ((Utility) slot5.keySet().toArray()[0])
+							.getTexture();
+					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
+							texture, 20 + i * 70,
+							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
+				}
 			}
 
 			if (i + 1 == selectedSlot) {

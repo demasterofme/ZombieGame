@@ -30,7 +30,7 @@ public class Zombie extends LivingEntity {
 		super(x, y);
 		// this.type = type;
 		r = 30;
-		health = 1000;
+		health = 300;
 		speed = 0.2;
 
 		canAttack = true;

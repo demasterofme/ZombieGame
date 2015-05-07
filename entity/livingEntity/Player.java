@@ -42,7 +42,6 @@ public class Player extends LivingEntity {
 
 	private Inventory inventory;
 	private Gun gun;
-	private HashMap<Utility, Integer> utility;
 
 	private int maxHealth;
 
@@ -113,8 +112,7 @@ public class Player extends LivingEntity {
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
 		gun = inventory.getCurrentGun();
-		utility = inventory.getCurrentUtility();
-
+		
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -165,16 +163,17 @@ public class Player extends LivingEntity {
 
 				if (elapsed >= 1000 && !reloading) {
 
-					if (utility.keySet().iterator().next() instanceof MedKit) {
+					if (inventory.getCurrentUtility().keySet().toArray()[0] instanceof MedKit) {
 
-						InGame.deployedUtilities.add(((MedKit) utility.keySet()
-								.iterator().next()).deploy(x, y));
+						InGame.deployedUtilities.add(((MedKit) inventory.getCurrentUtility().keySet()
+								.toArray()[0]).deploy(x, y));
+						getInventory().removeItem(4);
 
-					} else if (utility.keySet().iterator().next() instanceof Grenade) {
+					} else if (inventory.getCurrentUtility().keySet().toArray()[0] instanceof Grenade) {
 
-						InGame.deployedUtilities.add(((Grenade) utility
-								.keySet().iterator().next()).deploy(x, y,
-								rotation));
+						InGame.deployedUtilities.add(((Grenade) inventory.getCurrentUtility()
+								.keySet().toArray()[0]).deploy(x, y, rotation));
+						getInventory().removeItem(5);
 
 					}
 
