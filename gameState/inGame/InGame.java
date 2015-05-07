@@ -101,6 +101,8 @@ public class InGame extends GameState {
 				deadZombies.add(new DeadZombie(zombies.get(i).getx(), zombies
 						.get(i).gety()));
 				player.setMoney(player.getMoney() + 20);
+				player.getStats().addKills(1);
+				player.getStats().addEarnedMoney(20);
 				zombies.remove(i);
 				i--;
 			}
@@ -317,7 +319,10 @@ public class InGame extends GameState {
 	private static boolean loadSprites() {
 
 		try {
-
+			
+			Player.texture = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Player.png")));
 			Player.texture_head = loadCompatibleImage(ImageIO
 					.read(GamePanel.class
 							.getResource("/sprites/Player-head.png")));
@@ -328,7 +333,7 @@ public class InGame extends GameState {
 					.read(GamePanel.class
 							.getResource("/sprites/MuzzleFlash2.png")));
 			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/zombie-swarmer1.png")));
+					.getResource("/sprites/Zombie1.png")));
 			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/Map1.png")));
 

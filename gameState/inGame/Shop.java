@@ -110,9 +110,11 @@ public class Shop extends GameState {
 								new Font("Century Gothic", Font.PLAIN, 36),
 								Color.RED, GamePanel.WINDOW_WIDTH / 2,
 								GamePanel.WINDOW_HEIGHT / 2));
-					else
+					else {
 						InGame.player.setMoney(InGame.player.getMoney()
 								- gun.getPrice());
+						InGame.player.getStats().addSpentMoney(gun.getPrice());
+					}
 			}
 		}
 

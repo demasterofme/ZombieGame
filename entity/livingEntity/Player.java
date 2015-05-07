@@ -22,12 +22,12 @@ import javax.sound.sampled.Clip;
 import launcher.GamePanel;
 import map.Map;
 import sfx.Sound;
+import stats.Stats;
 
 public class Player extends LivingEntity {
 
 	private boolean left, right, up, down = false;
 
-	private int score = 0;
 	private int money = 0;
 
 	private boolean firing;
@@ -45,6 +45,9 @@ public class Player extends LivingEntity {
 
 	private int maxHealth;
 
+	private Stats stats;
+
+	public static BufferedImage texture;
 	public static BufferedImage texture_head;
 	public static BufferedImage texture_bottom;
 
@@ -64,6 +67,7 @@ public class Player extends LivingEntity {
 
 		// Temp, will be done by XML later
 		maxHealth = 100;
+		stats = new Stats();
 	}
 
 	public boolean update() {
@@ -142,6 +146,7 @@ public class Player extends LivingEntity {
 						(int) rotation));
 				InGame.bullets.add(new Bullet(x, y, (int) rotation, gun
 						.getDamage()));
+				stats.addBulletsFired(1);
 
 				gun.setCurrentBullets(gun.getCurrentBullets() - 1);
 
@@ -156,14 +161,6 @@ public class Player extends LivingEntity {
 		}
 
 		return false;
-	}
-
-	public int getScore() {
-		return score;
-	}
-
-	public void setScore(int score) {
-		this.score = score;
 	}
 
 	public int getMoney() {
@@ -252,6 +249,10 @@ public class Player extends LivingEntity {
 		return maxHealth;
 	}
 
+	public Stats getStats() {
+		return stats;
+	}
+
 	public void resume(GameState previousState) {
 
 		if (previousState instanceof PauseMenu) {
@@ -284,24 +285,20 @@ public class Player extends LivingEntity {
 	public void draw(Graphics2D g) {
 
 		// Combine the player with the gun
-		BufferedImage tempImage;
+		BufferedImage tempPlayerImage;
 		if (inventory.getCurrentGun() != null)
-			tempImage = GamePanel.mergeImages(Player.texture_bottom, 0, 0,
-					inventory.getCurrentGun().getTexture(), 100, 300);
+			tempPlayerImage = GamePanel.mergeImages(Player.texture, 0, 0, inventory
+					.getCurrentGun().getTexture(), 100, 300);
 		else
-			tempImage = Player.texture_bottom;
-		BufferedImage tempPlayerImage = GamePanel.mergeImages(tempImage, 0, 0,
-				Player.texture_head, 0, 0);
+			tempPlayerImage = Player.texture;
 
-		double scale = 0.1;
+		double scale = 0.2;
 
-		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(
-				tempPlayerImage,
+		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(tempPlayerImage,
 				(int) (GamePanel.WINDOW_WIDTH / 2 - tempPlayerImage.getWidth()
 						* scale / 2),
-				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
-						.getHeight() * scale / 2), scale,
-				Math.toRadians(rotation + 90)));
+				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage.getHeight()
+						* scale / 2), scale, Math.toRadians(rotation + 90)));
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.RED);

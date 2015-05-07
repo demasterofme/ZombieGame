@@ -2,13 +2,13 @@ package stats;
 
 public class Stats {
 
-	private int kills;
-	private int earnedMoney;
-	private int spentMoney;
-	private int damageDealt;
-	private int grenades;
-	private int bullets;
-	private int time;
+	private int kills = 0;
+	private int earnedMoney = 0;
+	private int spentMoney = 0;
+	private int damageDealt = 0;
+	private int grenadesUsed = 0;
+	private int bulletsFired = 0;
+	private int time = 0;
 	
 	private long startTime;
 	
@@ -23,6 +23,10 @@ public class Stats {
 	public void setKills(int kills) {
 		this.kills = kills;
 	}
+	
+	public void addKills(int amount) {
+		kills += amount;
+	}
 
 	public int getEarnedMoney() {
 		return earnedMoney;
@@ -30,6 +34,10 @@ public class Stats {
 
 	public void setEarnedMoney(int earnedMoney) {
 		this.earnedMoney = earnedMoney;
+	}
+	
+	public void addEarnedMoney(int amount) {
+		earnedMoney += amount;
 	}
 
 	public int getSpentMoney() {
@@ -39,6 +47,10 @@ public class Stats {
 	public void setSpentMoney(int spentMoney) {
 		this.spentMoney = spentMoney;
 	}
+	
+	public void addSpentMoney(int amount) {
+		spentMoney += amount;
+	}
 
 	public int getDamageDealt() {
 		return damageDealt;
@@ -47,21 +59,33 @@ public class Stats {
 	public void setDamageDealt(int damageDealt) {
 		this.damageDealt = damageDealt;
 	}
-
-	public int getGrenades() {
-		return grenades;
+	
+	public void addDamageDealt(int amount) {
+		damageDealt += amount;
 	}
 
-	public void setGrenades(int grenades) {
-		this.grenades = grenades;
+	public int getGrenadesUsed() {
+		return grenadesUsed;
 	}
 
-	public int getBullets() {
-		return bullets;
+	public void setGrenadesUsed(int grenadesUsed) {
+		this.grenadesUsed = grenadesUsed;
+	}
+	
+	public void addGrenadesUsed(int amount) {
+		grenadesUsed += amount;
 	}
 
-	public void setBullets(int bullets) {
-		this.bullets = bullets;
+	public int getBulletsFired() {
+		return bulletsFired;
+	}
+
+	public void setBulletsFired(int bulletsFired) {
+		this.bulletsFired = bulletsFired;
+	}
+	
+	public void addBulletsFired(int amount) {
+		bulletsFired += amount;
 	}
 
 	public int getTime() {

@@ -14,10 +14,10 @@ import map.Vertex;
 
 public class Zombie extends LivingEntity {
 
-	//private ZombieType type;
+	// private ZombieType type;
 
 	public static BufferedImage texture;
-	
+
 	private int attackStrength;
 	private boolean canAttack;
 	private long canAttackTimer;
@@ -28,11 +28,11 @@ public class Zombie extends LivingEntity {
 	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
-		//this.type = type;
+		// this.type = type;
 		r = 30;
 		health = 1000;
 		speed = 0.2;
-		
+
 		canAttack = true;
 		attackStrength = 10;
 
@@ -90,16 +90,17 @@ public class Zombie extends LivingEntity {
 			}
 
 		} else {
-			
-			if (!canAttack && (System.nanoTime() - canAttackTimer) / 1000000 > 3000)
+
+			if (!canAttack
+					&& (System.nanoTime() - canAttackTimer) / 1000000 > 3000)
 				canAttack = true;
-			
+
 			if (canAttack) {
 				InGame.player.damage(attackStrength);
 				canAttack = false;
 				canAttackTimer = System.nanoTime();
 			}
-			
+
 			dx = 0;
 			dy = 0;
 		}
@@ -114,6 +115,7 @@ public class Zombie extends LivingEntity {
 			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r
 					+ b.getr()) {
 				damage(b.getDamage());
+				InGame.player.getStats().addDamageDealt(b.getDamage());
 				InGame.bullets.remove(b);
 				i--;
 			}
@@ -141,7 +143,7 @@ public class Zombie extends LivingEntity {
 		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
 				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.1;
+			double scale = 0.2;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);
@@ -161,8 +163,10 @@ public class Zombie extends LivingEntity {
 					for (int i = 0; i < path.size() - 1; i++) {
 						g.setColor(Color.ORANGE);
 						g.drawLine(
-								(int) path.get(i).getX() - InGame.map.getxOffset(),
-								(int) path.get(i).getY() - InGame.map.getyOffset(),
+								(int) path.get(i).getX()
+										- InGame.map.getxOffset(),
+								(int) path.get(i).getY()
+										- InGame.map.getyOffset(),
 								(int) path.get(i + 1).getX()
 										- InGame.map.getxOffset(),
 								(int) path.get(i + 1).getY()
