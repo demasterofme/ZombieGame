@@ -102,6 +102,10 @@ public class Button {
 	public String getText() {
 		return text;
 	}
+	
+	public void setFont(Font font) {
+		this.font = font;
+	}
 
 	public void draw(Graphics2D g) {
 

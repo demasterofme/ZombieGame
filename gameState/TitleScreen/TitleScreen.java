@@ -9,20 +9,17 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 
-import sfx.Sound;
 import launcher.GamePanel;
+import sfx.Sound;
 
 public class TitleScreen extends GameState {
 
@@ -30,6 +27,7 @@ public class TitleScreen extends GameState {
 	private Button button_start;
 	private Button button_help;
 	private Button button_quit;
+	private Button button_sound;
 
 	private BufferedImage backgroundImage;
 
@@ -46,10 +44,13 @@ public class TitleScreen extends GameState {
 		button_start = new Button(true, 250, "Start Game", font);
 		button_help = new Button(true, 350, "Help", font);
 		button_quit = new Button(true, 450, "Quit", font);
+		button_sound = new Button(GamePanel.WINDOW_WIDTH - 120, 10, "Sounds",
+				new Font("Century Gothic", Font.PLAIN, 24));
 
 		buttons.add(button_start);
 		buttons.add(button_help);
 		buttons.add(button_quit);
+		buttons.add(button_sound);
 
 		// For testing
 		try {
@@ -65,6 +66,7 @@ public class TitleScreen extends GameState {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public void update() {
 
 		for (Button b : buttons)
@@ -100,6 +102,22 @@ public class TitleScreen extends GameState {
 			backgroundSound.stop();
 			GamePanel.running = false;
 		}
+
+		if (button_sound.isPressed()) {
+			Sound.mute();
+			Font font = new Font("Century Gothic", Font.PLAIN, 24);
+			if (Sound.isMuted()) {
+				@SuppressWarnings("rawtypes")
+				Map attributes = font.getAttributes();
+				attributes.put(TextAttribute.STRIKETHROUGH,
+						TextAttribute.STRIKETHROUGH_ON);
+				font = new Font(attributes);
+				backgroundSound.stop();
+			} else
+				backgroundSound.loop();
+			button_sound.setFont(font);
+		}
+
 	}
 
 	public void render(Graphics2D g) {
