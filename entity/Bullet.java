@@ -52,7 +52,7 @@ public class Bullet extends Entity {
 		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
 				+ (int) dy - 5, 5, 5);
 
-		for (GeneralPath p : Map.shapeList)
+		for (GeneralPath p : Map.pathfindingMap)
 
 			if (p.intersects(movementRect))
 				return true;

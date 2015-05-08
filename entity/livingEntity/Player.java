@@ -302,7 +302,7 @@ public class Player extends LivingEntity {
 		Rectangle2D.Double movementRect = new Rectangle2D.Double(x + dx - 5, y
 				+ dy - 5, 5, 5);
 
-		for (GeneralPath p : Map.shapeList)
+		for (GeneralPath p : Map.colissionMap)
 
 			if (p.intersects(movementRect))
 				return true;

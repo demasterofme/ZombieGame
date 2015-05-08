@@ -1,5 +1,5 @@
 <locations>
-	<spawn>0, -100</spawn>
+	<spawn>2000, 2000</spawn>
 	<spawn>200, -100</spawn>
 	<spawn>400, -100</spawn>
 	<spawn>600, -100</spawn>

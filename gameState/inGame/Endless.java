@@ -10,7 +10,6 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 
 import launcher.GamePanel;
-import sfx.Sound;
 
 public class Endless extends InGame {
 
@@ -34,7 +33,7 @@ public class Endless extends InGame {
 
 		if (player.getHealth() <= 0 && !restart) {
 			texts.add(new Text("Y O U    D I E D", 10000, new Font(
-					"Century Gothic", Font.PLAIN, 42), Color.RED));
+					"Century Gothic", Font.PLAIN, 60), Color.RED));
 			restartTimer = System.nanoTime();
 			restart = true;
 		}
@@ -57,7 +56,7 @@ public class Endless extends InGame {
 			if (waveNumber != 1) {
 				texts.add(new Text("- W A V E   " + (waveNumber - 1)
 						+ "   C O M P L E T E D -", 2000, new Font(
-						"Century Gothic", Font.PLAIN, 36), Color.WHITE));
+						"Century Gothic", Font.PLAIN, 50), Color.WHITE));
 			}
 			waveText = false;
 			waveInitiating = true;
@@ -79,7 +78,7 @@ public class Endless extends InGame {
 							/ ((zombieIndex + 1) * timeBetweenZombies) < 1) {
 				if (!waveText) {
 					texts.add(new Text("- W A V E   " + waveNumber + "   -",
-							3000, new Font("Century Gothic", Font.PLAIN, 36),
+							3000, new Font("Century Gothic", Font.PLAIN, 45),
 							Color.WHITE));
 					waveText = true;
 				}

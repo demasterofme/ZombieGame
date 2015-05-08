@@ -378,13 +378,13 @@ public class InGame extends GameState {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private static boolean loadCollisionMap() {
 		shapeList = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
 					.getResource("/xml/colission-map-1.xml").toURI().toURL());
 			Element root = document.getRootElement();
-			@SuppressWarnings("unchecked")
 			List<Element> shapeElements = root.elements("shape");
 
 			for (Element shapeElement : shapeElements) {
@@ -405,7 +405,10 @@ public class InGame extends GameState {
 
 				shapeList.add(polyline);
 			}
-			Map.shapeList = shapeList;
+			Map.colissionMap = (ArrayList<GeneralPath>) shapeList.clone();
+			Map.pathfindingMap = (ArrayList<GeneralPath>) shapeList.clone();
+			for (int i = 0; i < 4; i++)
+				Map.pathfindingMap.remove(0);
 		} catch (Exception e) {
 			for (StackTraceElement add : e.getStackTrace())
 				GamePanel.errorLog += add + " ";
@@ -440,10 +443,10 @@ public class InGame extends GameState {
 	}
 
 	private static boolean loadSounds() {
-		Player.walk_sound1 = new Sound("/sounds/PlayerWalk1.wav");
-		Player.walk_sound2 = new Sound("/sounds/PlayerWalk2.wav");
-		Player.walk_sound3 = new Sound("/sounds/PlayerWalk3.wav");
-		Player.walk_sound4 = new Sound("/sounds/PlayerWalk4.wav");
+		Player.walk_sound1 = new Sound("/sounds/PlayerWalk1.wav", -10F);
+		Player.walk_sound2 = new Sound("/sounds/PlayerWalk2.wav", -10F);
+		Player.walk_sound3 = new Sound("/sounds/PlayerWalk3.wav", -10F);
+		Player.walk_sound4 = new Sound("/sounds/PlayerWalk4.wav", -10F);
 		return true;
 	}
 

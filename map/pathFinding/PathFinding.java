@@ -14,9 +14,8 @@ public class PathFinding {
 	private ArrayList<Vertex> vertices;
 
 	public PathFinding(ArrayList<GeneralPath> colissionMap) {
+		
 		this.colissionMap = colissionMap;
-		for (int i = 0; i < 4; i++)
-			this.colissionMap.remove(0);
 		vertices = makeVerticesList();
 
 	}

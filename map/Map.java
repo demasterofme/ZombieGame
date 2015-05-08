@@ -23,16 +23,16 @@ public class Map {
 
 	public static BufferedImage texture;
 
-	public static ArrayList<GeneralPath> shapeList;
+	public static ArrayList<GeneralPath> colissionMap;
+	public static ArrayList<GeneralPath> pathfindingMap;
 
 	private PathFinding pathFinding;
 
-	@SuppressWarnings("unchecked")
 	public Map() {
 
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
-		pathFinding = new PathFinding((ArrayList<GeneralPath>) shapeList.clone());
+		pathFinding = new PathFinding(pathfindingMap);
 
 	}
 
@@ -72,7 +72,7 @@ public class Map {
 		if (GamePanel.debugMode) {
 			g.setStroke(new BasicStroke(1));
 			g.setColor(Color.GREEN);
-			for (GeneralPath p : shapeList) {
+			for (GeneralPath p : colissionMap) {
 				PathIterator iterator = p.getPathIterator(null);
 				int previousX = -1;
 				int previousY = -1;

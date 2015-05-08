@@ -72,7 +72,7 @@ public class Vertex {
 
 		Line2D.Double line = new Line2D.Double(x, y, v.getX(), v.getY());
 
-		for (GeneralPath g : Map.shapeList) {
+		for (GeneralPath g : Map.pathfindingMap) {
 			try {
 				if (intersects(g, line, v))
 					return false;
