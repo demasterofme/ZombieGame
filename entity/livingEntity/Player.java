@@ -29,7 +29,7 @@ public class Player extends LivingEntity {
 
 	private boolean left, right, up, down = false;
 
-	private int money = 0;
+	private int money = 10000;
 
 	private boolean firing;
 	private long firingTimer;
@@ -112,7 +112,7 @@ public class Player extends LivingEntity {
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
 		gun = inventory.getCurrentGun();
-		
+
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -163,19 +163,24 @@ public class Player extends LivingEntity {
 
 				if (elapsed >= 1000 && !reloading) {
 
-					if (inventory.getCurrentUtility().keySet().toArray()[0] instanceof MedKit) {
+					Utility current = Inventory.getFirstKey(getInventory()
+							.getCurrentUtility());
 
-						InGame.deployedUtilities.add(((MedKit) inventory.getCurrentUtility().keySet()
-								.toArray()[0]).deploy(x, y));
-						getInventory().removeItem(4);
+					if (current instanceof MedKit) {
 
-					} else if (inventory.getCurrentUtility().keySet().toArray()[0] instanceof Grenade) {
+						InGame.deployedUtilities.add(((MedKit) Inventory
+								.getFirstKey(inventory.getCurrentUtility()))
+								.deploy(x, y));
 
-						InGame.deployedUtilities.add(((Grenade) inventory.getCurrentUtility()
-								.keySet().toArray()[0]).deploy(x, y, rotation));
-						getInventory().removeItem(5);
+					} else if (current instanceof Grenade) {
+
+						InGame.deployedUtilities.add(((Grenade) Inventory
+								.getFirstKey(inventory.getCurrentUtility()))
+								.deploy(x, y, rotation));
 
 					}
+
+					getInventory().removeItem(getInventory().getSelectedSlot());
 
 				}
 

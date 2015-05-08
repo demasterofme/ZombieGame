@@ -17,8 +17,8 @@ public class Inventory {
 	private Gun slot2;
 	private Gun slot3;
 
-	private HashMap<Utility, Integer> slot4;
-	private HashMap<Utility, Integer> slot5;
+	public HashMap<Utility, Integer> slot4;
+	public HashMap<Utility, Integer> slot5;
 
 	private int selectedSlot = 1;
 
@@ -110,22 +110,22 @@ public class Inventory {
 			return true;
 		}
 
-		if (slot5.isEmpty()) {
-			slot5.put(utility, 1);
-			return true;
-		}
-
-		if (slot4.keySet().toArray()[0] instanceof Grenade
-				&& utility instanceof Grenade && slot4.values().iterator().next() < 3) {
-			int amount = slot4.values().iterator().next();
+		if (getFirstKey(slot4) instanceof Grenade && utility instanceof Grenade
+				&& getFirstValue(slot4) < 3) {
+			int amount = getFirstValue(slot4);
 			slot4.clear();
 			slot4.put(utility, amount++);
 			return true;
 		}
 
-		if (slot5.keySet().toArray()[0] instanceof Grenade
-				&& utility instanceof Grenade && slot5.values().iterator().next() < 3) {
-			int amount = slot5.values().iterator().next();
+		if (slot5.isEmpty()) {
+			slot5.put(utility, 1);
+			return true;
+		}
+
+		if (getFirstKey(slot5) instanceof Grenade && utility instanceof Grenade
+				&& getFirstValue(slot5) < 3) {
+			int amount = getFirstValue(slot5);
 			slot5.clear();
 			slot5.put(utility, amount++);
 			return true;
@@ -154,9 +154,9 @@ public class Inventory {
 				return false;
 			}
 		case 4:
-			if (!slot4.isEmpty() && slot4.values().iterator().next() > 1) {
-				int currentAmount = slot4.values().iterator().next();
-				Utility currentUtility = (Utility) slot4.keySet().toArray()[0];
+			if (!slot4.isEmpty() && getFirstValue(slot4) > 1) {
+				int currentAmount = getFirstValue(slot4);
+				Utility currentUtility = (Utility) getFirstKey(slot4);
 				slot4.clear();
 				slot4.put(currentUtility, currentAmount--);
 				return true;
@@ -166,9 +166,9 @@ public class Inventory {
 			}
 			return false;
 		case 5:
-			if (!slot5.isEmpty() && slot5.values().iterator().next() > 1) {
-				int currentAmount = slot5.values().iterator().next();
-				Utility currentUtility = (Utility) slot5.keySet().toArray()[0];
+			if (!slot5.isEmpty() && getFirstValue(slot5) > 1) {
+				int currentAmount = getFirstValue(slot5);
+				Utility currentUtility = (Utility) getFirstKey(slot5);
 				slot5.clear();
 				slot5.put(currentUtility, currentAmount--);
 				return true;
@@ -193,6 +193,10 @@ public class Inventory {
 			if (selectedSlot == 0)
 				selectedSlot = 5;
 		}
+	}
+
+	public int getSelectedSlot() {
+		return selectedSlot;
 	}
 
 	public void draw(Graphics2D g) {
@@ -229,20 +233,20 @@ public class Inventory {
 				break;
 			case 4:
 				if (!slot4.isEmpty()) {
-					BufferedImage texture = ((Utility) slot4.keySet().toArray()[0])
-							.getTexture();
+					BufferedImage texture = getFirstKey(slot4).getTexture();
 					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
 							texture, 20 + i * 70,
 							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
 				}
+				break;
 			case 5:
 				if (!slot5.isEmpty()) {
-					BufferedImage texture = ((Utility) slot5.keySet().toArray()[0])
-							.getTexture();
+					BufferedImage texture = getFirstKey(slot5).getTexture();
 					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
 							texture, 20 + i * 70,
 							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
 				}
+				break;
 			}
 
 			if (i + 1 == selectedSlot) {
@@ -254,6 +258,18 @@ public class Inventory {
 			g.drawRect(20 + i * (70), GamePanel.WINDOW_HEIGHT - 130, 50, 50);
 		}
 
+	}
+
+	public static Utility getFirstKey(HashMap<Utility, Integer> map) {
+		for (Utility u : map.keySet())
+			return u;
+		return null;
+	}
+
+	public static int getFirstValue(HashMap<Utility, Integer> map) {
+		for (int i : map.values())
+			return i;
+		return -1;
 	}
 
 }

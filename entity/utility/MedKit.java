@@ -2,6 +2,7 @@ package entity.utility;
 
 import gameState.inGame.InGame;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
@@ -20,15 +21,18 @@ public class MedKit extends Utility {
 
 		super("Medkit", 100, texture);
 
-		r = 60;
+		r = 120;
 
 	}
 
 	public MedKit deploy(double x, double y) {
-		this.x = x;
-		this.y = y;
-		startTime = System.nanoTime();
-		return this;
+		
+		MedKit toReturn = new MedKit(texture);
+		toReturn.x = x;
+		toReturn.y = y;
+		toReturn.startTime = System.nanoTime();
+		return toReturn;
+		
 	}
 
 	public boolean update() {
@@ -70,6 +74,14 @@ public class MedKit extends Utility {
 
 			g.drawRenderedImage(texture,
 					GamePanel.getAffineTransform(texture, x, y, scale, 0));
+			
+			if (GamePanel.debugMode) {
+				
+				g.setColor(Color.GREEN.darker());
+				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
+				
+			}
+			
 		}
 
 	}

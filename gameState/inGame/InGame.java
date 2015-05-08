@@ -71,7 +71,7 @@ public class InGame extends GameState {
 
 		map = new Map();
 
-		player = new Player(1600, 1600);
+		player = new Player(5000, 5000);
 
 		zombies = new ArrayList<>();
 		deadZombies = new ArrayList<>();
@@ -344,7 +344,7 @@ public class InGame extends GameState {
 			utilities.add(new MedKit(texture));
 			// Temporary
 			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/utilities/Medkit.png")));
+					.getResource("/sprites/utilities/Grenade.png")));
 			utilities.add(new Grenade(texture));
 		} catch (IOException e) {
 			for (StackTraceElement add : e.getStackTrace())
