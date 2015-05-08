@@ -27,11 +27,12 @@ public class Map {
 
 	private PathFinding pathFinding;
 
+	@SuppressWarnings("unchecked")
 	public Map() {
 
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
-		pathFinding = new PathFinding(shapeList);
+		pathFinding = new PathFinding((ArrayList<GeneralPath>) shapeList.clone());
 
 	}
 

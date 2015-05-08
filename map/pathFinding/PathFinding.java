@@ -14,8 +14,9 @@ public class PathFinding {
 	private ArrayList<Vertex> vertices;
 
 	public PathFinding(ArrayList<GeneralPath> colissionMap) {
-
 		this.colissionMap = colissionMap;
+		for (int i = 0; i < 4; i++)
+			this.colissionMap.remove(0);
 		vertices = makeVerticesList();
 
 	}
@@ -73,7 +74,8 @@ public class PathFinding {
 				Arrays.asList(startVertex));
 		ArrayList<Vertex> closedList = new ArrayList<Vertex>();
 		@SuppressWarnings("unchecked")
-		ArrayList<Vertex> localVerticesList = (ArrayList<Vertex>) getVerticesList().clone();
+		ArrayList<Vertex> localVerticesList = (ArrayList<Vertex>) getVerticesList()
+				.clone();
 		localVerticesList.add(goalVertex);
 		boolean found = false;
 
@@ -99,7 +101,7 @@ public class PathFinding {
 			openList.remove(cheapestVertex);
 			closedList.add(cheapestVertex);
 
-			//System.out.println("New neighbors check");
+			// System.out.println("New neighbors check");
 
 			// Update the G, H and F values of the neighbour vertices
 			for (Vertex v : cheapestVertex.getNeighbours(goalVertex)) {
@@ -144,10 +146,10 @@ public class PathFinding {
 			}
 
 			path.add(startVertex);
-			//System.out.println("Path found");
+			// System.out.println("Path found");
 			return path;
 		} else {
-			//System.out.println("No path");
+			// System.out.println("No path");
 			return null;
 		}
 
