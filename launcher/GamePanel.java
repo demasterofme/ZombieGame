@@ -104,6 +104,7 @@ public class GamePanel extends JPanel implements Runnable {
 			loops = 0;
 
 			while (System.nanoTime() > nextGameTick && loops < maxFrameSkips) {
+				@SuppressWarnings("unused")
 				double deltaTime = (System.currentTimeMillis() + skipTicks - nextGameTick
 						/ (double) skipTicks);
 				gameUpdate();

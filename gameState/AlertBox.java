@@ -59,7 +59,7 @@ public class AlertBox extends GameState {
 		if (buttonClose.isPressed()) {
 
 			if (previousGameState instanceof InGame)
-				((InGame) previousGameState).getPlayer().resume(this);
+				((InGame) previousGameState).resume(pauseTimer);
 
 			GamePanel.changeGameState(previousGameState);
 		}

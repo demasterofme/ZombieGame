@@ -5,9 +5,6 @@ import entity.Gun;
 import entity.utility.Grenade;
 import entity.utility.MedKit;
 import entity.utility.Utility;
-import gameState.AlertBox;
-import gameState.GameState;
-import gameState.PauseMenu;
 import gameState.inGame.InGame;
 import gfx.MuzzleFlash;
 import gui.Inventory;
@@ -297,20 +294,11 @@ public class Player extends LivingEntity {
 		return stats;
 	}
 
-	public void resume(GameState previousState) {
+	public void resume(long pauseTimer) {
 
-		if (previousState instanceof PauseMenu) {
-			reloadTimer += System.nanoTime()
-					- ((PauseMenu) GamePanel.getGameState()).getPauseTimer();
-		} else if (previousState instanceof AlertBox) {
-			reloadTimer += System.nanoTime()
-					- ((AlertBox) GamePanel.getGameState()).getPauseTimer();
-		}
+		reloadTimer += System.nanoTime() - pauseTimer;
 
-		right = false;
-		left = false;
-		up = false;
-		down = false;
+		resetKeys();
 	}
 
 	public boolean checkCollisions(double dx, double dy) {

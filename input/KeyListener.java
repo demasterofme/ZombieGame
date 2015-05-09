@@ -1,6 +1,5 @@
 package input;
 
-import gameState.AlertBox;
 import gameState.PauseMenu;
 import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
@@ -79,8 +78,8 @@ public class KeyListener implements java.awt.event.KeyListener {
 		else if (GamePanel.getGameState() instanceof PauseMenu)
 			switch (event.getKeyCode()) {
 			case KeyEvent.VK_ESCAPE:
-				((PauseMenu) GamePanel.getGameState()).getOldState()
-						.getPlayer().resume(GamePanel.getGameState());
+				PauseMenu pauseMenu = (PauseMenu) GamePanel.getGameState();
+				pauseMenu.getOldState().resume(pauseMenu.getPauseTimer());
 				GamePanel
 						.changeGameState(((PauseMenu) GamePanel.getGameState())
 								.getOldState());

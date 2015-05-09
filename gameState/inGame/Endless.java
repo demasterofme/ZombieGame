@@ -3,7 +3,6 @@ package gameState.inGame;
 import entity.livingEntity.Zombie;
 import entity.livingEntity.Zombie.ZombieType;
 import gameState.StatScreen;
-import gameState.TitleScreen.TitleScreen;
 import gfx.Text;
 
 import java.awt.Color;
@@ -104,6 +103,13 @@ public class Endless extends InGame {
 
 	private void startWave(int waveNumber) {
 		zombiesAmount = (int) (Math.pow(3, waveNumber) + 20);
+	}
+	
+	public void resume(long pauseTimer) {
+		waveStartTimer += System.nanoTime() - pauseTimer;
+		if (restartTimer != -1)
+			restartTimer += System.nanoTime() - pauseTimer;
+		player.resume(pauseTimer);
 	}
 
 	public void render(Graphics2D g) {

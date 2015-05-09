@@ -151,6 +151,9 @@ public class InGame extends GameState {
 
 	}
 
+	public void resume(long pauseTimer) {
+	}
+
 	public void render(Graphics2D g) {
 
 		map.draw(g);
@@ -167,7 +170,7 @@ public class InGame extends GameState {
 		if (GamePanel.debugMode)
 			for (Bullet b : bullets)
 				b.draw(g);
-		
+
 		for (Utility u : deployedUtilities)
 			u.draw(g);
 
@@ -188,9 +191,9 @@ public class InGame extends GameState {
 
 		// Player health
 		g.setColor(Color.WHITE);
-		
+
 		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
-		
+
 		g.drawString("Health:", 20, GamePanel.WINDOW_HEIGHT - 50);
 		g.setColor(new Color(102, 0, 0));
 		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 45, 400, 40);
@@ -207,11 +210,10 @@ public class InGame extends GameState {
 		if (player.isReloading())
 			g.setColor(Color.RED);
 		if (player.getInventory().hasGunEquipped())
-			g.drawString(player.getInventory().getCurrentGun()
-					.getCurrentClip()
+			g.drawString(player.getInventory().getCurrentGun().getCurrentClip()
 					+ " / "
-					+ player.getInventory().getCurrentGun().getBullets(),
-					370, GamePanel.WINDOW_HEIGHT - 90);
+					+ player.getInventory().getCurrentGun().getBullets(), 370,
+					GamePanel.WINDOW_HEIGHT - 90);
 
 		// Money
 		g.setColor(Color.WHITE);
