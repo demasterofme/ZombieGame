@@ -8,7 +8,8 @@ public class Stats {
 	private int damageDealt = 0;
 	private int grenadesUsed = 0;
 	private int bulletsFired = 0;
-	private int time = 0;
+	private String time = "";
+	private int wave = 0;
 	
 	private long startTime;
 	
@@ -88,12 +89,24 @@ public class Stats {
 		bulletsFired += amount;
 	}
 
-	public int getTime() {
+	public String getTime() {
 		return time;
 	}
 
-	public void setTime(int time) {
+	public void setTime(String time) {
 		this.time = time;
+	}
+	
+	public int getWave() {
+		return wave;
+	}
+	
+	public void setWave(int wave) {
+		this.wave = wave;
+	}
+	
+	public void addWave(int amount) {
+		wave += amount;
 	}
 
 	public long getStartTime() {

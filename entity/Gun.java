@@ -8,9 +8,10 @@ public class Gun {
 	private int damage;
 	private int fireRate;
 	private float reloadSpeed;
-	private int currentBullets;
+	private int currentClip;
 	private int clipSize;
 	private int maxBullets;
+	private int bullets;
 	private String name;
 	private int price;
 	private BufferedImage texture;
@@ -21,8 +22,9 @@ public class Gun {
 		this.damage = damage;
 		this.fireRate = fireRate;
 		this.reloadSpeed = reloadSpeed;
-		this.currentBullets = clipSize;
+		this.currentClip = clipSize;
 		this.clipSize = clipSize;
+		this.bullets = maxBullets;
 		this.maxBullets = maxBullets;
 		this.price = price;
 		this.texture = texture;
@@ -56,12 +58,20 @@ public class Gun {
 		return name;
 	}
 
-	public int getCurrentBullets() {
-		return currentBullets;
+	public int getCurrentClip() {
+		return currentClip;
 	}
 
-	public void setCurrentBullets(int currentBullets) {
-		this.currentBullets = currentBullets;
+	public void setCurrentClip(int currentClip) {
+		this.currentClip = currentClip;
+	}
+	
+	public int getBullets() {
+		return bullets;
+	}
+	
+	public void setBullets(int bullets) {
+		this.bullets = bullets;
 	}
 
 	public int getClipSize() {

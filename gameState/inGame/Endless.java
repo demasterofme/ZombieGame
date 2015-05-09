@@ -2,6 +2,7 @@ package gameState.inGame;
 
 import entity.livingEntity.Zombie;
 import entity.livingEntity.Zombie.ZombieType;
+import gameState.StatScreen;
 import gameState.TitleScreen.TitleScreen;
 import gfx.Text;
 
@@ -57,6 +58,7 @@ public class Endless extends InGame {
 				texts.add(new Text("- W A V E   " + (waveNumber - 1)
 						+ "   C O M P L E T E D -", 2000, new Font(
 						"Century Gothic", Font.PLAIN, 50), Color.WHITE));
+				player.getStats().addWave(1);
 			}
 			waveText = false;
 			waveInitiating = true;
@@ -116,7 +118,7 @@ public class Endless extends InGame {
 
 			if (dif > 6000) {
 				backgroundSound.stop();
-				GamePanel.changeGameState(new TitleScreen());
+				GamePanel.changeGameState(new StatScreen(player.getStats()));
 			}
 			
 			if (dif > 5000)

@@ -17,7 +17,6 @@ import java.awt.Graphics2D;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
 import java.util.Random;
 
 import launcher.GamePanel;
@@ -59,7 +58,7 @@ public class Player extends LivingEntity {
 		super(x, y);
 		speed = 1;
 		r = 30;
-		health = 100;
+		health = 10;
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
 
@@ -119,12 +118,12 @@ public class Player extends LivingEntity {
 						.getReloadSpeed()) {
 			reloading = false;
 
-			if (gun.getMaxBullets() >= gun.getClipSize()) {
-				gun.setMaxBullets(gun.getMaxBullets() - gun.getClipSize()
-						+ gun.getCurrentBullets());
-				gun.setCurrentBullets(gun.getClipSize());
+			if (gun.getBullets() >= gun.getClipSize()) {
+				gun.setBullets(gun.getBullets() - gun.getClipSize()
+						+ gun.getCurrentClip());
+				gun.setCurrentClip(gun.getClipSize());
 			} else {
-				gun.setCurrentBullets(gun.getMaxBullets());
+				gun.setCurrentClip(gun.getBullets());
 				gun.setMaxBullets(0);
 			}
 		}
@@ -135,8 +134,8 @@ public class Player extends LivingEntity {
 
 				long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
-				if (elapsed >= gun.getFireRate() && !reloading
-						&& gun.getCurrentBullets() > 0) {
+				if (elapsed >= 60000 / gun.getFireRate() && !reloading
+						&& gun.getCurrentClip() > 0) {
 					firingTimer = System.nanoTime();
 					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
 					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
@@ -147,10 +146,10 @@ public class Player extends LivingEntity {
 							.getDamage()));
 					stats.addBulletsFired(1);
 
-					gun.setCurrentBullets(gun.getCurrentBullets() - 1);
+					gun.setCurrentClip(gun.getCurrentClip() - 1);
 
 					// Reloading
-					if (gun.getCurrentBullets() == 0) {
+					if (gun.getCurrentClip() == 0) {
 						reloading = true;
 						reloadTimer = System.nanoTime();
 					}
@@ -163,20 +162,26 @@ public class Player extends LivingEntity {
 
 				if (elapsed >= 1000 && !reloading) {
 
+					firingTimer = System.nanoTime();
+
 					Utility current = Inventory.getFirstKey(getInventory()
 							.getCurrentUtility());
 
 					if (current instanceof MedKit) {
 
-						InGame.deployedUtilities.add(((MedKit) Inventory
+						MedKit toDeploy = ((MedKit) Inventory
 								.getFirstKey(inventory.getCurrentUtility()))
-								.deploy(x, y));
+								.deploy(x, y);
+
+						InGame.deployedUtilities.add(toDeploy);
 
 					} else if (current instanceof Grenade) {
 
-						InGame.deployedUtilities.add(((Grenade) Inventory
+						Grenade toDeploy = ((Grenade) Inventory
 								.getFirstKey(inventory.getCurrentUtility()))
-								.deploy(x, y, rotation));
+								.deploy(x, y, (int) rotation);
+
+						InGame.deployedUtilities.add(toDeploy);
 
 					}
 
@@ -189,6 +194,17 @@ public class Player extends LivingEntity {
 		}
 
 		return false;
+	}
+
+	public void damage(int damage) {
+		if (!recovering) {
+			this.health -= damage;
+			recovering = true;
+			recoveringTimer = System.nanoTime();
+			if (health <= 0)
+				this.dead = true;
+		} else if ((System.nanoTime() - recoveringTimer) / 1000000 > 100)
+			recovering = false;
 	}
 
 	public int getMoney() {

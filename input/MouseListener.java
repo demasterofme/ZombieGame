@@ -2,6 +2,7 @@ package input;
 
 import gameState.AlertBox;
 import gameState.PauseMenu;
+import gameState.StatScreen;
 import gameState.TitleScreen.Settings;
 import gameState.TitleScreen.TitleScreen;
 import gameState.inGame.InGame;
@@ -27,7 +28,8 @@ public class MouseListener implements java.awt.event.MouseListener,
 				|| GamePanel.getGameState() instanceof Settings
 				|| GamePanel.getGameState() instanceof Shop
 				|| GamePanel.getGameState() instanceof PauseMenu
-				|| GamePanel.getGameState() instanceof AlertBox)
+				|| GamePanel.getGameState() instanceof AlertBox
+				|| GamePanel.getGameState() instanceof StatScreen)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : GamePanel.getGameState().getButtons()) {
@@ -53,7 +55,10 @@ public class MouseListener implements java.awt.event.MouseListener,
 			return;
 		if (GamePanel.getGameState() instanceof TitleScreen
 				|| GamePanel.getGameState() instanceof Settings
-				|| GamePanel.getGameState() instanceof Shop)
+				|| GamePanel.getGameState() instanceof Shop
+				|| GamePanel.getGameState() instanceof PauseMenu
+				|| GamePanel.getGameState() instanceof AlertBox
+				|| GamePanel.getGameState() instanceof StatScreen)
 			switch (event.getButton()) {
 			case 1:
 				for (Button b : GamePanel.getGameState().getButtons()) {

@@ -29,12 +29,12 @@ public class Grenade extends Utility {
 
 	}
 
-	public Grenade deploy(double x, double y, double angle) {
+	public Grenade deploy(double x, double y, double angdeg) {
 
 		Grenade toReturn = new Grenade(texture);
 		toReturn.x = x;
 		toReturn.y = y;
-		toReturn.angle = Math.toRadians(angle);
+		toReturn.angle = Math.toRadians(angdeg);
 		toReturn.speed = 2;
 		toReturn.dx = Math.cos(angle) * speed;
 		toReturn.dy = Math.sin(angle) * speed;
@@ -54,11 +54,11 @@ public class Grenade extends Utility {
 				speedTimer++;
 				speed -= 0.2;
 				dx = Math.cos(angle) * speed;
-				dy = Math.cos(angle) * speed;
+				dy = Math.sin(angle) * speed;
 			}
 		}
 
-		if (dif >= 5000) {
+		if (dif >= fuse) {
 			for (Zombie z : InGame.zombies) {
 				int dist = (int) Math.sqrt(Math.pow(x - z.getx(), 2)
 						+ Math.pow(y - z.gety(), 2));

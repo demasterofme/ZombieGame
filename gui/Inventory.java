@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import launcher.GamePanel;
 import entity.Gun;
 import entity.utility.Grenade;
 import entity.utility.Utility;
+import gameState.inGame.InGame;
 
 public class Inventory {
 
@@ -90,6 +92,18 @@ public class Inventory {
 
 	public boolean addGun(Gun gun) {
 
+		if (slot2 == gun) {
+			slot2.setBullets(gun.getMaxBullets());
+			slot2.setCurrentClip(gun.getClipSize());
+			return true;
+		}
+
+		if (slot3 == gun) {
+			slot3.setBullets(gun.getMaxBullets());
+			slot3.setCurrentClip(gun.getClipSize());
+			return true;
+		}
+
 		if (slot2 == null) {
 			slot2 = gun;
 			return true;
@@ -114,7 +128,7 @@ public class Inventory {
 				&& getFirstValue(slot4) < 3) {
 			int amount = getFirstValue(slot4);
 			slot4.clear();
-			slot4.put(utility, amount++);
+			slot4.put(utility, amount + 1);
 			return true;
 		}
 
@@ -127,7 +141,7 @@ public class Inventory {
 				&& getFirstValue(slot5) < 3) {
 			int amount = getFirstValue(slot5);
 			slot5.clear();
-			slot5.put(utility, amount++);
+			slot5.put(utility, amount + 1);
 			return true;
 		}
 
@@ -158,7 +172,7 @@ public class Inventory {
 				int currentAmount = getFirstValue(slot4);
 				Utility currentUtility = (Utility) getFirstKey(slot4);
 				slot4.clear();
-				slot4.put(currentUtility, currentAmount--);
+				slot4.put(currentUtility, currentAmount - 1);
 				return true;
 			} else if (!slot4.isEmpty()) {
 				slot4.clear();
@@ -170,7 +184,7 @@ public class Inventory {
 				int currentAmount = getFirstValue(slot5);
 				Utility currentUtility = (Utility) getFirstKey(slot5);
 				slot5.clear();
-				slot5.put(currentUtility, currentAmount--);
+				slot5.put(currentUtility, currentAmount - 1);
 				return true;
 			} else if (!slot5.isEmpty()) {
 				slot5.clear();
@@ -184,15 +198,16 @@ public class Inventory {
 	}
 
 	public void cycleSelectedSlot(boolean right) {
-		if (right) {
-			selectedSlot++;
-			if (selectedSlot == 6)
-				selectedSlot = 1;
-		} else {
-			selectedSlot--;
-			if (selectedSlot == 0)
-				selectedSlot = 5;
-		}
+		if (!InGame.player.isReloading())
+			if (right) {
+				selectedSlot++;
+				if (selectedSlot == 6)
+					selectedSlot = 1;
+			} else {
+				selectedSlot--;
+				if (selectedSlot == 0)
+					selectedSlot = 5;
+			}
 	}
 
 	public int getSelectedSlot() {
@@ -202,6 +217,7 @@ public class Inventory {
 	public void draw(Graphics2D g) {
 
 		g.setColor(Color.WHITE);
+
 		g.drawString("Guns:", 20, GamePanel.WINDOW_HEIGHT - 138);
 		g.drawString("Utilities:", 230, GamePanel.WINDOW_HEIGHT - 138);
 
@@ -237,6 +253,12 @@ public class Inventory {
 					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
 							texture, 20 + i * 70,
 							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
+					if (getFirstValue(slot4) != 1) {
+						g.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+						g.setColor(Color.WHITE);
+						g.drawString(getFirstValue(slot4) + "", 55 + i * 70,
+								GamePanel.WINDOW_HEIGHT - 85);
+					}
 				}
 				break;
 			case 5:
@@ -245,6 +267,12 @@ public class Inventory {
 					g.drawRenderedImage(texture, GamePanel.getAffineTransform(
 							texture, 20 + i * 70,
 							GamePanel.WINDOW_HEIGHT - 130, 0.1, 0));
+					if (getFirstValue(slot5) != 1) {
+						g.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+						g.setColor(Color.WHITE);
+						g.drawString(getFirstValue(slot5) + "", 55 + i * 70,
+								GamePanel.WINDOW_HEIGHT - 85);
+					}
 				}
 				break;
 			}

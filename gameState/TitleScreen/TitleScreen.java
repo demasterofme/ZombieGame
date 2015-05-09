@@ -13,7 +13,6 @@ import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -23,7 +22,7 @@ import sfx.Sound;
 
 public class TitleScreen extends GameState {
 
-	public static ArrayList<Button> buttons;
+	private ArrayList<Button> buttons;
 	private Button button_start;
 	private Button button_help;
 	private Button button_quit;

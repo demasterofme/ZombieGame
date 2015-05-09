@@ -188,6 +188,9 @@ public class InGame extends GameState {
 
 		// Player health
 		g.setColor(Color.WHITE);
+		
+		g.setFont(new Font("Century Gothic", Font.PLAIN, 20));
+		
 		g.drawString("Health:", 20, GamePanel.WINDOW_HEIGHT - 50);
 		g.setColor(new Color(102, 0, 0));
 		g.fillRect(20, GamePanel.WINDOW_HEIGHT - 45, 400, 40);
@@ -205,9 +208,9 @@ public class InGame extends GameState {
 			g.setColor(Color.RED);
 		if (player.getInventory().hasGunEquipped())
 			g.drawString(player.getInventory().getCurrentGun()
-					.getCurrentBullets()
+					.getCurrentClip()
 					+ " / "
-					+ player.getInventory().getCurrentGun().getMaxBullets(),
+					+ player.getInventory().getCurrentGun().getBullets(),
 					370, GamePanel.WINDOW_HEIGHT - 90);
 
 		// Money
@@ -261,7 +264,7 @@ public class InGame extends GameState {
 						20, updateDebugHeight());
 				g.drawString("Current Bullets: "
 						+ player.getInventory().getCurrentGun()
-								.getCurrentBullets(), 20, updateDebugHeight());
+								.getCurrentClip(), 20, updateDebugHeight());
 				g.drawString(
 						"Max Bullets: "
 								+ player.getInventory().getCurrentGun()
