@@ -47,6 +47,14 @@ public class Bullet extends Entity {
 		return damage;
 	}
 	
+	public double getdx() {
+		return dx;
+	}
+	
+	public double getdy() {
+		return dy;
+	}
+	
 	public boolean checkCollisions(double dx, double dy) {
 
 		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
@@ -68,6 +76,7 @@ public class Bullet extends Entity {
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {
+			
 			g.setColor(Color.YELLOW);
 			g.drawOval(relativeX, relativeY, r, r);
 		}

@@ -14,25 +14,25 @@ public class MedKit extends Utility {
 	private static int healTime = 15000;
 
 	private long startTime;
-	
+
 	private int healTimer = 0;
+	
+	public MedKit(BufferedImage texture, BufferedImage textureInHand) {
 
-	public MedKit(BufferedImage texture) {
-
-		super("Medkit", 100, texture);
+		super("Medkit", 100, texture, textureInHand);
 
 		r = 120;
 
 	}
 
 	public MedKit deploy(double x, double y) {
-		
-		MedKit toReturn = new MedKit(texture);
+
+		MedKit toReturn = new MedKit(texture, textureInHand);
 		toReturn.x = x;
 		toReturn.y = y;
 		toReturn.startTime = System.nanoTime();
 		return toReturn;
-		
+
 	}
 
 	public boolean update() {
@@ -50,7 +50,7 @@ public class MedKit extends Utility {
 			if (dif > 1000 * healTimer) {
 				healTimer++;
 				InGame.player.setHealth(InGame.player.getHealth()
-							+ boostPerSecond);
+						+ boostPerSecond);
 				if (InGame.player.getHealth() > InGame.player.getMaxHealth())
 					InGame.player.setHealth(InGame.player.getMaxHealth());
 			}
@@ -63,8 +63,10 @@ public class MedKit extends Utility {
 		int relativeX = (int) x - InGame.map.getxOffset();
 		int relativeY = (int) y - InGame.map.getyOffset();
 
-		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
-				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
+		if (relativeX - r + texture.getWidth() > 0
+				&& relativeX + r - texture.getWidth() < GamePanel.WINDOW_WIDTH
+				&& relativeY - r + texture.getHeight() > 0
+				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
 			double scale = 0.1;
 
@@ -74,14 +76,14 @@ public class MedKit extends Utility {
 
 			g.drawRenderedImage(texture,
 					GamePanel.getAffineTransform(texture, x, y, scale, 0));
-			
+
 			if (GamePanel.debugMode) {
-				
+
 				g.setColor(Color.GREEN.darker());
 				g.drawOval(relativeX - r, relativeY - r, r * 2, r * 2);
-				
+
 			}
-			
+
 		}
 
 	}

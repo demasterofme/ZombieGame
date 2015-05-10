@@ -20,18 +20,18 @@ public class Grenade extends Utility {
 	private int speedTimer = 0;
 
 	private double angle;
+	
+	public Grenade(BufferedImage texture, BufferedImage textureInHand) {
 
-	public Grenade(BufferedImage texture) {
+		super("Grenade", 100, texture, textureInHand);
 
-		super("Grenade", 100, texture);
-
-		r = 120;
+		r = 200;
 
 	}
 
 	public Grenade deploy(double x, double y, double angdeg) {
 
-		Grenade toReturn = new Grenade(texture);
+		Grenade toReturn = new Grenade(texture, textureInHand);
 		toReturn.x = x;
 		toReturn.y = y;
 		toReturn.angle = Math.toRadians(angdeg);
@@ -76,10 +76,12 @@ public class Grenade extends Utility {
 		int relativeX = (int) x - InGame.map.getxOffset();
 		int relativeY = (int) y - InGame.map.getyOffset();
 
-		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
-				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
+		if (relativeX - r + texture.getWidth() > 0
+				&& relativeX + r - texture.getWidth() < GamePanel.WINDOW_WIDTH
+				&& relativeY - r + texture.getHeight() > 0
+				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.08;
+			double scale = 0.07;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

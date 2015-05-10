@@ -32,6 +32,7 @@ public class TitleScreen extends GameState {
 
 	private Sound backgroundSound;
 
+	@SuppressWarnings("unchecked")
 	public TitleScreen() {
 
 		buttons = new ArrayList<>();
@@ -40,9 +41,9 @@ public class TitleScreen extends GameState {
 
 		// Add buttons to the screen, will be perfected later
 
-		button_start = new Button(true, 250, "Start Game", font);
-		button_help = new Button(true, 350, "Help", font);
-		button_quit = new Button(true, 450, "Quit", font);
+		button_start = new Button(true, 700, "Start Game", font);
+		button_help = new Button(true, 800, "Help", font);
+		button_quit = new Button(true, 900, "Quit", font);
 		button_sound = new Button(GamePanel.WINDOW_WIDTH - 120, 10, "Sounds",
 				new Font("Century Gothic", Font.PLAIN, 24));
 
@@ -51,17 +52,25 @@ public class TitleScreen extends GameState {
 		buttons.add(button_quit);
 		buttons.add(button_sound);
 
-		// For testing
 		try {
 			backgroundImage = ImageIO.read(GamePanel.class
-					.getResource("/sprites/temp.jpg"));
+					.getResource("/sprites/Background.png"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 		backgroundSound = new Sound("/sounds/TitleScreen.wav");
 
-		backgroundSound.loop();
+		font = new Font("Century Gothic", Font.PLAIN, 24);
+		if (Sound.isMuted()) {
+			@SuppressWarnings("rawtypes")
+			Map attributes = font.getAttributes();
+			attributes.put(TextAttribute.STRIKETHROUGH,
+					TextAttribute.STRIKETHROUGH_ON);
+			font = new Font(attributes);
+		} else
+			backgroundSound.loop();
+		button_sound.setFont(font);
 
 	}
 

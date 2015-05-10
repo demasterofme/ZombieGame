@@ -69,7 +69,7 @@ public class Endless extends InGame {
 			if (waveNumber == 1)
 				interWaveTime = 4000;
 
-			int timeBetweenZombies = 1000;
+			int timeBetweenZombies = 500;
 
 			double difference = (System.nanoTime() - waveStartTimer) / 1000000;
 
@@ -79,7 +79,7 @@ public class Endless extends InGame {
 							/ ((zombieIndex + 1) * timeBetweenZombies) < 1) {
 				if (!waveText) {
 					texts.add(new Text("- W A V E   " + waveNumber + "   -",
-							3000, new Font("Century Gothic", Font.PLAIN, 45),
+							3000, new Font("Century Gothic", Font.PLAIN, 60),
 							Color.WHITE));
 					waveText = true;
 				}

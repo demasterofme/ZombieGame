@@ -80,7 +80,7 @@ public class InGame extends GameState {
 		muzzleFlashes = new ArrayList<>();
 		texts = new ArrayList<>();
 
-		backgroundSound = new Sound("/sounds/InGame.wav");
+		backgroundSound = new Sound("/sounds/InGame.wav", -5);
 		backgroundSound.loop();
 
 	}
@@ -291,7 +291,7 @@ public class InGame extends GameState {
 	private static GraphicsConfiguration config = device
 			.getDefaultConfiguration();
 
-	private static BufferedImage loadCompatibleImage(BufferedImage rawTexture) {
+	public static BufferedImage loadCompatibleImage(BufferedImage rawTexture) {
 		BufferedImage texture = config.createCompatibleImage(
 				rawTexture.getWidth(), rawTexture.getHeight(),
 				Transparency.TRANSLUCENT);
@@ -324,13 +324,15 @@ public class InGame extends GameState {
 						.getText());
 				int maxBullets = Integer.parseInt(gunElement.element(
 						"Maxbullets").getText());
+				int weight = Integer.parseInt(gunElement.element("Weight")
+						.getText());
 				int price = Integer.parseInt(gunElement.element("Price")
 						.getText());
 				BufferedImage texture = loadCompatibleImage(ImageIO
 						.read(GamePanel.class.getResource("/sprites/guns/"
 								+ name + ".png")));
 				guns.add(new Gun(name, damage, fireRate, reloadSpeed, clipSize,
-						maxBullets, price, texture));
+						maxBullets, weight, price, texture));
 			}
 		} catch (Exception e) {
 			for (StackTraceElement add : e.getStackTrace())
@@ -343,14 +345,17 @@ public class InGame extends GameState {
 	private static boolean loadUtilities() {
 		utilities = new ArrayList<>();
 		try {
-			BufferedImage texture;
-			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
+			BufferedImage texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/utilities/Medkit.png")));
-			utilities.add(new MedKit(texture));
+			BufferedImage textureInHand =  loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/utilities/MedkitInHand.png")));
+			utilities.add(new MedKit(texture, textureInHand));
 			// Temporary
 			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/utilities/Grenade.png")));
-			utilities.add(new Grenade(texture));
+			textureInHand =  loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/utilities/GrenadeInHand.png")));
+			utilities.add(new Grenade(texture, textureInHand));
 		} catch (IOException e) {
 			for (StackTraceElement add : e.getStackTrace())
 				GamePanel.errorLog += add + " ";
@@ -363,13 +368,19 @@ public class InGame extends GameState {
 
 		try {
 
-			Player.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/Player.png")));
+			Player.texture_bottom = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Player_bottom.png")));
+			Player.texture_head = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Player_head.png")));
 			MuzzleFlash.texture = loadCompatibleImage(ImageIO
 					.read(GamePanel.class
-							.getResource("/sprites/MuzzleFlash2.png")));
+							.getResource("/sprites/MuzzleFlash.png")));
 			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/Zombie1.png")));
+			DeadZombie.texture =  loadCompatibleImage(ImageIO.read(GamePanel.class
+					.getResource("/sprites/Dead_zombie.png")));
 			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/Map1.png")));
 

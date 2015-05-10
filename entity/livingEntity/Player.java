@@ -25,7 +25,7 @@ public class Player extends LivingEntity {
 
 	private boolean left, right, up, down = false;
 
-	private int money = 10000;
+	private int money = 0;
 
 	private boolean firing;
 	private long firingTimer;
@@ -43,7 +43,8 @@ public class Player extends LivingEntity {
 
 	private Stats stats;
 
-	public static BufferedImage texture;
+	public static BufferedImage texture_bottom;
+	public static BufferedImage texture_head;
 
 	private static int clipNumber = -1;
 	public static Sound walk_sound1;
@@ -55,7 +56,7 @@ public class Player extends LivingEntity {
 		super(x, y);
 		speed = 1;
 		r = 30;
-		health = 10;
+		health = 100;
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
 
@@ -68,6 +69,13 @@ public class Player extends LivingEntity {
 
 		dx = 0;
 		dy = 0;
+
+		gun = inventory.getCurrentGun();
+
+		if (gun != null)
+			speed = 1 / (gun.getWeight() * 0.0007);
+		else
+			speed = 1;
 
 		if (left)
 			dx = -speed * (up || down ? Math.sqrt(0.5) : 1);
@@ -107,8 +115,6 @@ public class Player extends LivingEntity {
 		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
 			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
 
-		gun = inventory.getCurrentGun();
-
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -124,6 +130,9 @@ public class Player extends LivingEntity {
 				gun.setMaxBullets(0);
 			}
 		}
+		
+		if ((System.nanoTime() - recoveringTimer) / 1000000 > 100)
+			recovering = false;
 
 		if (firing) {
 
@@ -134,8 +143,10 @@ public class Player extends LivingEntity {
 				if (elapsed >= 60000 / gun.getFireRate() && !reloading
 						&& gun.getCurrentClip() > 0) {
 					firingTimer = System.nanoTime();
-					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * 60.0751);
-					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * 60.0751);
+					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * (gun
+							.getName().equals("G17") ? 78 : 102.4));
+					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * (gun
+							.getName().equals("G17") ? 78 : 102.4));
 					InGame.muzzleFlashes.add(new MuzzleFlash(
 							GamePanel.WINDOW_WIDTH / 2 - x1,
 							GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
@@ -200,8 +211,7 @@ public class Player extends LivingEntity {
 			recoveringTimer = System.nanoTime();
 			if (health <= 0)
 				this.dead = true;
-		} else if ((System.nanoTime() - recoveringTimer) / 1000000 > 100)
-			recovering = false;
+		}
 	}
 
 	public int getMoney() {
@@ -317,22 +327,44 @@ public class Player extends LivingEntity {
 	public void draw(Graphics2D g) {
 
 		// Combine the player with the gun
-		BufferedImage tempPlayerImage;
-		if (inventory.getCurrentGun() != null)
-			tempPlayerImage = GamePanel.mergeImages(Player.texture, 0, 0,
-					inventory.getCurrentGun().getTexture(), 100, 300);
-		else
-			tempPlayerImage = Player.texture;
+		BufferedImage mergedImage;
+		BufferedImage bottom;
+		if (inventory.getCurrentGun() != null) {
+			BufferedImage gunTexture = inventory.getCurrentGun().getTexture();
+			bottom = GamePanel.mergeImages(texture_bottom, 0, 0, gunTexture, 0,
+					256);
+		} else if (!inventory.getCurrentUtility().isEmpty()) {
+			Utility utility = Inventory.getFirstKey(inventory
+					.getCurrentUtility());
+			bottom = GamePanel.mergeImages(texture_bottom, 0, 0,
+					utility.textureInHand, 0, 180);
+		} else
+			bottom = Player.texture_bottom;
+
+		mergedImage = GamePanel.mergeImages(bottom, 0, 0, texture_head, 0, 0);
 
 		double scale = 0.2;
 
-		g.drawRenderedImage(tempPlayerImage, GamePanel.getAffineTransform(
-				tempPlayerImage,
-				(int) (GamePanel.WINDOW_WIDTH / 2 - tempPlayerImage.getWidth()
+		g.drawRenderedImage(mergedImage, GamePanel.getAffineTransform(
+				mergedImage,
+				(int) (GamePanel.WINDOW_WIDTH / 2 - mergedImage.getWidth()
 						* scale / 2),
-				(int) (GamePanel.WINDOW_HEIGHT / 2 - tempPlayerImage
-						.getHeight() * scale / 2), scale,
-				Math.toRadians(rotation + 90)));
+				(int) (GamePanel.WINDOW_HEIGHT / 2 - mergedImage.getHeight()
+						* scale / 2), scale, Math.toRadians(rotation + 90)));
+
+		if ((System.nanoTime() - recoveringTimer) / 1000000 <= 500) {
+
+			int alpha = (int) (128 * Math.cos((Math.PI / 2)
+					* ((System.nanoTime() - recoveringTimer) / 1000000) / 500));
+			if (alpha > 128)
+				alpha = 128;
+			if (alpha < 0)
+				alpha = 0;
+
+			g.setColor(new Color(255, 0, 0, alpha));
+			g.fillRect(0, 0, GamePanel.WINDOW_WIDTH, GamePanel.WINDOW_HEIGHT);
+
+		}
 
 		if (GamePanel.debugMode) {
 			g.setColor(Color.RED);

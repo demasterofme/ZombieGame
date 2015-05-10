@@ -8,7 +8,7 @@ public class Launcher {
 	
 	public static void main(String[] args) {
 		
-		window = new JFrame("Zombie Game");
+		window = new JFrame("Zombie Apocalypse");
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setUndecorated(true);
 		window.setContentPane(new GamePanel());

@@ -1,22 +1,35 @@
 <Guns>
+
+	<G17>
+		<Damage>20</Damage>
+		<Firerate>400</Firerate>
+		<Reloadspeed>1.6</Reloadspeed>
+		<Clipsize>17</Clipsize>
+		<Maxbullets>800</Maxbullets>
+		<Weight>1000</Weight>
+		<Price>300</Price>
+	</G17>
+
 	<AK47>
-		<Damage>200</Damage>
+		<Damage>22</Damage>
 		<Firerate>600</Firerate>
-		<Reloadspeed>3</Reloadspeed>
+		<Reloadspeed>3.5</Reloadspeed>
 		<Clipsize>30</Clipsize>
-		<Maxbullets>300</Maxbullets>
-		<Price>100</Price>
+		<Maxbullets>1600</Maxbullets>
+		<Weight>4200</Weight>
+		<Price>1000</Price>
 	</AK47>
 	
 	<M16A3>
 		<Damage>22</Damage>
 		<Firerate>800</Firerate>
 		<Reloadspeed>2.5</Reloadspeed>
-		<Clipsize>30</Clipsize>
-		<Maxbullets>1600</Maxbullets>
+		<Clipsize>40</Clipsize>
+		<Maxbullets>2000</Maxbullets>
 		<Weight>4200</Weight>
-		<Price>100</Price>
+		<Price>2000</Price>
 	</M16A3>
+	
 	<!--
 	<F2000>
 		<Damage>22</Damage>
@@ -147,16 +160,6 @@
 		<Weight>1000</Weight>
 		<Price>100</Price>
 	</M1911>
-	
-	<G17>
-		<Damage>20</Damage>
-		<Firerate>400</Firerate>
-		<Reloadspeed>1.6</Reloadspeed>
-		<Clipsize>17</Clipsize>
-		<Maxbullets>800</Maxbullets>
-		<Weight>1000</Weight>
-		<Price>100</Price>
-	</G17>
 	
 	<A93R>
 		<Damage>16</Damage>

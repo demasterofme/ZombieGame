@@ -76,8 +76,8 @@ public class Sound {
 	}
 	
 	public void changeVolume(float volume) {
-		this.volume = volume;
-		gainControl.setValue(volume);
+		this.volume = Math.min(gainControl.getMaximum(), Math.max(gainControl.getMinimum(), volume));
+		gainControl.setValue(this.volume);
 	}
 	
 	public float getVolume() {

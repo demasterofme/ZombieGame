@@ -8,7 +8,12 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.Clip;
+
+import sfx.Sound;
 import launcher.GamePanel;
 import map.Vertex;
 
@@ -25,6 +30,15 @@ public class Zombie extends LivingEntity {
 	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
 
+	private boolean hit = false;
+	private long hitTimer;
+
+	private boolean moveWait = false;
+
+	private long soundTimer = -1;
+	private Random soundRandom;
+	private Sound moanSound;
+
 	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
@@ -36,6 +50,10 @@ public class Zombie extends LivingEntity {
 		canAttack = true;
 		attackStrength = 10;
 
+		soundTimer = System.nanoTime();
+		soundRandom = new Random();
+		moanSound = new Sound("/sounds/ZombieMoan1.wav");
+
 	}
 
 	public boolean update() {
@@ -46,19 +64,35 @@ public class Zombie extends LivingEntity {
 				x - InGame.player.getx(), 2)
 				+ Math.pow(y - InGame.player.gety(), 2));
 
-		// int shortestDistanceToOtherZombie = Integer.MAX_VALUE;
+		if (soundTimer == -1)
+			soundTimer = System.nanoTime();
+
+		if ((System.nanoTime() - soundTimer) / 1000000 > 2000) {
+			soundTimer = System.nanoTime();
+			if (soundRandom.nextInt(4) == 0) {
+				moanSound.changeVolume((float) (-distanceToPlayer * 0.03));
+				moanSound.play();
+			}
+		}
+
+		// boolean trigger = false;
+		//
 		// for (Zombie z : InGame.zombies) {
 		// if (z.equals(this))
 		// continue;
 		// int distanceToZombie = (int) Math.sqrt(Math.pow(x + dx - z.getx(),
 		// 2) + Math.pow(y + dy - z.gety(), 2));
-		// if (distanceToZombie < shortestDistanceToOtherZombie) {
-		// shortestDistanceToOtherZombie = distanceToZombie;
+		// if (distanceToZombie < z.getr() + r && !z.isMoveWaiting()) {
+		// moveWait = true;
+		// trigger = true;
 		// }
 		// }
+		//
+		// if (!trigger)
+		// moveWait = false;
 
-		// if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer
-		// && shortestDistanceToOtherZombie > 2 * r * 0.7) {
+		// if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer && !moveWait)
+		// {
 
 		if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer) {
 
@@ -105,9 +139,6 @@ public class Zombie extends LivingEntity {
 			dy = 0;
 		}
 
-		x += dx;
-		y += dy;
-
 		for (int i = 0; i < InGame.bullets.size(); i++) {
 
 			Bullet b = InGame.bullets.get(i);
@@ -115,12 +146,22 @@ public class Zombie extends LivingEntity {
 			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r
 					+ b.getr()) {
 				damage(b.getDamage());
+				x += b.getdx() * 0.4;
+				y += b.getdy() * 0.4;
+				hit = true;
+				hitTimer = System.nanoTime();
 				InGame.player.getStats().addDamageDealt(b.getDamage());
 				InGame.bullets.remove(b);
 				i--;
 			}
 
 		}
+
+		if (!hit) {
+			x += dx;
+			y += dy;
+		} else if ((System.nanoTime() - hitTimer) / 1000000 > 500)
+			hit = false;
 
 		return false;
 	}
@@ -135,13 +176,19 @@ public class Zombie extends LivingEntity {
 		return null;
 	}
 
+	public boolean isMoveWaiting() {
+		return moveWait;
+	}
+
 	public void draw(Graphics2D g) {
 
 		int relativeX = (int) x - InGame.map.getxOffset();
 		int relativeY = (int) y - InGame.map.getyOffset();
 
-		if (relativeX + r > 0 && relativeX - r < GamePanel.WINDOW_WIDTH
-				&& relativeY + r > 0 && relativeY - r < GamePanel.WINDOW_HEIGHT) {
+		if (relativeX - r + texture.getWidth() > 0
+				&& relativeX + r - texture.getWidth() < GamePanel.WINDOW_WIDTH
+				&& relativeY - r + texture.getHeight() > 0
+				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
 			double scale = 0.2;
 
@@ -178,7 +225,7 @@ public class Zombie extends LivingEntity {
 
 	public enum ZombieType {
 
-		SWARMER, STALKER, CHOKER;
+		SWARMER, BOSS;
 
 	}
 

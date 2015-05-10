@@ -10,19 +10,22 @@ public class Utility extends Entity {
 	private String name;
 	private int price;
 	protected BufferedImage texture;
+	public BufferedImage textureInHand;
 
-	public Utility(int x, int y, String name, int price, BufferedImage texture) {
+	public Utility(int x, int y, String name, int price, BufferedImage texture, BufferedImage textureInHand) {
 		super(x, y);
 		this.name = name;
 		this.price = price;
 		this.texture = texture;
+		this.textureInHand = textureInHand;
 	}
 
-	public Utility(String name, int price, BufferedImage texture) {
+	public Utility(String name, int price, BufferedImage texture, BufferedImage textureInHand) {
 		super(-1, -1);
 		this.name = name;
 		this.price = price;
 		this.texture = texture;
+		this.textureInHand = textureInHand;
 	}
 
 	public String getName() {

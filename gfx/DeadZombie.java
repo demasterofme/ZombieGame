@@ -1,35 +1,37 @@
 package gfx;
 
-import gameState.inGame.InGame;
-
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import launcher.GamePanel;
 import entity.Entity;
+import gameState.inGame.InGame;
 
 public class DeadZombie extends Entity {
 
 	private long died;
-	private int alpha;
 	private int timer;
+
+	private int rotation;
+
+	public static BufferedImage texture;
 
 	public DeadZombie(double d, double e) {
 		super(d, e);
 		died = System.nanoTime();
-		timer = 3000;
-		r = 60;
+		timer = 30000;
+		r = 100;
+
+		rotation = new Random().nextInt(360);
+
 	}
 
 	public boolean update() {
 		long diedDif = (System.nanoTime() - died) / 1000000;
-		if (diedDif > 3000)
+		if (diedDif > timer)
 			return true;
-		alpha = (int) (255 * Math.cos((Math.PI / 2) * diedDif / timer));
-		if (alpha > 255)
-			alpha = 255;
-		if (alpha < 0)
-			alpha = 0;
 		return false;
 	}
 
@@ -38,10 +40,24 @@ public class DeadZombie extends Entity {
 		int relativeX = (int) x - InGame.map.getxOffset();
 		int relativeY = (int) y - InGame.map.getyOffset();
 
-		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
-				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {
-			g.setColor(new Color(1, 0, 0, alpha));
-			g.fillOval(relativeX - r / 2, relativeY - r / 2, r, r);
+		if (relativeX - r + texture.getWidth() > 0
+				&& relativeX + r - texture.getWidth() < GamePanel.WINDOW_WIDTH
+				&& relativeY - r + texture.getHeight() > 0
+				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
+
+			double scale = 0.3;
+
+			// Calculate new x and y position
+			int x = (int) (relativeX - texture.getWidth() * scale / 2);
+			int y = (int) (relativeY - texture.getHeight() * scale / 2);
+
+			g.drawRenderedImage(texture, GamePanel.getAffineTransform(texture,
+					x, y, scale, rotation));
+
+			if (GamePanel.debugMode) {
+				g.setColor(new Color(1, 0, 0));
+				g.drawOval(relativeX - r / 2, relativeY - r / 2, r, r);
+			}
 		}
 
 	}

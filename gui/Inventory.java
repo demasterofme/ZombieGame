@@ -197,16 +197,37 @@ public class Inventory {
 
 	}
 
+	public boolean slotIsEmpty(int slot) {
+		switch (slot) {
+		case 1:
+			return slot1 == null;
+		case 2:
+			return slot2 == null;
+		case 3:
+			return slot3 == null;
+		case 4:
+			return slot4.isEmpty();
+		case 5:
+			return slot5.isEmpty();
+		default:
+			return true;
+		}
+	}
+
 	public void cycleSelectedSlot(boolean right) {
 		if (!InGame.player.isReloading())
 			if (right) {
-				selectedSlot++;
-				if (selectedSlot == 6)
-					selectedSlot = 1;
+				do {
+					selectedSlot++;
+					if (selectedSlot == 6)
+						selectedSlot = 1;
+				} while (slotIsEmpty(selectedSlot));
 			} else {
-				selectedSlot--;
-				if (selectedSlot == 0)
-					selectedSlot = 5;
+				do {
+					selectedSlot--;
+					if (selectedSlot == 0)
+						selectedSlot = 5;
+				} while (slotIsEmpty(selectedSlot));
 			}
 	}
 
