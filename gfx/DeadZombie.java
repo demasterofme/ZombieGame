@@ -44,14 +44,15 @@ public class DeadZombie extends Entity {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.3 * GamePanel.scale;
+			double horScale = 0.3 * GamePanel.horScale;
+			double vertScale = 0.3 * GamePanel.vertScale;
 
 			// Calculate new x and y position
-			int x = (int) (relativeX - texture.getWidth() * scale / 2);
-			int y = (int) (relativeY - texture.getHeight() * scale / 2);
+			int x = (int) (relativeX - texture.getWidth() * horScale / 2);
+			int y = (int) (relativeY - texture.getHeight() * vertScale / 2);
 
 			g.drawRenderedImage(texture, GamePanel.getAffineTransform(texture,
-					x, y, scale, rotation));
+					x, y, horScale, vertScale, rotation));
 
 			if (GamePanel.debugMode) {
 				g.setColor(new Color(1, 0, 0));

@@ -47,13 +47,13 @@ public class Shop extends GameState {
 				"BACK", new Font("Century Gothic", Font.PLAIN, 24));
 
 		button_previous = new Button(
-				(int) ((GamePanel.WINDOW_WIDTH * 0.11) + 20 * GamePanel.scale),
-				(int) ((GamePanel.WINDOW_HEIGHT * 0.45) + 20 * GamePanel.scale),
+				(int) ((GamePanel.WINDOW_WIDTH * 0.11) + 20 * GamePanel.horScale),
+				(int) ((GamePanel.WINDOW_HEIGHT * 0.45) + 20 * GamePanel.vertScale),
 				"<<", new Font("Century Gothic", Font.PLAIN, 26));
 
 		button_next = new Button(
-				(int) ((GamePanel.WINDOW_WIDTH * 0.855) + 20 * GamePanel.scale),
-				(int) ((GamePanel.WINDOW_HEIGHT * 0.45) + 20 * GamePanel.scale),
+				(int) ((GamePanel.WINDOW_WIDTH * 0.855) + 20 * GamePanel.horScale),
+				(int) ((GamePanel.WINDOW_HEIGHT * 0.45) + 20 * GamePanel.vertScale),
 				">>", new Font("Century Gothic", Font.PLAIN, 26));
 
 		buttons.add(button_back);

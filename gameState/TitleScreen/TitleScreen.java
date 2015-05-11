@@ -10,6 +10,8 @@ import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.font.TextAttribute;
+import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ArrayList;
@@ -41,10 +43,12 @@ public class TitleScreen extends GameState {
 
 		// Add buttons to the screen, will be perfected later
 
-		button_start = new Button(true, (int) (700 * GamePanel.scale), "Start Game",
-				font);
-		button_help = new Button(true, (int) (800 * GamePanel.scale), "Help", font);
-		button_quit = new Button(true, (int) (900 * GamePanel.scale), "Quit", font);
+		button_start = new Button(true, (int) (400 * GamePanel.vertScale),
+				"Start Game", font);
+		button_help = new Button(true, (int) (500 * GamePanel.vertScale),
+				"Help", font);
+		button_quit = new Button(true, (int) (600 * GamePanel.vertScale),
+				"Quit", font);
 		button_sound = new Button(GamePanel.WINDOW_WIDTH - 120, 10, "Sounds",
 				new Font("Century Gothic", Font.PLAIN, 24));
 
@@ -59,6 +63,16 @@ public class TitleScreen extends GameState {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		BufferedImage newTexture = new BufferedImage(
+				(int) (backgroundImage.getWidth() / GamePanel.horScale),
+				(int) (backgroundImage.getHeight() / GamePanel.vertScale),
+				BufferedImage.TYPE_INT_ARGB);
+		AffineTransform at = new AffineTransform();
+		at.scale(1 / GamePanel.horScale, 1 / GamePanel.vertScale);
+		AffineTransformOp scaleOp = new AffineTransformOp(at,
+				AffineTransformOp.TYPE_BILINEAR);
+		backgroundImage = scaleOp.filter(backgroundImage, newTexture);
 
 		backgroundSound = new Sound("/sounds/TitleScreen.wav");
 
@@ -84,7 +98,7 @@ public class TitleScreen extends GameState {
 		if (button_start.isPressed()) {
 			backgroundSound.stop();
 			Endless endless = new Endless();
-			String message = "Welcome to Zombie Game version 1.0. We hope that you won't encounter  any bugs what so ever, but please mind that that could happen. We hope that you'll enjoy this game. Here is a quick overview of the controls:	 W, A, S, D = walkking  |  R = reaload gun  |  SPACE = open shop  |  ESCAPE = pause  |  Mouse = shoot";
+			String message = "Welcome to Zombie Apocalypse version 1.0. We hope that you won't encounter any bugs what so ever, but please mind that that could happen. We hope that you'll enjoy this game. Here is a quick overview of the controls:	 W, A, S, D = walking  |  R = reload gun  |  SPACE = open shop  |  ESCAPE = pause  |  Mouse = shoot";
 
 			AlertBox alertBox = new AlertBox(endless, message);
 			GamePanel.changeGameState(alertBox);

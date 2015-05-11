@@ -11,6 +11,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
@@ -26,7 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int WINDOW_WIDTH;
 	public static int WINDOW_HEIGHT;
 
-	public static double scale;
+	public static double horScale;
+	public static double vertScale;
 
 	private static Thread thread;
 	public static boolean running;
@@ -37,6 +39,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public static boolean debugMode = false;
 	public static int mouseX;
 	public static int mouseY;
+
+	public static int screen = 0;
 
 	public static BufferedImage image;
 	private static BufferedImage lastFrame;
@@ -49,19 +53,22 @@ public class GamePanel extends JPanel implements Runnable {
 		super();
 		setVisible(true);
 
-		GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment
+		GraphicsEnvironment ge = GraphicsEnvironment
 				.getLocalGraphicsEnvironment();
-		Rectangle maximumWindowBounds = graphicsEnvironment
-				.getMaximumWindowBounds();
-		setBounds(maximumWindowBounds);
+		GraphicsDevice gs = ge.getScreenDevices()[screen];
 
-		WINDOW_WIDTH = (int) maximumWindowBounds.getWidth();
-		WINDOW_HEIGHT = (int) maximumWindowBounds.getHeight();
+		WINDOW_WIDTH = (int) gs.getDisplayMode().getWidth();
+		WINDOW_HEIGHT = (int) gs.getDisplayMode().getHeight();
 
-		scale = (double) WINDOW_WIDTH / (double) 1920;
+		Rectangle boundRectangle = new Rectangle(WINDOW_WIDTH, WINDOW_HEIGHT);
+		setBounds(boundRectangle);
+
+		horScale = (double) WINDOW_WIDTH / (double) 1920;
+		vertScale = (double) WINDOW_HEIGHT / (double) 1080;
 
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
+		
 		requestFocus();
 
 	}
@@ -195,17 +202,22 @@ public class GamePanel extends JPanel implements Runnable {
 
 	// This rotates and scales an image
 	public static AffineTransform getAffineTransform(BufferedImage image,
-			int x, int y, double scale, double rotation) {
+			int x, int y, double horScale, double vertScale, double rotation) {
 
 		AffineTransform rotateXform = new AffineTransform();
 		rotateXform.rotate(rotation, image.getWidth() / 2.0,
 				image.getHeight() / 2.0);
 		AffineTransform scaleXform = AffineTransform.getTranslateInstance(x, y);
-		scaleXform.scale(scale, scale);
+		scaleXform.scale(horScale, vertScale);
 		scaleXform.concatenate(rotateXform);
 
 		return scaleXform;
 
+	}
+
+	public static AffineTransform getAffineTransform(BufferedImage image,
+			int x, int y, double scale, double rotation) {
+		return getAffineTransform(image, x, y, scale, scale, rotation);
 	}
 
 	public static BufferedImage mergeImages(BufferedImage image1, int xOffset1,

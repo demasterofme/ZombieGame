@@ -54,8 +54,8 @@ public class Player extends LivingEntity {
 
 	public Player(float x, float y) {
 		super(x, y);
-		speed = 1 * GamePanel.scale;
-		r = (int) (30 * GamePanel.scale);
+		speed = 1 * GamePanel.horScale;
+		r = (int) (30 * GamePanel.horScale);
 		health = 100;
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
@@ -144,9 +144,9 @@ public class Player extends LivingEntity {
 						&& gun.getCurrentClip() > 0) {
 					firingTimer = System.nanoTime();
 					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * (gun
-							.getName().equals("G17") ? 78 : 102.4));
+							.getName().equals("G17") ? 78 / GamePanel.horScale : 102.4 / GamePanel.horScale));
 					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * (gun
-							.getName().equals("G17") ? 78 : 102.4));
+							.getName().equals("G17") ? 78 / GamePanel.vertScale : 102.4 / GamePanel.vertScale));
 					InGame.muzzleFlashes.add(new MuzzleFlash(
 							GamePanel.WINDOW_WIDTH / 2 - x1,
 							GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
@@ -343,14 +343,15 @@ public class Player extends LivingEntity {
 
 		mergedImage = GamePanel.mergeImages(bottom, 0, 0, texture_head, 0, 0);
 
-		double scale = 0.2 * GamePanel.scale;
+		double horScale = 0.2 / GamePanel.horScale;
+		double vertScale = 0.2 / GamePanel.vertScale;
 
 		g.drawRenderedImage(mergedImage, GamePanel.getAffineTransform(
 				mergedImage,
 				(int) (GamePanel.WINDOW_WIDTH / 2 - mergedImage.getWidth()
-						* scale / 2),
+						* horScale / 2),
 				(int) (GamePanel.WINDOW_HEIGHT / 2 - mergedImage.getHeight()
-						* scale / 2), scale, Math.toRadians(rotation + 90)));
+						* vertScale / 2), horScale, vertScale, Math.toRadians(rotation + 90)));
 
 		if ((System.nanoTime() - recoveringTimer) / 1000000 <= 500) {
 

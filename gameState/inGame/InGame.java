@@ -345,15 +345,17 @@ public class InGame extends GameState {
 	private static boolean loadUtilities() {
 		utilities = new ArrayList<>();
 		try {
-			BufferedImage texture = loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/utilities/Medkit.png")));
-			BufferedImage textureInHand =  loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/utilities/MedkitInHand.png")));
+			BufferedImage texture = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/utilities/Medkit.png")));
+			BufferedImage textureInHand = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/utilities/MedkitInHand.png")));
 			utilities.add(new MedKit(texture, textureInHand));
 			// Temporary
 			texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/utilities/Grenade.png")));
-			textureInHand =  loadCompatibleImage(ImageIO.read(GamePanel.class
+			textureInHand = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/utilities/GrenadeInHand.png")));
 			utilities.add(new Grenade(texture, textureInHand));
 		} catch (IOException e) {
@@ -379,8 +381,9 @@ public class InGame extends GameState {
 							.getResource("/sprites/MuzzleFlash.png")));
 			Zombie.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/Zombie1.png")));
-			DeadZombie.texture =  loadCompatibleImage(ImageIO.read(GamePanel.class
-					.getResource("/sprites/Dead_zombie.png")));
+			DeadZombie.texture = loadCompatibleImage(ImageIO
+					.read(GamePanel.class
+							.getResource("/sprites/Dead_zombie.png")));
 			Map.texture = loadCompatibleImage(ImageIO.read(GamePanel.class
 					.getResource("/sprites/Map1.png")));
 
@@ -408,10 +411,10 @@ public class InGame extends GameState {
 						GeneralPath.WIND_EVEN_ODD, shapeElements.size());
 				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
-					int x = Integer.parseInt(shapeElement.element("x" + index)
-							.getText());
-					int y = Integer.parseInt(shapeElement.element("y" + index)
-							.getText());
+					int x = (int) (Integer.parseInt(shapeElement.element(
+							"x" + index).getText()) / GamePanel.horScale);
+					int y = (int) (Integer.parseInt(shapeElement.element(
+							"y" + index).getText()) / GamePanel.vertScale);
 					if (index++ == 1)
 						polyline.moveTo(x, y);
 					else

@@ -68,14 +68,15 @@ public class MedKit extends Utility {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.1 * GamePanel.scale;
+			double horScale = 0.1 * GamePanel.horScale;
+			double vertScale = 0.1 * GamePanel.horScale;
 
 			// Calculate new x and y position
-			int x = (int) (relativeX - texture.getWidth() * scale / 2);
-			int y = (int) (relativeY - texture.getHeight() * scale / 2);
+			int x = (int) (relativeX - texture.getWidth() * horScale / 2);
+			int y = (int) (relativeY - texture.getHeight() * vertScale / 2);
 
 			g.drawRenderedImage(texture,
-					GamePanel.getAffineTransform(texture, x, y, scale, 0));
+					GamePanel.getAffineTransform(texture, x, y, horScale, vertScale, 0));
 
 			if (GamePanel.debugMode) {
 

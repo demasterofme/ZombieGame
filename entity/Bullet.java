@@ -20,14 +20,14 @@ public class Bullet extends Entity {
 		super(x, y);
 		rad = Math.toRadians(angle);
 
-		int speed = (int) (10 * GamePanel.scale);
+		int speed = (int) (10 * GamePanel.horScale);
 
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
 		this.damage = damage;
 
-		r = (int) (2* GamePanel.scale);
+		r = (int) (2* GamePanel.horScale);
 	}
 
 	public boolean update() {

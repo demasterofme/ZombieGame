@@ -40,9 +40,9 @@ public class Zombie extends LivingEntity {
 
 		super(x, y);
 		// this.type = type;
-		r = (int) (30 * GamePanel.scale);
+		r = (int) (30 * GamePanel.horScale);
 		health = 300;
-		speed = 0.2* GamePanel.scale;
+		speed = 0.2 * GamePanel.horScale;
 
 		canAttack = true;
 		attackStrength = 10;
@@ -187,15 +187,16 @@ public class Zombie extends LivingEntity {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.2* GamePanel.scale;
+			double horScale = 0.2 / GamePanel.horScale;
+			double vertScale = 0.2 / GamePanel.vertScale;
 
 			// Calculate new x and y position
-			int x = (int) (relativeX - texture.getWidth() * scale / 2);
-			int y = (int) (relativeY - texture.getHeight() * scale / 2);
+			int x = (int) (relativeX - texture.getWidth() * horScale / 2);
+			int y = (int) (relativeY - texture.getHeight() * vertScale / 2);
 
 			g.drawRenderedImage(
 					texture,
-					GamePanel.getAffineTransform(texture, x, y, scale,
+					GamePanel.getAffineTransform(texture, x, y, horScale, vertScale,
 							Math.toRadians(rotation)));
 
 			if (GamePanel.debugMode) {
