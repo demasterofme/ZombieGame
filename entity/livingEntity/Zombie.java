@@ -10,12 +10,9 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.imageio.ImageIO;
-import javax.sound.sampled.Clip;
-
-import sfx.Sound;
 import launcher.GamePanel;
 import map.Vertex;
+import sfx.Sound;
 
 public class Zombie extends LivingEntity {
 
@@ -43,9 +40,9 @@ public class Zombie extends LivingEntity {
 
 		super(x, y);
 		// this.type = type;
-		r = 30;
+		r = (int) (30 * GamePanel.scale);
 		health = 300;
-		speed = 0.2;
+		speed = 0.2* GamePanel.scale;
 
 		canAttack = true;
 		attackStrength = 10;
@@ -190,7 +187,7 @@ public class Zombie extends LivingEntity {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.2;
+			double scale = 0.2* GamePanel.scale;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

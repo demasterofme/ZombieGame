@@ -41,9 +41,10 @@ public class TitleScreen extends GameState {
 
 		// Add buttons to the screen, will be perfected later
 
-		button_start = new Button(true, 700, "Start Game", font);
-		button_help = new Button(true, 800, "Help", font);
-		button_quit = new Button(true, 900, "Quit", font);
+		button_start = new Button(true, (int) (700 * GamePanel.scale), "Start Game",
+				font);
+		button_help = new Button(true, (int) (800 * GamePanel.scale), "Help", font);
+		button_quit = new Button(true, (int) (900 * GamePanel.scale), "Quit", font);
 		button_sound = new Button(GamePanel.WINDOW_WIDTH - 120, 10, "Sounds",
 				new Font("Century Gothic", Font.PLAIN, 24));
 

@@ -54,8 +54,8 @@ public class Player extends LivingEntity {
 
 	public Player(float x, float y) {
 		super(x, y);
-		speed = 1;
-		r = 30;
+		speed = 1 * GamePanel.scale;
+		r = (int) (30 * GamePanel.scale);
 		health = 100;
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
@@ -130,7 +130,7 @@ public class Player extends LivingEntity {
 				gun.setMaxBullets(0);
 			}
 		}
-		
+
 		if ((System.nanoTime() - recoveringTimer) / 1000000 > 100)
 			recovering = false;
 
@@ -343,7 +343,7 @@ public class Player extends LivingEntity {
 
 		mergedImage = GamePanel.mergeImages(bottom, 0, 0, texture_head, 0, 0);
 
-		double scale = 0.2;
+		double scale = 0.2 * GamePanel.scale;
 
 		g.drawRenderedImage(mergedImage, GamePanel.getAffineTransform(
 				mergedImage,

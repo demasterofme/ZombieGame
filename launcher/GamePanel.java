@@ -26,6 +26,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int WINDOW_WIDTH;
 	public static int WINDOW_HEIGHT;
 
+	public static double scale;
+
 	private static Thread thread;
 	public static boolean running;
 
@@ -55,6 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
 
 		WINDOW_WIDTH = (int) maximumWindowBounds.getWidth();
 		WINDOW_HEIGHT = (int) maximumWindowBounds.getHeight();
+
+		scale = (double) WINDOW_WIDTH / (double) 1920;
 
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);

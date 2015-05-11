@@ -20,7 +20,7 @@ public class Grenade extends Utility {
 	private int speedTimer = 0;
 
 	private double angle;
-	
+
 	public Grenade(BufferedImage texture, BufferedImage textureInHand) {
 
 		super("Grenade", 100, texture, textureInHand);
@@ -35,7 +35,7 @@ public class Grenade extends Utility {
 		toReturn.x = x;
 		toReturn.y = y;
 		toReturn.angle = Math.toRadians(angdeg);
-		toReturn.speed = 2;
+		toReturn.speed = 2 * GamePanel.scale;
 		toReturn.dx = Math.cos(angle) * speed;
 		toReturn.dy = Math.sin(angle) * speed;
 		toReturn.startTime = System.nanoTime();
@@ -81,7 +81,7 @@ public class Grenade extends Utility {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.07;
+			double scale = 0.07* GamePanel.scale;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

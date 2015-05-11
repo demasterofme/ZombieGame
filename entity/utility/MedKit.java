@@ -16,7 +16,7 @@ public class MedKit extends Utility {
 	private long startTime;
 
 	private int healTimer = 0;
-	
+
 	public MedKit(BufferedImage texture, BufferedImage textureInHand) {
 
 		super("Medkit", 100, texture, textureInHand);
@@ -68,7 +68,7 @@ public class MedKit extends Utility {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.1;
+			double scale = 0.1 * GamePanel.scale;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

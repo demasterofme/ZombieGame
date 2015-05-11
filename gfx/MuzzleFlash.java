@@ -34,8 +34,8 @@ public class MuzzleFlash {
 
 	public void draw(Graphics2D g) {
 
-		double scale = 0.2;
-		
+		double scale = 0.2 * GamePanel.scale;
+
 		g.drawRenderedImage(texture, GamePanel.getAffineTransform(texture,
 				(int) (x - texture.getWidth() * scale / 2),
 				(int) (y - texture.getHeight() * scale / 2), scale,

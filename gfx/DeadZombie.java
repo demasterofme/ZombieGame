@@ -22,7 +22,6 @@ public class DeadZombie extends Entity {
 		super(d, e);
 		died = System.nanoTime();
 		timer = 30000;
-		r = 100;
 
 		rotation = new Random().nextInt(360);
 
@@ -45,7 +44,7 @@ public class DeadZombie extends Entity {
 				&& relativeY - r + texture.getHeight() > 0
 				&& relativeY + r - texture.getHeight() < GamePanel.WINDOW_HEIGHT) {
 
-			double scale = 0.3;
+			double scale = 0.3 * GamePanel.scale;
 
 			// Calculate new x and y position
 			int x = (int) (relativeX - texture.getWidth() * scale / 2);

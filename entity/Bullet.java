@@ -20,14 +20,14 @@ public class Bullet extends Entity {
 		super(x, y);
 		rad = Math.toRadians(angle);
 
-		int speed = 10;
+		int speed = (int) (10 * GamePanel.scale);
 
 		dx = Math.cos(rad) * speed;
 		dy = Math.sin(rad) * speed;
 
 		this.damage = damage;
 
-		r = 2;
+		r = (int) (2* GamePanel.scale);
 	}
 
 	public boolean update() {
@@ -36,7 +36,8 @@ public class Bullet extends Entity {
 		y += dy;
 
 		if (x < -r || x > InGame.map.getWidth() + r || y < -r
-				|| y > InGame.map.getHeight() + r || checkCollisions(dx, 0) || checkCollisions(0, dy)) {
+				|| y > InGame.map.getHeight() + r || checkCollisions(dx, 0)
+				|| checkCollisions(0, dy)) {
 			return true;
 		}
 
@@ -46,15 +47,15 @@ public class Bullet extends Entity {
 	public int getDamage() {
 		return damage;
 	}
-	
+
 	public double getdx() {
 		return dx;
 	}
-	
+
 	public double getdy() {
 		return dy;
 	}
-	
+
 	public boolean checkCollisions(double dx, double dy) {
 
 		Rectangle movementRect = new Rectangle((int) x + (int) dx - 5, (int) y
@@ -76,7 +77,7 @@ public class Bullet extends Entity {
 
 		if (relativeX - r > 0 && relativeX + r < GamePanel.WINDOW_WIDTH
 				&& relativeY - r > 0 && relativeY + r < GamePanel.WINDOW_HEIGHT) {
-			
+
 			g.setColor(Color.YELLOW);
 			g.drawOval(relativeX, relativeY, r, r);
 		}
