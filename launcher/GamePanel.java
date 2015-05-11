@@ -7,17 +7,23 @@ import input.MouseListener;
 import input.MouseMotionListener;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -41,6 +47,11 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int mouseY;
 
 	public static int screen = 0;
+
+	public static Cursor cursor;
+	public static Cursor aimCursor;
+
+	private static GamePanel instance;
 
 	public static BufferedImage image;
 	private static BufferedImage lastFrame;
@@ -68,9 +79,17 @@ public class GamePanel extends JPanel implements Runnable {
 
 		setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		setFocusable(true);
-		
+
 		requestFocus();
 
+		loadCursors();
+
+		instance = this;
+
+	}
+
+	public static GamePanel getInstance() {
+		return instance;
 	}
 
 	public void addNotify() {
@@ -84,6 +103,29 @@ public class GamePanel extends JPanel implements Runnable {
 		addMouseListener(mouseListener);
 		addMouseWheelListener(mouseListener);
 		addMouseMotionListener(new MouseMotionListener());
+	}
+
+	private void loadCursors() {
+		Toolkit toolkit = Toolkit.getDefaultToolkit();
+		BufferedImage cursorImage = null;
+		BufferedImage cursorAimImage = null;
+		try {
+			cursorImage = ImageIO.read(GamePanel.class
+					.getResource("/sprites/Cursor.png"));
+			cursorAimImage = ImageIO.read(GamePanel.class
+					.getResource("/sprites/AimCursor.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		cursor = toolkit.createCustomCursor(cursorImage, new Point(0, 0),
+				"Cursor");
+		aimCursor = toolkit.createCustomCursor(cursorAimImage,
+				new Point(10, 10), "AimCursor");
+		setCursor(cursor);
+	}
+
+	public void changeCursor(Cursor cursor) {
+		setCursor(cursor);
 	}
 
 	public void run() {

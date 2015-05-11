@@ -1,14 +1,15 @@
 <Guns>
 
-	<G17>
-		<Damage>20</Damage>
-		<Firerate>400</Firerate>
-		<Reloadspeed>1.6</Reloadspeed>
-		<Clipsize>17</Clipsize>
-		<Maxbullets>800</Maxbullets>
-		<Weight>1000</Weight>
+	<M1911>
+		<Damage>24</Damage>
+		<Firerate>330</Firerate>
+		<Reloadspeed>2</Reloadspeed>
+		<Clipsize>8</Clipsize>
+		<Maxbullets>330</Maxbullets>
+		<Weight>1200</Weight>
 		<Price>300</Price>
-	</G17>
+		<Type>Pistol</Type>
+	</M1911>
 
 	<AK47>
 		<Damage>22</Damage>
@@ -16,8 +17,9 @@
 		<Reloadspeed>3.5</Reloadspeed>
 		<Clipsize>30</Clipsize>
 		<Maxbullets>1600</Maxbullets>
-		<Weight>4200</Weight>
+		<Weight>2000</Weight>
 		<Price>1000</Price>
+		<Type>Assault Rifle</Type>
 	</AK47>
 	
 	<M16A3>
@@ -26,8 +28,9 @@
 		<Reloadspeed>2.5</Reloadspeed>
 		<Clipsize>40</Clipsize>
 		<Maxbullets>2000</Maxbullets>
-		<Weight>4200</Weight>
+		<Weight>2000</Weight>
 		<Price>2000</Price>
+		<Type>Assault Rifle</Type>
 	</M16A3>
 	
 	<!--

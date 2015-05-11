@@ -113,6 +113,8 @@ public class Shop extends GameState {
 		}
 
 		oldState.getPlayer().resetKeys();
+		
+		GamePanel.getInstance().changeCursor(GamePanel.cursor);
 
 	}
 

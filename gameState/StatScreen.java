@@ -45,6 +45,8 @@ public class StatScreen extends GameState {
 		time = (startTime - stats.getStartTime()) / 1000000000;
 
 		stats.setTime(convertTimeString(time));
+		
+		GamePanel.getInstance().changeCursor(GamePanel.cursor);
 
 	}
 

@@ -9,14 +9,16 @@ public class MuzzleFlash {
 
 	private int x, y;
 	private int rotation;
+	private double scale;
 	private long startTimer;
 	public static BufferedImage texture;
 
-	public MuzzleFlash(int x, int y, int rotation) {
+	public MuzzleFlash(int x, int y, int rotation, double scale) {
 
 		this.x = x;
 		this.y = y;
 		this.rotation = rotation - 90;
+		this.scale = scale;
 		this.startTimer = System.nanoTime();
 
 	}
@@ -34,8 +36,8 @@ public class MuzzleFlash {
 
 	public void draw(Graphics2D g) {
 
-		double horScale = 0.2 * GamePanel.horScale;
-		double vertScale = 0.2 * GamePanel.vertScale;
+		double horScale = 0.2 * GamePanel.horScale * scale;
+		double vertScale = 0.2 * GamePanel.vertScale * scale;
 
 		g.drawRenderedImage(texture, GamePanel.getAffineTransform(texture,
 				(int) (x - texture.getWidth() * horScale / 2),

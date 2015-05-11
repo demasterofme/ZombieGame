@@ -49,6 +49,9 @@ public class PauseMenu extends GameState {
 		buttons.add(button_back);
 
 		oldState.getPlayer().resetKeys();
+		
+		GamePanel.getInstance().changeCursor(GamePanel.cursor);
+		
 	}
 
 	public void update() {

@@ -2,6 +2,7 @@ package entity.livingEntity;
 
 import entity.Bullet;
 import entity.Gun;
+import entity.Gun.GunType;
 import entity.utility.Grenade;
 import entity.utility.MedKit;
 import entity.utility.Utility;
@@ -28,6 +29,7 @@ public class Player extends LivingEntity {
 	private int money = 0;
 
 	private boolean firing;
+	private boolean pistolFire = false;
 	private long firingTimer;
 
 	private boolean reloading;
@@ -51,6 +53,9 @@ public class Player extends LivingEntity {
 	public static Sound walk_sound2;
 	public static Sound walk_sound3;
 	public static Sound walk_sound4;
+
+	public static Sound machineGun_sound;
+	public static Sound pistol_sound;
 
 	public Player(float x, float y) {
 		super(x, y);
@@ -140,26 +145,41 @@ public class Player extends LivingEntity {
 
 				long elapsed = (System.nanoTime() - firingTimer) / 1000000;
 
-				if (elapsed >= 60000 / gun.getFireRate() && !reloading
-						&& gun.getCurrentClip() > 0) {
-					firingTimer = System.nanoTime();
-					int x1 = (int) (Math.sin(Math.toRadians(rotation - 90)) * (gun
-							.getName().equals("G17") ? 78 / GamePanel.horScale : 102.4 / GamePanel.horScale));
-					int y1 = (int) (Math.cos(Math.toRadians(rotation + 90)) * (gun
-							.getName().equals("G17") ? 78 / GamePanel.vertScale : 102.4 / GamePanel.vertScale));
-					InGame.muzzleFlashes.add(new MuzzleFlash(
-							GamePanel.WINDOW_WIDTH / 2 - x1,
-							GamePanel.WINDOW_HEIGHT / 2 - y1, (int) rotation));
-					InGame.bullets.add(new Bullet(x, y, (int) rotation, gun
-							.getDamage()));
-					stats.addBulletsFired(1);
+				if (elapsed >= 60000 / gun.getFireRate()) {
+					if (!reloading && gun.getCurrentClip() > 0) {
+						if (!gun.getType().equals(GunType.PISTOL)
+								|| !pistolFire) {
+							if (gun.getType().equals(GunType.PISTOL)) {
+								pistolFire = true;
+								pistol_sound.forcePlay();
+							} else
+								machineGun_sound.forcePlay();
+							firingTimer = System.nanoTime();
+							int x1 = (int) (Math.sin(Math
+									.toRadians(rotation - 90)) * (gun.getType()
+									.equals(GunType.PISTOL) ? 78 / GamePanel.horScale
+									: 102.4 / GamePanel.horScale));
+							int y1 = (int) (Math.cos(Math
+									.toRadians(rotation + 90)) * (gun.getType()
+									.equals(GunType.PISTOL) ? 78 / GamePanel.vertScale
+									: 102.4 / GamePanel.vertScale));
+							InGame.muzzleFlashes.add(new MuzzleFlash(
+									GamePanel.WINDOW_WIDTH / 2 - x1,
+									GamePanel.WINDOW_HEIGHT / 2 - y1,
+									(int) rotation, (gun.getType().equals(
+											GunType.PISTOL) ? 0.8 : 1)));
+							InGame.bullets.add(new Bullet(x, y, (int) rotation,
+									gun.getDamage()));
+							stats.addBulletsFired(1);
 
-					gun.setCurrentClip(gun.getCurrentClip() - 1);
+							gun.setCurrentClip(gun.getCurrentClip() - 1);
 
-					// Reloading
-					if (gun.getCurrentClip() == 0) {
-						reloading = true;
-						reloadTimer = System.nanoTime();
+							// Reloading
+							if (gun.getCurrentClip() == 0) {
+								reloading = true;
+								reloadTimer = System.nanoTime();
+							}
+						}
 					}
 
 				}
@@ -196,10 +216,9 @@ public class Player extends LivingEntity {
 					getInventory().removeItem(getInventory().getSelectedSlot());
 
 				}
-
 			}
-
-		}
+		} else
+			pistolFire = false;
 
 		return false;
 	}
@@ -351,7 +370,8 @@ public class Player extends LivingEntity {
 				(int) (GamePanel.WINDOW_WIDTH / 2 - mergedImage.getWidth()
 						* horScale / 2),
 				(int) (GamePanel.WINDOW_HEIGHT / 2 - mergedImage.getHeight()
-						* vertScale / 2), horScale, vertScale, Math.toRadians(rotation + 90)));
+						* vertScale / 2), horScale, vertScale,
+				Math.toRadians(rotation + 90)));
 
 		if ((System.nanoTime() - recoveringTimer) / 1000000 <= 500) {
 

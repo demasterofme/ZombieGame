@@ -2,6 +2,7 @@ package gameState.inGame;
 
 import entity.Bullet;
 import entity.Gun;
+import entity.Gun.GunType;
 import entity.livingEntity.Player;
 import entity.livingEntity.Zombie;
 import entity.utility.Grenade;
@@ -82,7 +83,7 @@ public class InGame extends GameState {
 
 		backgroundSound = new Sound("/sounds/InGame.wav", -5);
 		backgroundSound.loop();
-
+		
 	}
 
 	public void update() {
@@ -326,13 +327,15 @@ public class InGame extends GameState {
 						"Maxbullets").getText());
 				int weight = Integer.parseInt(gunElement.element("Weight")
 						.getText());
+				GunType type = GunType.valueOf(gunElement.element("Type")
+						.getText().toUpperCase().replace(" ", "_"));
 				int price = Integer.parseInt(gunElement.element("Price")
 						.getText());
 				BufferedImage texture = loadCompatibleImage(ImageIO
 						.read(GamePanel.class.getResource("/sprites/guns/"
 								+ name + ".png")));
 				guns.add(new Gun(name, damage, fireRate, reloadSpeed, clipSize,
-						maxBullets, weight, price, texture));
+						maxBullets, weight, type, price, texture));
 			}
 		} catch (Exception e) {
 			for (StackTraceElement add : e.getStackTrace())
@@ -462,10 +465,13 @@ public class InGame extends GameState {
 	}
 
 	private static boolean loadSounds() {
-		Player.walk_sound1 = new Sound("/sounds/PlayerWalk1.wav", -10F);
-		Player.walk_sound2 = new Sound("/sounds/PlayerWalk2.wav", -10F);
-		Player.walk_sound3 = new Sound("/sounds/PlayerWalk3.wav", -10F);
-		Player.walk_sound4 = new Sound("/sounds/PlayerWalk4.wav", -10F);
+		Player.walk_sound1 = new Sound("/sounds/PlayerWalk1.wav", -10);
+		Player.walk_sound2 = new Sound("/sounds/PlayerWalk2.wav", -10);
+		Player.walk_sound3 = new Sound("/sounds/PlayerWalk3.wav", -10);
+		Player.walk_sound4 = new Sound("/sounds/PlayerWalk4.wav", -10);
+
+		Player.machineGun_sound = new Sound("/sounds/MachineGun.wav", -10);
+		Player.pistol_sound = new Sound("/sounds/Pistol.wav", -15);
 		return true;
 	}
 

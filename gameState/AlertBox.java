@@ -48,6 +48,8 @@ public class AlertBox extends GameState {
 				new Font("Century Gothic", Font.PLAIN, 24));
 
 		buttons.add(buttonClose);
+		
+		GamePanel.getInstance().changeCursor(GamePanel.cursor);
 
 	}
 
@@ -62,6 +64,7 @@ public class AlertBox extends GameState {
 				((InGame) previousGameState).resume(pauseTimer);
 
 			GamePanel.changeGameState(previousGameState);
+			GamePanel.getInstance().changeCursor(GamePanel.aimCursor);
 		}
 
 	}

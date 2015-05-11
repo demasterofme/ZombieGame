@@ -19,7 +19,7 @@ public class MedKit extends Utility {
 
 	public MedKit(BufferedImage texture, BufferedImage textureInHand) {
 
-		super("Medkit", 100, texture, textureInHand);
+		super("Medkit", 300, texture, textureInHand);
 
 		r = 120;
 

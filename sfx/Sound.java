@@ -62,6 +62,14 @@ public class Sound {
 		clip.start();
 		running = true;
 	}
+	
+	public void forcePlay() {
+		if (mute)
+			return;
+		if (isRunning())
+			stop();
+		play();
+	}
 
 	public void loop() {
 		if (mute)

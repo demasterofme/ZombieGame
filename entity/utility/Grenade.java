@@ -23,7 +23,7 @@ public class Grenade extends Utility {
 
 	public Grenade(BufferedImage texture, BufferedImage textureInHand) {
 
-		super("Grenade", 100, texture, textureInHand);
+		super("Grenade", 1500, texture, textureInHand);
 
 		r = 200;
 

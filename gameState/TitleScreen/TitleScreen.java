@@ -36,7 +36,7 @@ public class TitleScreen extends GameState {
 
 	@SuppressWarnings("unchecked")
 	public TitleScreen() {
-
+		
 		buttons = new ArrayList<>();
 
 		Font font = new Font("Century Gothic", Font.PLAIN, 42);
@@ -86,7 +86,9 @@ public class TitleScreen extends GameState {
 		} else
 			backgroundSound.loop();
 		button_sound.setFont(font);
-
+		
+		GamePanel.getInstance().changeCursor(GamePanel.cursor);
+		
 	}
 
 	@SuppressWarnings("unchecked")
