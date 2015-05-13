@@ -65,7 +65,6 @@ public class Player extends LivingEntity {
 		inventory = new Inventory(InGame.guns.get(0));
 		gun = inventory.getCurrentGun();
 
-		// Temp, will be done by XML later
 		maxHealth = 100;
 		stats = new Stats();
 	}
@@ -231,6 +230,15 @@ public class Player extends LivingEntity {
 			if (health <= 0)
 				this.dead = true;
 		}
+	}
+	
+	public void reloadGun() {
+		
+		if (!reloading && gun.getCurrentClip() != gun.getClipSize()) {
+			reloading = true;
+			setReloadTimer(System.nanoTime());
+		}
+		
 	}
 
 	public int getMoney() {

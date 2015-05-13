@@ -23,6 +23,8 @@ public class Zombie extends LivingEntity {
 	private int attackStrength;
 	private boolean canAttack;
 	private long canAttackTimer;
+	
+	public static Random speedRandom;
 
 	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
@@ -33,7 +35,7 @@ public class Zombie extends LivingEntity {
 	private boolean moveWait = false;
 
 	private long soundTimer = -1;
-	private Random soundRandom;
+	public static Random soundRandom;
 	private Sound moanSound;
 
 	public Zombie(ZombieType type, double x, double y) {
@@ -42,13 +44,12 @@ public class Zombie extends LivingEntity {
 		// this.type = type;
 		r = (int) (30 * GamePanel.horScale);
 		health = 300;
-		speed = 0.2 * GamePanel.horScale;
+		speed = (speedRandom.nextInt(6) + 8) / 10.0;
 
 		canAttack = true;
 		attackStrength = 10;
 
 		soundTimer = System.nanoTime();
-		soundRandom = new Random();
 		moanSound = new Sound("/sounds/ZombieMoan1.wav");
 
 	}

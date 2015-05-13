@@ -49,8 +49,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 				GamePanel.debugMode = !GamePanel.debugMode;
 				break;
 			case KeyEvent.VK_R:
-				InGame.player.setReloadTimer(System.nanoTime());
-				InGame.player.setReloading(true);
+				InGame.player.reloadGun();
 				break;
 			case KeyEvent.VK_E:
 				InGame.player.getInventory().cycleSelectedSlot(true);

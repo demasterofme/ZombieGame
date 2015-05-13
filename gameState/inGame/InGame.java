@@ -28,6 +28,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -59,31 +60,21 @@ public class InGame extends GameState {
 	private static ArrayList<GeneralPath> shapeList;
 	public static ArrayList<Point2D.Float> spawnLocations;
 
-	public Sound backgroundSound;
+	public static Sound backgroundSound;
 
 	public InGame() {
 
 		if (!loadGuns() || !loadUtilities() || !loadSprites()
 				|| !loadCollisionMap() || !loadSpawnLocations()
-				|| !loadSounds()) {
+				|| !loadSounds() || !loadMisc()) {
+			
 			GamePanel.running = false;
 			return;
+			
 		}
 
-		map = new Map();
-
-		player = new Player(5000, 5000);
-
-		zombies = new ArrayList<>();
-		deadZombies = new ArrayList<>();
-		bullets = new ArrayList<>();
-		deployedUtilities = new ArrayList<>();
-		muzzleFlashes = new ArrayList<>();
-		texts = new ArrayList<>();
-
-		backgroundSound = new Sound("/sounds/InGame.wav", -5);
 		backgroundSound.loop();
-		
+
 	}
 
 	public void update() {
@@ -301,6 +292,28 @@ public class InGame extends GameState {
 				rawTexture.getHeight(), null);
 		g.dispose();
 		return texture;
+	}
+
+	private static boolean loadMisc() {
+
+		map = new Map();
+
+		player = new Player(5000, 5000);
+
+		zombies = new ArrayList<>();
+		Zombie.speedRandom = new Random();
+		Zombie.soundRandom = new Random();
+		
+		deadZombies = new ArrayList<>();
+		bullets = new ArrayList<>();
+		deployedUtilities = new ArrayList<>();
+		muzzleFlashes = new ArrayList<>();
+		texts = new ArrayList<>();
+
+		backgroundSound = new Sound("/sounds/InGame.wav", -5);
+		
+		return true;
+
 	}
 
 	private static SAXReader reader = new SAXReader();

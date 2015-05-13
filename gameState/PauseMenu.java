@@ -80,7 +80,7 @@ public class PauseMenu extends GameState {
 		}
 
 		if (button_back.isPressed()) {
-			oldState.backgroundSound.stop();
+			InGame.backgroundSound.stop();
 			GamePanel.changeGameState(new TitleScreen());
 		}
 
