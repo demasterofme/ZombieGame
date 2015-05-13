@@ -34,12 +34,6 @@ public class Map {
 
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
-		BufferedImage newTexture = new BufferedImage((int) (WIDTH / GamePanel.horScale), (int) (HEIGHT / GamePanel.vertScale), BufferedImage.TYPE_INT_ARGB);
-		AffineTransform at = new AffineTransform();
-		at.scale(1 / GamePanel.horScale, 1 / GamePanel.vertScale);
-		AffineTransformOp scaleOp = 
-		   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
-		texture = scaleOp.filter(texture, newTexture);
 		pathFinding = new PathFinding(pathfindingMap);
 
 	}

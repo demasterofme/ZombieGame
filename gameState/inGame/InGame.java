@@ -415,9 +415,9 @@ public class InGame extends GameState {
 				int index = 1;
 				while (shapeElement.element("x" + index) != null) {
 					int x = (int) (Integer.parseInt(shapeElement.element(
-							"x" + index).getText()) / GamePanel.horScale);
+							"x" + index).getText()));
 					int y = (int) (Integer.parseInt(shapeElement.element(
-							"y" + index).getText()) / GamePanel.vertScale);
+							"y" + index).getText()));
 					if (index++ == 1)
 						polyline.moveTo(x, y);
 					else
