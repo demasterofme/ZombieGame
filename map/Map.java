@@ -5,8 +5,10 @@ import gameState.inGame.InGame;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.PathIterator;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -30,6 +32,12 @@ public class Map {
 
 	public Map() {
 
+		BufferedImage newTexture = new BufferedImage(8192, 8192, BufferedImage.TYPE_INT_ARGB);
+		AffineTransform at = new AffineTransform();
+		at.scale(2, 2);
+		AffineTransformOp scaleOp = 
+		   new AffineTransformOp(at, AffineTransformOp.TYPE_BILINEAR);
+		texture = scaleOp.filter(texture, newTexture);
 		WIDTH = texture.getWidth();
 		HEIGHT = texture.getHeight();
 		pathFinding = new PathFinding(pathfindingMap);

@@ -13,7 +13,7 @@ import launcher.GamePanel;
 
 public class Endless extends InGame {
 
-	private int waveNumber = 0;
+	public static int waveNumber = 0;
 	private boolean waveInitiating = false;
 	private boolean waveText = false;
 	private long waveStartTimer;

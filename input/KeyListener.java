@@ -72,6 +72,7 @@ public class KeyListener implements java.awt.event.KeyListener {
 			case KeyEvent.VK_SPACE:
 				GamePanel.changeGameState(((Shop) GamePanel.getGameState())
 						.getOldState());
+				GamePanel.getInstance().changeCursor(GamePanel.aimCursor);
 				break;
 			}
 		else if (GamePanel.getGameState() instanceof PauseMenu)
@@ -79,9 +80,8 @@ public class KeyListener implements java.awt.event.KeyListener {
 			case KeyEvent.VK_ESCAPE:
 				PauseMenu pauseMenu = (PauseMenu) GamePanel.getGameState();
 				pauseMenu.getOldState().resume(pauseMenu.getPauseTimer());
-				GamePanel
-						.changeGameState(((PauseMenu) GamePanel.getGameState())
-								.getOldState());
+				GamePanel.changeGameState(pauseMenu.getOldState());
+				GamePanel.getInstance().changeCursor(GamePanel.aimCursor);
 				break;
 			}
 	}

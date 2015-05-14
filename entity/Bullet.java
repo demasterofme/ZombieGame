@@ -1,11 +1,13 @@
 package entity;
 
+import entity.livingEntity.Zombie;
 import gameState.inGame.InGame;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.GeneralPath;
+import java.util.ArrayList;
 
 import launcher.GamePanel;
 import map.Map;
@@ -15,6 +17,8 @@ public class Bullet extends Entity {
 	private double rad;
 	private double dx, dy;
 	private int damage;
+	
+	private ArrayList<Zombie> hits;
 
 	public Bullet(double x, double y, int angle, int damage) {
 		super(x, y);
@@ -28,6 +32,9 @@ public class Bullet extends Entity {
 		this.damage = damage;
 
 		r = (int) (2* GamePanel.horScale);
+		
+		hits = new ArrayList<>();
+		
 	}
 
 	public boolean update() {
@@ -54,6 +61,14 @@ public class Bullet extends Entity {
 
 	public double getdy() {
 		return dy;
+	}
+	
+	public ArrayList<Zombie> getHits() {
+		return hits;
+	}
+	
+	public void addHit(Zombie z) {
+		hits.add(z);
 	}
 
 	public boolean checkCollisions(double dx, double dy) {

@@ -1,6 +1,7 @@
 package entity.livingEntity;
 
 import entity.Bullet;
+import gameState.inGame.Endless;
 import gameState.inGame.InGame;
 
 import java.awt.BasicStroke;
@@ -23,8 +24,8 @@ public class Zombie extends LivingEntity {
 	private int attackStrength;
 	private boolean canAttack;
 	private long canAttackTimer;
-	
-	public static Random speedRandom;
+
+	public static Random random;
 
 	private ArrayList<Vertex> path;
 	private int findPathTimer = 0;
@@ -35,23 +36,22 @@ public class Zombie extends LivingEntity {
 	private boolean moveWait = false;
 
 	private long soundTimer = -1;
-	public static Random soundRandom;
 	private Sound moanSound;
-
+	
 	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
 		// this.type = type;
 		r = (int) (30 * GamePanel.horScale);
 		health = 300;
-		speed = (speedRandom.nextInt(6) + 8) / 10.0;
+		speed = (random.nextInt(6) + 7) / 10.0 + Endless.waveNumber / 10.0;
 
 		canAttack = true;
 		attackStrength = 10;
 
 		soundTimer = System.nanoTime();
 		moanSound = new Sound("/sounds/ZombieMoan1.wav");
-
+		
 	}
 
 	public boolean update() {
@@ -67,7 +67,7 @@ public class Zombie extends LivingEntity {
 
 		if ((System.nanoTime() - soundTimer) / 1000000 > 2000) {
 			soundTimer = System.nanoTime();
-			if (soundRandom.nextInt(4) == 0) {
+			if (random.nextInt(4) == 0) {
 				moanSound.changeVolume((float) (-distanceToPlayer * 0.03));
 				moanSound.play();
 			}
@@ -142,14 +142,17 @@ public class Zombie extends LivingEntity {
 			Bullet b = InGame.bullets.get(i);
 
 			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r
-					+ b.getr()) {
+					+ b.getr() && !b.getHits().contains(this)) {
 				damage(b.getDamage());
+				if (!isDead())
+					b.addHit(this);
 				x += b.getdx() * 0.4;
 				y += b.getdy() * 0.4;
 				hit = true;
 				hitTimer = System.nanoTime();
 				InGame.player.getStats().addDamageDealt(b.getDamage());
-				InGame.bullets.remove(b);
+				if (random.nextBoolean())
+					InGame.bullets.remove(b);
 				i--;
 			}
 
@@ -195,10 +198,8 @@ public class Zombie extends LivingEntity {
 			int x = (int) (relativeX - texture.getWidth() * horScale / 2);
 			int y = (int) (relativeY - texture.getHeight() * vertScale / 2);
 
-			g.drawRenderedImage(
-					texture,
-					GamePanel.getAffineTransform(texture, x, y, horScale, vertScale,
-							Math.toRadians(rotation)));
+			g.drawRenderedImage(texture, GamePanel.getAffineTransform(texture,
+					x, y, horScale, vertScale, Math.toRadians(rotation)));
 
 			if (GamePanel.debugMode) {
 				g.setStroke(new BasicStroke(1));

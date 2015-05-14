@@ -193,6 +193,7 @@ public class Shop extends GameState {
 
 		if (button_back.isPressed()) {
 			GamePanel.changeGameState(oldState);
+			GamePanel.getInstance().changeCursor(GamePanel.aimCursor);
 		}
 
 		if (button_next.isPressed())

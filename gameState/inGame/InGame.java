@@ -300,10 +300,8 @@ public class InGame extends GameState {
 
 		player = new Player(5000, 5000);
 
+		Zombie.random = new Random();
 		zombies = new ArrayList<>();
-		Zombie.speedRandom = new Random();
-		Zombie.soundRandom = new Random();
-		
 		deadZombies = new ArrayList<>();
 		bullets = new ArrayList<>();
 		deployedUtilities = new ArrayList<>();

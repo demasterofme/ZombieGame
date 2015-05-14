@@ -110,15 +110,6 @@ public class Player extends LivingEntity {
 		x += dx;
 		y += dy;
 
-		if (x < GamePanel.WINDOW_WIDTH / 2)
-			x = GamePanel.WINDOW_WIDTH / 2;
-		if (y < GamePanel.WINDOW_HEIGHT / 2)
-			y = GamePanel.WINDOW_HEIGHT / 2;
-		if (x > InGame.map.getWidth() - GamePanel.WINDOW_WIDTH / 2)
-			x = InGame.map.getWidth() - GamePanel.WINDOW_WIDTH / 2;
-		if (y > InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2)
-			y = InGame.map.getHeight() - GamePanel.WINDOW_HEIGHT / 2;
-
 		if (reloading
 				&& getInventory().hasGunEquipped()
 				&& (System.nanoTime() - reloadTimer) / 1000000000 >= gun
@@ -131,7 +122,7 @@ public class Player extends LivingEntity {
 				gun.setCurrentClip(gun.getClipSize());
 			} else {
 				gun.setCurrentClip(gun.getBullets());
-				gun.setMaxBullets(0);
+				gun.setBullets(0);
 			}
 		}
 
@@ -174,10 +165,8 @@ public class Player extends LivingEntity {
 							gun.setCurrentClip(gun.getCurrentClip() - 1);
 
 							// Reloading
-							if (gun.getCurrentClip() == 0) {
-								reloading = true;
-								reloadTimer = System.nanoTime();
-							}
+							if (gun.getCurrentClip() == 0)
+								reloadGun();
 						}
 					}
 
