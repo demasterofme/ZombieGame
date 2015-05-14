@@ -15,9 +15,9 @@ import gameState.inGame.InGame;
 
 public class Inventory {
 
-	private Gun slot1;
-	private Gun slot2;
-	private Gun slot3;
+	public Gun slot1;
+	public Gun slot2;
+	public Gun slot3;
 
 	public HashMap<Utility, Integer> slot4;
 	public HashMap<Utility, Integer> slot5;

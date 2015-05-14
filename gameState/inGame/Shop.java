@@ -70,19 +70,74 @@ public class Shop extends GameState {
 				y++;
 			}
 
-			String text = gun.getName() + ": " + gun.getPrice() + "$";
+			String gunLabel = "";
+
+			if (InGame.player.getInventory().slot1 == gun) {
+
+				int maxBullets = InGame.player.getInventory().slot1
+						.getMaxBullets();
+				int bulletsLeft = InGame.player.getInventory().slot1
+						.getBullets();
+
+				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
+						.getInventory().slot1.getPrice());
+				
+				// Add base price
+				reloadPrice += 20;
+
+				gunLabel = "Reload "
+						+ InGame.player.getInventory().slot1.getName() + ": "
+						+ reloadPrice + "$";
+
+			} else if (InGame.player.getInventory().slot2 == gun) {
+
+				int maxBullets = InGame.player.getInventory().slot2
+						.getMaxBullets();
+				int bulletsLeft = InGame.player.getInventory().slot2
+						.getBullets();
+
+				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
+						.getInventory().slot2.getPrice());
+				
+				// Add base price
+				reloadPrice += 20;
+
+				gunLabel = "Reload "
+						+ InGame.player.getInventory().slot2.getName() + ": "
+						+ reloadPrice + "$";
+
+			} else if (InGame.player.getInventory().slot3 == gun) {
+
+				int maxBullets = InGame.player.getInventory().slot3
+						.getMaxBullets();
+				int bulletsLeft = InGame.player.getInventory().slot3
+						.getBullets();
+
+				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
+						.getInventory().slot3.getPrice());
+				
+				// Add base price
+				reloadPrice += 20;
+
+				gunLabel = "Reload "
+						+ InGame.player.getInventory().slot3.getName() + ": "
+						+ reloadPrice + "$";
+
+			} else {
+				gunLabel = gun.getName() + ": " + gun.getPrice() + "$";
+			}
 
 			gunButtons.add(new Button(
 					(int) (GamePanel.WINDOW_WIDTH * 0.16 * x++)
 							+ (int) (gun.getTexture().getWidth() * 0.1 + 40)
 							/ 2
-							- GamePanel.g.getFontMetrics(font)
-									.stringWidth(text) / 2,
+							- GamePanel.g.getFontMetrics(font).stringWidth(
+									gunLabel) / 2,
 					(int) (GamePanel.WINDOW_HEIGHT * 0.2 * y + gun.getTexture()
 							.getHeight() * 0.1)
 							+ 45
 							+ GamePanel.g.getFontMetrics(font).getHeight(),
-					text, font));
+					gunLabel, font));
 
 		}
 
@@ -113,7 +168,7 @@ public class Shop extends GameState {
 		}
 
 		oldState.getPlayer().resetKeys();
-		
+
 		GamePanel.getInstance().changeCursor(GamePanel.cursor);
 
 	}
@@ -129,28 +184,89 @@ public class Shop extends GameState {
 			for (Button b : gunButtons) {
 				b.update();
 				if (b.isPressed()) {
-					String name = b.getText().split(":")[0];
+					String gunName;
 					Gun gun = null;
-					for (Gun g : InGame.guns)
-						if (g.getName().equalsIgnoreCase(name))
-							gun = g;
-					if (gun != null)
-						if (InGame.player.getMoney() < gun.getPrice())
-							texts.add(new Text("Unsufficient cash!", 2000,
-									new Font("Century Gothic", Font.PLAIN, 36),
-									Color.RED, GamePanel.WINDOW_WIDTH / 2,
-									GamePanel.WINDOW_HEIGHT / 2));
-						else if (!InGame.player.getInventory().addGun(gun))
-							texts.add(new Text("Unsufficient room!", 2000,
-									new Font("Century Gothic", Font.PLAIN, 36),
-									Color.RED, GamePanel.WINDOW_WIDTH / 2,
-									GamePanel.WINDOW_HEIGHT / 2));
-						else {
-							InGame.player.setMoney(InGame.player.getMoney()
-									- gun.getPrice());
-							InGame.player.getStats().addSpentMoney(
-									gun.getPrice());
+					boolean buyReload = false;
+					int gunPrice = 0;
+
+					if (b.getText().startsWith("Reload")) {
+
+						String priceString = b.getText().split(":")[1];
+						gunPrice = Integer.parseInt(priceString.substring(1,
+								priceString.length() - 1));
+
+						gunName = b.getText().split(" ")[1];
+						gunName = gunName.substring(0, gunName.length() - 1);
+
+						buyReload = true;
+
+						for (Gun g : InGame.guns)
+							if (g.getName().equalsIgnoreCase(gunName))
+								gun = g;
+
+					} else {
+
+						gunName = b.getText().split(":")[0];
+
+						for (Gun g : InGame.guns)
+							if (g.getName().equalsIgnoreCase(gunName)) {
+								gun = g;
+								gunPrice = gun.getPrice();
+							}
+
+					}
+
+					// Checking if the player has enough cash
+					if (InGame.player.getMoney() < gunPrice) {
+						texts.add(new Text("Unsufficient cash!", 2000,
+								new Font("Century Gothic", Font.PLAIN, 36),
+								Color.RED, GamePanel.WINDOW_WIDTH / 2,
+								GamePanel.WINDOW_HEIGHT / 2));
+					} else {
+						// Player has enough cash
+
+						// Add gun
+						if (!buyReload) {
+							// Checking if the player has enough room in his
+							// inventory
+							if (!InGame.player.getInventory().addGun(gun)) {
+								texts.add(new Text("Unsufficient room!", 2000,
+										new Font("Century Gothic", Font.PLAIN,
+												36), Color.RED,
+										GamePanel.WINDOW_WIDTH / 2,
+										GamePanel.WINDOW_HEIGHT / 2));
+							} else {
+								// Player has enough room
+								InGame.player.setMoney(InGame.player.getMoney()
+										- gunPrice);
+								InGame.player.getStats()
+										.addSpentMoney(gunPrice);
+							}
+						} else {
+							// Check if the gun isn't full
+							if (gun.getMaxBullets() != gun.getBullets()) {
+
+								gun.setBullets(gun.getMaxBullets());
+								texts.add(new Text("Supplying ammo", 2000,
+										new Font("Century Gothic", Font.PLAIN,
+												36), Color.BLUE,
+										GamePanel.WINDOW_WIDTH / 2,
+										GamePanel.WINDOW_HEIGHT / 2));
+
+								InGame.player.setMoney(InGame.player.getMoney()
+										- gunPrice);
+								InGame.player.getStats()
+										.addSpentMoney(gunPrice);
+							} else {
+								// Gun is full
+								texts.add(new Text("Gun is already full!",
+										2000, new Font("Century Gothic",
+												Font.PLAIN, 36), Color.RED,
+										GamePanel.WINDOW_WIDTH / 2,
+										GamePanel.WINDOW_HEIGHT / 2));
+							}
 						}
+					}
 				}
 			}
 

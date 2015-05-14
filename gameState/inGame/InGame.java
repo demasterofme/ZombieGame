@@ -197,6 +197,7 @@ public class InGame extends GameState {
 		g.setColor(Color.WHITE);
 
 		if (player.getInventory().hasGunEquipped())
+			g.drawString("Gun:", 370, GamePanel.WINDOW_HEIGHT - 130);
 			g.drawString(player.getInventory().getCurrentGun().getName(), 370,
 					GamePanel.WINDOW_HEIGHT - 110);
 		if (player.isReloading())
@@ -205,12 +206,12 @@ public class InGame extends GameState {
 			g.drawString(player.getInventory().getCurrentGun().getCurrentClip()
 					+ " / "
 					+ player.getInventory().getCurrentGun().getBullets(), 370,
-					GamePanel.WINDOW_HEIGHT - 90);
+					GamePanel.WINDOW_HEIGHT - 92);
 
 		// Money
 		g.setColor(Color.WHITE);
 		g.drawString("$: " + player.getMoney(), 370,
-				GamePanel.WINDOW_HEIGHT - 70);
+				GamePanel.WINDOW_HEIGHT - 60);
 
 		for (Text t : texts)
 			t.draw(g);
