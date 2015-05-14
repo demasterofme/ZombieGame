@@ -13,7 +13,7 @@ import launcher.GamePanel;
 
 public class Endless extends InGame {
 
-	public static int waveNumber = 0;
+	private int waveNumber = 0;
 	private boolean waveInitiating = false;
 	private boolean waveText = false;
 	private long waveStartTimer;
@@ -24,11 +24,11 @@ public class Endless extends InGame {
 
 	private long restartTimer = -1;
 	private boolean restart = false;
-	
+
 	public Endless() {
 		super();
 	}
-		
+
 	public void update() {
 
 		if (player.getHealth() <= 0 && !restart) {
@@ -84,7 +84,6 @@ public class Endless extends InGame {
 					waveText = true;
 				}
 				zombieIndex++;
-				// Temp position;
 				zombies.add(new Zombie(ZombieType.SWARMER, spawnLocations.get(
 						spawnIndex).getX(), spawnLocations.get(spawnIndex)
 						.getY()));
@@ -104,7 +103,7 @@ public class Endless extends InGame {
 	private void startWave(int waveNumber) {
 		zombiesAmount = (int) (Math.pow(3, waveNumber) + 20);
 	}
-	
+
 	public void resume(long pauseTimer) {
 		waveStartTimer += System.nanoTime() - pauseTimer;
 		if (restartTimer != -1)
@@ -126,10 +125,10 @@ public class Endless extends InGame {
 				backgroundSound.stop();
 				GamePanel.changeGameState(new StatScreen(player.getStats()));
 			}
-			
+
 			if (dif > 5000)
 				dif = 5000;
-			
+
 			alpha = (int) (255 * Math.sin((Math.PI / 2) * dif / 5000));
 			if (alpha > 255)
 				alpha = 255;

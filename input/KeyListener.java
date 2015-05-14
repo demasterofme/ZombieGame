@@ -58,12 +58,14 @@ public class KeyListener implements java.awt.event.KeyListener {
 				InGame.player.getInventory().cycleSelectedSlot(false);
 				break;
 			case KeyEvent.VK_ESCAPE:
-				GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
-						.getGameState()));
+				if (!InGame.player.isDead())
+					GamePanel.changeGameState(new PauseMenu((InGame) GamePanel
+							.getGameState()));
 				break;
 			case KeyEvent.VK_SPACE:
-				GamePanel.changeGameState(new Shop((InGame) GamePanel
-						.getGameState(), false));
+				if (!InGame.player.isDead())
+					GamePanel.changeGameState(new Shop((InGame) GamePanel
+							.getGameState(), false));
 				break;
 			}
 		else if (GamePanel.getGameState() instanceof Shop)

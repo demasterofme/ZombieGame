@@ -3,6 +3,7 @@ package entity.livingEntity;
 import entity.Bullet;
 import gameState.inGame.Endless;
 import gameState.inGame.InGame;
+import gameState.inGame.Shop;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -37,21 +38,27 @@ public class Zombie extends LivingEntity {
 
 	private long soundTimer = -1;
 	private Sound moanSound;
-	
+
 	public Zombie(ZombieType type, double x, double y) {
 
 		super(x, y);
 		// this.type = type;
 		r = (int) (30 * GamePanel.horScale);
 		health = 300;
-		speed = (random.nextInt(6) + 7) / 10.0 + Endless.waveNumber / 10.0;
+		int waveNumber = 0;
+		if (GamePanel.getGameState() instanceof Endless)
+			waveNumber = ((Endless) GamePanel.getGameState()).getWaveNumber();
+		else if (GamePanel.getGameState() instanceof Shop)
+			waveNumber = ((Endless) ((Shop) GamePanel.getGameState())
+					.getOldState()).getWaveNumber();
+		speed = (random.nextInt(6) + 7) / 10.0 + waveNumber / 10.0;
 
 		canAttack = true;
 		attackStrength = 10;
 
 		soundTimer = System.nanoTime();
 		moanSound = new Sound("/sounds/ZombieMoan1.wav");
-		
+
 	}
 
 	public boolean update() {
@@ -142,7 +149,8 @@ public class Zombie extends LivingEntity {
 			Bullet b = InGame.bullets.get(i);
 
 			if (Math.sqrt(Math.pow(b.getx() - x, 2) + Math.pow(b.gety() - y, 2)) <= r
-					+ b.getr() && !b.getHits().contains(this)) {
+					+ b.getr()
+					&& !b.getHits().contains(this)) {
 				damage(b.getDamage());
 				if (!isDead())
 					b.addHit(this);

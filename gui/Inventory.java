@@ -92,21 +92,6 @@ public class Inventory {
 
 	public boolean addGun(Gun gun) {
 
-		if (slot1 == gun) {
-			slot1.setBullets(gun.getBullets() + gun.getMaxBullets());
-			return true;
-		}
-		
-		if (slot2 == gun) {
-			slot2.setBullets(gun.getBullets() + gun.getMaxBullets());
-			return true;
-		}
-
-		if (slot3 == gun) {
-			slot3.setBullets(gun.getBullets() + gun.getMaxBullets());
-			return true;
-		}
-
 		if (slot2 == null) {
 			slot2 = gun;
 			return true;

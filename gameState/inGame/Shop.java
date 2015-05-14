@@ -72,60 +72,31 @@ public class Shop extends GameState {
 
 			String gunLabel = "";
 
-			if (InGame.player.getInventory().slot1 == gun) {
+			Gun slot = null;
 
-				int maxBullets = InGame.player.getInventory().slot1
-						.getMaxBullets();
-				int bulletsLeft = InGame.player.getInventory().slot1
-						.getBullets();
+			if (InGame.player.getInventory().slot1 == gun)
+				slot = InGame.player.getInventory().slot1;
+			else if (InGame.player.getInventory().slot2 == gun)
+				slot = InGame.player.getInventory().slot2;
+			else if (InGame.player.getInventory().slot2 == gun)
+				slot = InGame.player.getInventory().slot3;
 
-				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
-						.getInventory().slot1.getPrice());
-				
+			if (slot != null) {
+
+				int maxBullets = slot.getMaxBullets();
+				int bulletsLeft = slot.getBullets();
+
+				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) slot
+						.getPrice());
+
 				// Add base price
 				reloadPrice += 20;
 
-				gunLabel = "Reload "
-						+ InGame.player.getInventory().slot1.getName() + ": "
-						+ reloadPrice + "$";
+				gunLabel = "Reload " + slot.getName() + ": " + reloadPrice
+						+ "$";
 
-			} else if (InGame.player.getInventory().slot2 == gun) {
-
-				int maxBullets = InGame.player.getInventory().slot2
-						.getMaxBullets();
-				int bulletsLeft = InGame.player.getInventory().slot2
-						.getBullets();
-
-				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
-						.getInventory().slot2.getPrice());
-				
-				// Add base price
-				reloadPrice += 20;
-
-				gunLabel = "Reload "
-						+ InGame.player.getInventory().slot2.getName() + ": "
-						+ reloadPrice + "$";
-
-			} else if (InGame.player.getInventory().slot3 == gun) {
-
-				int maxBullets = InGame.player.getInventory().slot3
-						.getMaxBullets();
-				int bulletsLeft = InGame.player.getInventory().slot3
-						.getBullets();
-
-				int reloadPrice = (int) ((((float) maxBullets - (float) bulletsLeft) / (float) maxBullets) * (float) InGame.player
-						.getInventory().slot3.getPrice());
-				
-				// Add base price
-				reloadPrice += 20;
-
-				gunLabel = "Reload "
-						+ InGame.player.getInventory().slot3.getName() + ": "
-						+ reloadPrice + "$";
-
-			} else {
+			} else
 				gunLabel = gun.getName() + ": " + gun.getPrice() + "$";
-			}
 
 			gunButtons.add(new Button(
 					(int) (GamePanel.WINDOW_WIDTH * 0.16 * x++)
