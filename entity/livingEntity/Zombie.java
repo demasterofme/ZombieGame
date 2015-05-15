@@ -80,25 +80,6 @@ public class Zombie extends LivingEntity {
 			}
 		}
 
-		// boolean trigger = false;
-		//
-		// for (Zombie z : InGame.zombies) {
-		// if (z.equals(this))
-		// continue;
-		// int distanceToZombie = (int) Math.sqrt(Math.pow(x + dx - z.getx(),
-		// 2) + Math.pow(y + dy - z.gety(), 2));
-		// if (distanceToZombie < z.getr() + r && !z.isMoveWaiting()) {
-		// moveWait = true;
-		// trigger = true;
-		// }
-		// }
-		//
-		// if (!trigger)
-		// moveWait = false;
-
-		// if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer && !moveWait)
-		// {
-
 		if ((r + InGame.player.getr()) * 0.8 < distanceToPlayer) {
 
 			if (findPathTimer > 30) {

@@ -89,6 +89,9 @@ public class TitleScreen extends GameState {
 		
 		GamePanel.getInstance().changeCursor(GamePanel.cursor);
 		
+		Button.clickSound = new Sound("/sounds/ButtonClick.wav", 0);
+		Button.hoverSound = new Sound("/sounds/ButtonHover.wav", -10);
+		
 	}
 
 	@SuppressWarnings("unchecked")

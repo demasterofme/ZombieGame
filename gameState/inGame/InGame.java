@@ -484,6 +484,7 @@ public class InGame extends GameState {
 
 		Player.machineGun_sound = new Sound("/sounds/MachineGun.wav", -10);
 		Player.pistol_sound = new Sound("/sounds/Pistol.wav", -15);
+		
 		return true;
 	}
 

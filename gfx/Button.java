@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 
+import sfx.Sound;
 import launcher.GamePanel;
 
 public class Button {
@@ -14,6 +15,10 @@ public class Button {
 	private int width, height;
 	private String text;
 	private Font font;
+	
+	public static Sound clickSound;
+	private boolean playedHoverSound;
+	public static Sound hoverSound;
 
 	public Button(int x, int y, String text, Font font) {
 		this.x = x;
@@ -24,6 +29,8 @@ public class Button {
 		this.pressed = false;
 		this.width = GamePanel.g.getFontMetrics(font).stringWidth(text) + 20;
 		this.height = GamePanel.g.getFontMetrics(font).getHeight() + 10;
+		
+		playedHoverSound = false;
 	}
 
 	public Button(boolean centerX, int y, String text, Font font) {
@@ -39,6 +46,8 @@ public class Button {
 			x = GamePanel.WINDOW_WIDTH / 2 - width / 2;
 		else
 			x = 0;
+		
+		playedHoverSound = false;
 	}
 
 	public Button(int x, boolean centerY, String text, Font font) {
@@ -53,6 +62,8 @@ public class Button {
 			y = GamePanel.WINDOW_HEIGHT / 2 - height / 2;
 		else
 			y = 0;
+		
+		playedHoverSound = false;
 	}
 
 	// Press prevention, disables the button being pressed for over a tick
@@ -73,6 +84,8 @@ public class Button {
 
 	public void setPressed(boolean pressed) {
 		this.pressed = pressed;
+		if (pressed)
+			Button.playClickSound();
 	}
 
 	public boolean isHover() {
@@ -81,6 +94,13 @@ public class Button {
 
 	public void setHover(boolean hover) {
 		this.hover = hover;
+		if (hover && !playedHoverSound) {
+			playedHoverSound = true;
+			Button.playHoverSound();
+		}
+		if (!hover) {
+			playedHoverSound = false;
+		}
 	}
 
 	public int getx() {
@@ -105,6 +125,14 @@ public class Button {
 	
 	public void setFont(Font font) {
 		this.font = font;
+	}
+	
+	public static void playClickSound() {
+		clickSound.play();
+	}
+	
+	public static void playHoverSound() {
+		hoverSound.play();
 	}
 
 	public void draw(Graphics2D g) {
