@@ -25,6 +25,9 @@ import java.awt.Transparency;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,6 +60,8 @@ public class InGame extends GameState {
 	public static ArrayList<MuzzleFlash> muzzleFlashes;
 	public static ArrayList<Text> texts;
 
+	public static ArrayList<String> deathMessages;
+
 	private static ArrayList<GeneralPath> shapeList;
 	public static ArrayList<Point2D.Float> spawnLocations;
 
@@ -67,10 +72,10 @@ public class InGame extends GameState {
 		if (!loadGuns() || !loadUtilities() || !loadSprites()
 				|| !loadCollisionMap() || !loadSpawnLocations()
 				|| !loadSounds() || !loadMisc()) {
-			
+
 			GamePanel.running = false;
 			return;
-			
+
 		}
 
 		backgroundSound.loop();
@@ -196,10 +201,11 @@ public class InGame extends GameState {
 		// Draw gun properties
 		g.setColor(Color.WHITE);
 
-		if (player.getInventory().hasGunEquipped())
+		if (player.getInventory().hasGunEquipped()) {
 			g.drawString("Gun:", 370, GamePanel.WINDOW_HEIGHT - 130);
 			g.drawString(player.getInventory().getCurrentGun().getName(), 370,
 					GamePanel.WINDOW_HEIGHT - 110);
+		}
 		if (player.isReloading())
 			g.setColor(Color.RED);
 		if (player.getInventory().hasGunEquipped())
@@ -297,20 +303,53 @@ public class InGame extends GameState {
 
 	private static boolean loadMisc() {
 
-		map = new Map();
+		try {
 
-		player = new Player(5000, 5000);
+			Endless.random = new Random();
 
-		Zombie.random = new Random();
-		zombies = new ArrayList<>();
-		deadZombies = new ArrayList<>();
-		bullets = new ArrayList<>();
-		deployedUtilities = new ArrayList<>();
-		muzzleFlashes = new ArrayList<>();
-		texts = new ArrayList<>();
+			map = new Map();
 
-		backgroundSound = new Sound("/sounds/InGame.wav", -5);
-		
+			player = new Player(5000, 5000);
+
+			Zombie.random = new Random();
+			zombies = new ArrayList<>();
+			deadZombies = new ArrayList<>();
+			bullets = new ArrayList<>();
+			deployedUtilities = new ArrayList<>();
+			muzzleFlashes = new ArrayList<>();
+			texts = new ArrayList<>();
+
+			deathMessages = new ArrayList<>();
+
+			String deathMessagesRaw = "";
+
+			BufferedReader br = new BufferedReader(new FileReader(new File(System.getProperty("user.dir") + "/src/data/death-messages.txt")));
+			StringBuilder sb = new StringBuilder();
+			String line = br.readLine();
+
+			while (line != null) {
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
+			}
+			deathMessagesRaw = sb.toString();
+
+			for (String message : deathMessagesRaw.split("-")) {
+				System.out.println(message);
+				deathMessages.add(message);
+			}
+
+			backgroundSound = new Sound("/sounds/InGame.wav", -5);
+
+			br.close();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			for (StackTraceElement add : e.getStackTrace())
+				GamePanel.errorLog += add + " ";
+			return false;
+		}
+
 		return true;
 
 	}
@@ -321,7 +360,7 @@ public class InGame extends GameState {
 		guns = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
-					.getResource("/xml/guns.xml").toURI().toURL());
+					.getResource("/data/guns.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			@SuppressWarnings("unchecked")
 			List<Element> gunElements = root.elements();
@@ -417,7 +456,7 @@ public class InGame extends GameState {
 		shapeList = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
-					.getResource("/xml/colission-map-1.xml").toURI().toURL());
+					.getResource("/data/colission-map-1.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			List<Element> shapeElements = root.elements("shape");
 
@@ -455,7 +494,7 @@ public class InGame extends GameState {
 		spawnLocations = new ArrayList<>();
 		try {
 			Document document = reader.read(GamePanel.class
-					.getResource("/xml/spawn-locations.xml").toURI().toURL());
+					.getResource("/data/spawn-locations.xml").toURI().toURL());
 			Element root = document.getRootElement();
 			@SuppressWarnings("unchecked")
 			List<Element> spawnElements = root.elements("spawn");
@@ -484,7 +523,7 @@ public class InGame extends GameState {
 
 		Player.machineGun_sound = new Sound("/sounds/MachineGun.wav", -10);
 		Player.pistol_sound = new Sound("/sounds/Pistol.wav", -15);
-		
+
 		return true;
 	}
 

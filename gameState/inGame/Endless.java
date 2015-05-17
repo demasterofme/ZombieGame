@@ -8,6 +8,7 @@ import gfx.Text;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import launcher.GamePanel;
 
@@ -25,6 +26,8 @@ public class Endless extends InGame {
 	private long restartTimer = -1;
 	private boolean restart = false;
 
+	static Random random;
+
 	public Endless() {
 		super();
 	}
@@ -32,8 +35,9 @@ public class Endless extends InGame {
 	public void update() {
 
 		if (player.getHealth() <= 0 && !restart) {
-			texts.add(new Text("Y O U    D I E D", 10000, new Font(
-					"Century Gothic", Font.PLAIN, 60), Color.RED));
+			texts.add(new Text(deathMessages.get(random.nextInt(deathMessages
+					.size())), 10000,
+					new Font("Century Gothic", Font.PLAIN, 60), Color.RED));
 			restartTimer = System.nanoTime();
 			restart = true;
 		}
@@ -85,11 +89,8 @@ public class Endless extends InGame {
 				}
 				zombieIndex++;
 				zombies.add(new Zombie(ZombieType.SWARMER, spawnLocations.get(
-						spawnIndex).getX(), spawnLocations.get(spawnIndex)
-						.getY()));
-				spawnIndex++;
-				if (spawnIndex >= spawnLocations.size())
-					spawnIndex = 0;
+						random.nextInt(spawnLocations.size())).getX(),
+						spawnLocations.get(spawnIndex).getY()));
 			}
 
 			if (difference - interWaveTime > zombiesAmount * timeBetweenZombies) {
@@ -101,7 +102,7 @@ public class Endless extends InGame {
 	}
 
 	private void startWave(int waveNumber) {
-		zombiesAmount = (int) (Math.pow(3, waveNumber) + 20);
+		zombiesAmount = (int) (0.5 * Math.pow(waveNumber - 1, 2) + waveNumber + 4);
 	}
 
 	public void resume(long pauseTimer) {

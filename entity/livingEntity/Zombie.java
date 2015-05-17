@@ -8,11 +8,14 @@ import gameState.inGame.Shop;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.GeneralPath;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
 import launcher.GamePanel;
+import map.Map;
 import map.Vertex;
 import sfx.Sound;
 
@@ -34,6 +37,8 @@ public class Zombie extends LivingEntity {
 	private boolean hit = false;
 	private long hitTimer;
 
+	private double rotationGoal;
+
 	private boolean moveWait = false;
 
 	private long soundTimer = -1;
@@ -51,7 +56,7 @@ public class Zombie extends LivingEntity {
 		else if (GamePanel.getGameState() instanceof Shop)
 			waveNumber = ((Endless) ((Shop) GamePanel.getGameState())
 					.getOldState()).getWaveNumber();
-		speed = (random.nextInt(6) + 7) / 10.0 + waveNumber / 10.0;
+		speed = (random.nextInt(5) + 4) / 10.0 + waveNumber / 30.0;
 
 		canAttack = true;
 		attackStrength = 10;
@@ -98,11 +103,11 @@ public class Zombie extends LivingEntity {
 				if (vertexY < y)
 					angle = 2 * Math.PI - angle;
 
-				double rotation = Math.toDegrees(angle) + 90;
-				if (rotation >= 360)
-					rotation -= 360;
+				rotationGoal = Math.toDegrees(angle) + 90;
+				if (rotationGoal >= 360)
+					rotationGoal -= 360;
 
-				this.rotation = rotation;
+				rotation = rotationGoal;
 
 				dx = Math.cos(angle) * speed;
 				dy = Math.sin(angle) * speed;
@@ -168,6 +173,19 @@ public class Zombie extends LivingEntity {
 
 	public boolean isMoveWaiting() {
 		return moveWait;
+	}
+
+	public boolean checkCollisions(double dx, double dy) {
+
+		Rectangle2D.Double movementRect = new Rectangle2D.Double(x + dx - 5, y
+				+ dy - 5, 5, 5);
+
+		for (GeneralPath p : Map.colissionMap)
+
+			if (p.intersects(movementRect))
+				return true;
+
+		return false;
 	}
 
 	public void draw(Graphics2D g) {

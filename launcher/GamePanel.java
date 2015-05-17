@@ -45,7 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public static int mouseX;
 	public static int mouseY;
 
-	public static int screen = 0;
+	public static int screen = 1;
 
 	public static Cursor cursor;
 	public static Cursor aimCursor;
