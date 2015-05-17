@@ -191,8 +191,7 @@ public class Shop extends GameState {
 					if (InGame.player.getMoney() < gunPrice) {
 						texts.add(new Text("Unsufficient cash!", 2000,
 								new Font("Century Gothic", Font.PLAIN, 36),
-								Color.RED, GamePanel.WINDOW_WIDTH / 2,
-								GamePanel.WINDOW_HEIGHT / 2));
+								Color.RED));
 					} else {
 						// Player has enough cash
 
@@ -203,9 +202,7 @@ public class Shop extends GameState {
 							if (!InGame.player.getInventory().addGun(gun)) {
 								texts.add(new Text("Unsufficient room!", 2000,
 										new Font("Century Gothic", Font.PLAIN,
-												36), Color.RED,
-										GamePanel.WINDOW_WIDTH / 2,
-										GamePanel.WINDOW_HEIGHT / 2));
+												36), Color.RED));
 							} else {
 								// Player has enough room
 								InGame.player.setMoney(InGame.player.getMoney()
@@ -220,9 +217,7 @@ public class Shop extends GameState {
 								gun.setBullets(gun.getMaxBullets());
 								texts.add(new Text("Supplying ammo", 2000,
 										new Font("Century Gothic", Font.PLAIN,
-												36), Color.BLUE,
-										GamePanel.WINDOW_WIDTH / 2,
-										GamePanel.WINDOW_HEIGHT / 2));
+												36), Color.BLUE));
 
 								InGame.player.setMoney(InGame.player.getMoney()
 										- gunPrice);
@@ -232,9 +227,7 @@ public class Shop extends GameState {
 								// Gun is full
 								texts.add(new Text("Gun is already full!",
 										2000, new Font("Century Gothic",
-												Font.PLAIN, 36), Color.RED,
-										GamePanel.WINDOW_WIDTH / 2,
-										GamePanel.WINDOW_HEIGHT / 2));
+												Font.PLAIN, 36), Color.RED));
 							}
 						}
 					}
@@ -254,14 +247,12 @@ public class Shop extends GameState {
 						if (InGame.player.getMoney() < utility.getPrice())
 							texts.add(new Text("Unsufficient cash!", 2000,
 									new Font("Century Gothic", Font.PLAIN, 36),
-									Color.RED, GamePanel.WINDOW_WIDTH / 2,
-									GamePanel.WINDOW_HEIGHT / 2));
+									Color.RED));
 						else if (!InGame.player.getInventory().addUtility(
 								utility))
 							texts.add(new Text("Unsufficient room!", 2000,
 									new Font("Century Gothic", Font.PLAIN, 36),
-									Color.RED, GamePanel.WINDOW_WIDTH / 2,
-									GamePanel.WINDOW_HEIGHT / 2));
+									Color.RED));
 						else {
 							InGame.player.setMoney(InGame.player.getMoney()
 									- utility.getPrice());

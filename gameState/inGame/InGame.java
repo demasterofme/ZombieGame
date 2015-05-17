@@ -335,7 +335,6 @@ public class InGame extends GameState {
 			deathMessagesRaw = sb.toString();
 
 			for (String message : deathMessagesRaw.split("-")) {
-				System.out.println(message);
 				deathMessages.add(message);
 			}
 
