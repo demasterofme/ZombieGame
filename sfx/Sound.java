@@ -19,6 +19,8 @@ public class Sound {
 	private float volume = 0;
 	private boolean running = false;
 	
+	private boolean loaded = true;
+	
 	private static boolean mute = false;
 
 	public Sound(String fileName) {
@@ -40,8 +42,12 @@ public class Sound {
 			e.printStackTrace();
 			throw new RuntimeException(
 					"Sound: Line Unavailable Exception Error: " + e);
+		} catch (IllegalArgumentException e) {
+			loaded = false;
 		}
 		
+		if (!loaded)
+			return;
 		gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		gainControl.setValue(volume);
 
@@ -51,11 +57,15 @@ public class Sound {
 
 		this(fileName);
 
+		if (!loaded)
+			return;
 		changeVolume(volume);
 		
 	}
 
 	public void play() {
+		if (!loaded)
+			return;
 		if (mute)
 			return;
 		clip.setFramePosition(0);
@@ -64,6 +74,8 @@ public class Sound {
 	}
 	
 	public void forcePlay() {
+		if (!loaded)
+			return;
 		if (mute)
 			return;
 		if (isRunning())
@@ -72,6 +84,8 @@ public class Sound {
 	}
 
 	public void loop() {
+		if (!loaded)
+			return;
 		if (mute)
 			return;
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -79,11 +93,15 @@ public class Sound {
 	}
 
 	public void stop() {
+		if (!loaded)
+			return;
 		clip.stop();
 		running = false;
 	}
 	
 	public void changeVolume(float volume) {
+		if (!loaded)
+			return;
 		this.volume = Math.min(gainControl.getMaximum(), Math.max(gainControl.getMinimum(), volume));
 		gainControl.setValue(this.volume);
 	}
@@ -93,6 +111,8 @@ public class Sound {
 	}
 	
 	public boolean isRunning() {
+		if (!loaded)
+			return false;
 		if (clip.getFramePosition() >= clip.getFrameLength())
 			stop();
 		return running;

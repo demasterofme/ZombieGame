@@ -62,6 +62,8 @@ public class Endless extends InGame {
 						+ "   C O M P L E T E D -", 2000, new Font(
 						"Century Gothic", Font.PLAIN, 50), Color.WHITE));
 				player.getStats().addWave(1);
+				player.setMoney(player.getMoney() + waveNumber * 50 + 50);
+				player.getStats().addEarnedMoney(waveNumber * 50 + 50);
 			}
 			waveText = false;
 			waveInitiating = true;
