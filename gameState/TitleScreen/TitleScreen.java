@@ -103,8 +103,8 @@ public class TitleScreen extends GameState {
 		if (button_start.isPressed()) {
 			backgroundSound.stop();
 			Endless endless = new Endless();
-			String message = "Welcome to Zombie Apocalypse version 1.0. We hope that you won't encounter any bugs what so ever, but please mind that that could happen. We hope that you'll enjoy this game. Here is a quick overview of the controls:	 W, A, S, D = walking  |  R = reload gun  |  SPACE = open shop  |  ESCAPE = pause  |  Mouse = shoot";
-
+			String message = "Welcome to Zombie Apocalypse version 1.0. This should be a stable build, but beware that any errors could occur. Press escape and then help to get an overview of the controls and tips (Highly recommneded). Enjoy!";
+			
 			AlertBox alertBox = new AlertBox(endless, message);
 			GamePanel.changeGameState(alertBox);
 		}
