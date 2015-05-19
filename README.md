@@ -36,3 +36,30 @@ Escape  | Open Pausemenu
 Space | Open Shop
 Scrollwheel | Loop through inventory
 F3 | Show Debug statistics
+
+## HelpDutch
+
+**Doel** <br>
+Het doel van dit spel is vrij makkelijk. Probeer zo lang mogelijk te overleven. Om niet dood te gaan moet je alle zombies van de ronde doden. Als ze allemaal dood zijn ga je door naar de volgende ronden en krijg je een hogere score.
+
+**Wat je normaalgesproken moet doen** <br>
+Zodra het rondenummer weg is gegaan, komt er een kudde zombies op je af. Zodra je alle zombies uit die ronde hebt uitgemoord, ga je door naar de volgende ronde. <br>
+Als je geen kogels meer in je magazijn hebt, zal je geweer automatisch herladen worden (als je tenminste nog kogels over hebt). Je kan je wapen-, gadget-, en inventoryinfo linksonder bekijken. Ook kan je daar zien hoeveel geld je hebt verdiend. <br>
+Elke keer dat je een zombie doodt, krijg je een bepaalde hoeveelheid geld. Met dit geld kan je nieuwe kogels, betere wapens en nog veel meer kopen in de shop, die je opent door op de SPATIE-balk te drukken.
+
+## Spelbediening
+
+Toets  | Actie
+------------- | -------------
+w of pijltje omhoog  | Ga omhoog
+a of pijltje naar links  | Ga naar links
+s of pijltje naar rechts  | Ga naar rechts
+d of pijltje omlaag  | Ga omlaag
+r  | Herlaad
+q  | Scroll tegen de klok in door je inventory
+e  | Scroll met de klok mee door je inventory
+Linkermuisknop  | Schiet
+Escape  | Open Pauzemenu
+Spatiebalk | Open Shop
+Scrollwiel | Scroll door je inventory
+F3 | Laat 'onnodige' informatie zien
