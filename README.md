@@ -1,14 +1,14 @@
-# ZombieGame
+# ZombieGame <h6> Created by: Joris Hilberink & Yannick Scheepers & Casper Smits & Danny Stax
 
 ### Table of contents
 
-- [About](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#About)
-- [Help](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#Help)
-- [Controls](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#Controls)
+- [About](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#about)
+- [Help](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#help)
+- [Controls](https://github.com/Dacaspex/ZombieGame/blob/master/README.md#controls)
 
 ## About
 
-<em> What the game is about... </em>
+The game is simply about shooting zombies. Stay alive as long as possible and hold off hordes of zombies. Buy better weapons, amoo, grenades and healthpacks to progress further and further. How long can you survive?
 
 ## Help
 
