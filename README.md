@@ -12,7 +12,7 @@ The game is simply about shooting zombies. Stay alive as long as possible and ho
 
 ## Help
 
-**goal:** <br>
+**Goal:** <br>
 The goal of the game is simple: Survive as long as possible without dying. Therefore you need to kill all the zombies of a wave to go to the next wave and get a better highscore.
 
 **What you basicly should do** <br>
@@ -25,7 +25,7 @@ Everytime when you kill a zombie, you'll receive a certain amount of money. With
 Key  | Action
 ------------- | -------------
 w or Up Arrow  | Move up
-A or Left Arrow  | Move left
+a or Left Arrow  | Move left
 s or Down Arrow  | Move right
 d or Right Arrow  | Move down
 r  | Reload
